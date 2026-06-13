@@ -8,6 +8,8 @@ import { CheatSheet } from './components/CheatSheet';
 import { HistoryTracker, HistoryItem } from './components/HistoryTracker';
 import { FaqAccordion } from './components/FaqAccordion';
 import { Footer } from './components/Footer';
+import { SubnetGuide } from './components/SubnetGuide';
+import { WidgetGenerator } from './components/WidgetGenerator';
 import { calculateSubnet, isValidIp, SubnetResult } from './utils/ipv4Utils';
 
 function AdSlot({ className, type }: { className?: string; type: 'banner' | 'rectangle' }) {
@@ -34,8 +36,14 @@ function App() {
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [copiedLink, setCopiedLink] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
+  
+  // View Switcher State
+  const [activeView, setActiveView] = useState<'calculator' | 'guide' | 'widget'>('calculator');
 
-  // Initialize Dark Mode and History
+  // Embed State
+  const [isEmbedded, setIsEmbedded] = useState<boolean>(false);
+
+  // Initialize Dark Mode, History, and URL Params
   useEffect(() => {
     try {
       const storedTheme = localStorage.getItem('cidr_calc_theme');
@@ -68,6 +76,9 @@ function App() {
     const params = new URLSearchParams(window.location.search);
     const queryIp = params.get('ip');
     const queryPrefix = params.get('prefix');
+    const embedFlag = params.get('embed') === 'true';
+
+    setIsEmbedded(embedFlag);
 
     if (queryIp && isValidIp(queryIp)) {
       setIp(queryIp);
@@ -85,7 +96,7 @@ function App() {
     const isIpValid = isValidIp(ip);
 
     // Sync URL search params
-    const params = new URLSearchParams();
+    const params = new URLSearchParams(window.location.search);
     if (isIpValid) {
       params.set('ip', ip);
     }
@@ -103,7 +114,7 @@ function App() {
 
   // Debounced History Saving
   useEffect(() => {
-    if (!result) return;
+    if (!result || isEmbedded) return; // Do not save history while embedded
 
     const timer = setTimeout(() => {
       setHistory(prev => {
@@ -127,7 +138,7 @@ function App() {
     }, 1500);
 
     return () => clearTimeout(timer);
-  }, [result]);
+  }, [result, isEmbedded]);
 
   const handleLoadHistory = (historyIp: string, historyPrefix: number) => {
     setIp(historyIp);
@@ -167,6 +178,46 @@ function App() {
     setIsDarkMode(prev => !prev);
   };
 
+  // -------------------------------------------------------------
+  // CONDITIONAL EMBED HANDLING
+  // -------------------------------------------------------------
+  if (isEmbedded) {
+    return (
+      <div className="min-h-screen font-sans antialiased flex flex-col p-4 sm:p-6 bg-[#f8f9fc] dark:bg-[#050508] text-zinc-900 dark:text-zinc-100 bg-[linear-gradient(to_right,rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.03)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:24px_24px] transition-colors duration-300 relative overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-gradient-to-b from-cyan-500/10 dark:from-cyan-500/5 to-transparent blur-[120px] pointer-events-none z-0" />
+        <div className="w-full flex flex-col gap-6 relative z-10 max-w-5xl mx-auto">
+          <div className="flex justify-between items-center bg-white/70 dark:bg-zinc-900/60 p-3 rounded-xl border border-zinc-200 dark:border-white/[0.04] backdrop-blur-md shadow-sm">
+            <div className="flex items-center gap-3">
+              <div className="h-6 w-6 rounded-md bg-gradient-to-tr from-cyan-500 to-emerald-500 flex items-center justify-center shadow-[0_0_15px_rgba(34,211,238,0.3)] dark:shadow-[0_0_15px_rgba(34,211,238,0.2)]">
+                <Network className="w-3 h-3 text-white dark:text-black stroke-[2.5]" />
+              </div>
+              <h1 className="text-sm font-bold tracking-tight text-zinc-900 dark:text-white">
+                subnetmask.tech
+              </h1>
+            </div>
+            <button
+              onClick={toggleTheme}
+              className="p-1.5 rounded-md border border-zinc-200 bg-zinc-50 text-zinc-500 hover:text-zinc-800 hover:border-zinc-300 hover:bg-white dark:border-zinc-800 dark:bg-zinc-900/40 dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:border-zinc-700 dark:hover:bg-zinc-900 transition-all duration-200 cursor-pointer shadow-sm"
+              title="Toggle Theme"
+            >
+              {isDarkMode ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
+            </button>
+          </div>
+          <CalculatorForm
+            ip={ip}
+            setIp={setIp}
+            prefix={prefix}
+            setPrefix={setPrefix}
+          />
+          <LiveMatrix result={result} />
+        </div>
+      </div>
+    );
+  }
+
+  // -------------------------------------------------------------
+  // FULL APPLICATION RENDER
+  // -------------------------------------------------------------
   return (
     <div className="min-h-screen font-sans antialiased flex flex-col justify-between relative overflow-x-hidden bg-[#f8f9fc] dark:bg-[#050508] text-zinc-900 dark:text-zinc-100 bg-[linear-gradient(to_right,rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.03)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:24px_24px] transition-colors duration-300">
 
@@ -220,54 +271,104 @@ function App() {
         {/* Global Adsense/Carbon Top Placement */}
         <AdSlot type="banner" className="mb-8" />
 
-        {/* Hero Copy Writing Intro */}
-        <section aria-label="Utility Description" className="mb-10 max-w-3xl">
-          <div className="flex items-center gap-2 text-cyan-600 dark:text-cyan-400 text-xs font-mono font-bold uppercase tracking-[0.15em] mb-2.5">
-            <Terminal className="w-3.5 h-3.5 stroke-[2.5]" />
-            &gt;_ Subnetwork Engineering
+        {/* View Switcher Tab Bar */}
+        <div className="flex items-center justify-center mb-8">
+          <div className="bg-white/70 dark:bg-[#090a0f]/60 backdrop-blur-md border border-zinc-200/80 dark:border-white/[0.04] p-1 rounded-xl shadow-sm dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.02)] flex gap-1">
+            <button
+              onClick={() => setActiveView('calculator')}
+              className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 cursor-pointer ${
+                activeView === 'calculator'
+                  ? 'bg-zinc-100 text-zinc-900 shadow-sm dark:bg-zinc-800/80 dark:text-zinc-100'
+                  : 'text-zinc-500 hover:text-zinc-700 hover:bg-zinc-50 dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:bg-zinc-800/40'
+              }`}
+            >
+              Calculator
+            </button>
+            <button
+              onClick={() => setActiveView('guide')}
+              className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 cursor-pointer ${
+                activeView === 'guide'
+                  ? 'bg-zinc-100 text-zinc-900 shadow-sm dark:bg-zinc-800/80 dark:text-zinc-100'
+                  : 'text-zinc-500 hover:text-zinc-700 hover:bg-zinc-50 dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:bg-zinc-800/40'
+              }`}
+            >
+              Subnet Guide
+            </button>
+            <button
+              onClick={() => setActiveView('widget')}
+              className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 cursor-pointer ${
+                activeView === 'widget'
+                  ? 'bg-zinc-100 text-zinc-900 shadow-sm dark:bg-zinc-800/80 dark:text-zinc-100'
+                  : 'text-zinc-500 hover:text-zinc-700 hover:bg-zinc-50 dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:bg-zinc-800/40'
+              }`}
+            >
+              Widget Builder
+            </button>
           </div>
-          <h2 className="text-3xl font-extrabold tracking-tight leading-tight sm:text-4xl text-zinc-900 dark:text-white">
-            Advanced IPv4 Subnet Calculator
-          </h2>
-          <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
-            Configure IP parameters client-side to instantly visualize boundaries, masks, binary structures, and subnet splits. Ideal for network architects, systems engineers, and DevOps.
-          </p>
-        </section>
-
-        {/* The Clean Two-Column continuous Workspace Canvas */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start w-full">
-
-          {/* LEFT PANELS: Controlled Actions & State Triggers (Span 5) */}
-          <div className="lg:col-span-5 flex flex-col gap-6 w-full">
-            <CalculatorForm
-              ip={ip}
-              setIp={setIp}
-              prefix={prefix}
-              setPrefix={setPrefix}
-            />
-            <BinaryVisualizer
-              result={result}
-              ip={ip}
-              setIp={setIp}
-            />
-            <HistoryTracker
-              history={history}
-              onLoadHistory={handleLoadHistory}
-              onDeleteHistoryItem={handleDeleteHistoryItem}
-              onClearHistory={handleClearHistory}
-            />
-          </div>
-
-          {/* RIGHT PANELS: Live High-Contrast Data Layout Matrix (Span 7) */}
-          <div className="lg:col-span-7 flex flex-col gap-6 w-full">
-            <LiveMatrix result={result} />
-            <SubnetSplitter result={result} onLoadSubnet={handleLoadSubnet} />
-            <CheatSheet currentPrefix={prefix} onSelectPrefix={setPrefix} />
-            <AdSlot type="rectangle" />
-            <FaqAccordion />
-          </div>
-
         </div>
+
+        {/* Hero Copy Writing Intro */}
+        {activeView === 'calculator' && (
+          <section aria-label="Utility Description" className="mb-10 max-w-3xl">
+            <div className="flex items-center gap-2 text-cyan-600 dark:text-cyan-400 text-xs font-mono font-bold uppercase tracking-[0.15em] mb-2.5">
+              <Terminal className="w-3.5 h-3.5 stroke-[2.5]" />
+              &gt;_ Subnetwork Engineering
+            </div>
+            <h2 className="text-3xl font-extrabold tracking-tight leading-tight sm:text-4xl text-zinc-900 dark:text-white">
+              Advanced IPv4 Subnet Calculator
+            </h2>
+            <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
+              Configure IP parameters client-side to instantly visualize boundaries, masks, binary structures, and subnet splits. Ideal for network architects, systems engineers, and DevOps.
+            </p>
+          </section>
+        )}
+
+        {/* VIEW: CALCULATOR */}
+        {activeView === 'calculator' && (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start w-full">
+            {/* LEFT PANELS: Controlled Actions & State Triggers (Span 5) */}
+            <div className="lg:col-span-5 flex flex-col gap-6 w-full">
+              <CalculatorForm
+                ip={ip}
+                setIp={setIp}
+                prefix={prefix}
+                setPrefix={setPrefix}
+              />
+              <BinaryVisualizer
+                result={result}
+                ip={ip}
+                setIp={setIp}
+              />
+              <HistoryTracker
+                history={history}
+                onLoadHistory={handleLoadHistory}
+                onDeleteHistoryItem={handleDeleteHistoryItem}
+                onClearHistory={handleClearHistory}
+              />
+              {/* CheatSheet shifted to the base of the left-hand column */}
+              <CheatSheet currentPrefix={prefix} onSelectPrefix={setPrefix} />
+            </div>
+
+            {/* RIGHT PANELS: Live High-Contrast Data Layout Matrix (Span 7) */}
+            <div className="lg:col-span-7 flex flex-col gap-6 w-full">
+              <LiveMatrix result={result} />
+              <SubnetSplitter result={result} onLoadSubnet={handleLoadSubnet} />
+              <AdSlot type="rectangle" />
+              <FaqAccordion />
+            </div>
+          </div>
+        )}
+
+        {/* VIEW: GUIDE */}
+        {activeView === 'guide' && (
+          <SubnetGuide />
+        )}
+
+        {/* VIEW: WIDGET GENERATOR */}
+        {activeView === 'widget' && (
+          <WidgetGenerator />
+        )}
+
       </div>
 
       {/* Persistent Compliance Footer */}

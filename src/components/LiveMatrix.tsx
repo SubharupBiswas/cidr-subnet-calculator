@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Copy, Check, Server, Network, Radio, Users, Award, ShieldAlert } from 'lucide-react';
-import { SubnetResult } from '../utils/ipv4Utils';
+import { SubnetResult, ipToLong } from '../utils/ipv4Utils';
 
 interface LiveMatrixProps {
   result: SubnetResult | null;
@@ -59,6 +59,18 @@ export const LiveMatrix: React.FC<LiveMatrixProps> = ({ result }) => {
           {copyButton(result?.subnetMask || '255.255.255.0', 'mask')}
         </div>
 
+        {/* Wildcard Mask - Crimson / Rose */}
+        <div className={internalCardClasses}>
+          <span className="font-mono text-[10px] font-bold tracking-[0.2em] text-zinc-500 uppercase flex items-center gap-1.5">
+            <Network className="w-3 h-3 text-zinc-400 dark:text-zinc-500" />
+            Wildcard Mask
+          </span>
+          <span className="font-mono text-xl lg:text-2xl font-bold text-rose-500 mt-2 tracking-tight tabular-nums pr-10">
+            {result?.wildcardMask || '0.0.0.255'}
+          </span>
+          {copyButton(result?.wildcardMask || '0.0.0.255', 'wildcard')}
+        </div>
+
         {/* Network Address - Radiant Cyan */}
         <div className={internalCardClasses}>
           <span className="font-mono text-[10px] font-bold tracking-[0.2em] text-zinc-500 uppercase flex items-center gap-1.5">
@@ -105,6 +117,18 @@ export const LiveMatrix: React.FC<LiveMatrixProps> = ({ result }) => {
             {result ? formatHosts(result.totalUsableHosts) : '254'}
           </span>
           {copyButton(result ? formatHosts(result.totalUsableHosts) : '254', 'hosts')}
+        </div>
+
+        {/* Hex IP Value - Crisp Gray/Silver */}
+        <div className={internalCardClasses}>
+          <span className="font-mono text-[10px] font-bold tracking-[0.2em] text-zinc-500 uppercase flex items-center gap-1.5">
+            <Server className="w-3 h-3 text-zinc-400 dark:text-zinc-500" />
+            Hex IP Value
+          </span>
+          <span className="font-mono text-xl lg:text-2xl font-bold text-zinc-500 dark:text-zinc-400 mt-2 tracking-tight tabular-nums pr-10">
+            {result ? `0x${ipToLong(result.networkAddress).toString(16).toUpperCase().padStart(8, '0')}` : '0xC0A80100'}
+          </span>
+          {copyButton(result ? `0x${ipToLong(result.networkAddress).toString(16).toUpperCase().padStart(8, '0')}` : '0xC0A80100', 'hexip')}
         </div>
 
         {/* IP Class - Neutral Base */}
