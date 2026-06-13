@@ -59,7 +59,8 @@ export const BinaryVisualizer: React.FC<BinaryVisualizerProps> = ({ result, ip, 
               <button
                 key={absoluteBitIndex}
                 onClick={() => handleBitToggle(absoluteBitIndex)}
-                className={`w-full aspect-[3/4] sm:aspect-square border rounded flex items-center justify-center font-mono text-xs sm:text-sm font-bold transition-all cursor-pointer ${btnClasses}`}
+                // min-h-[44px] / min-w-[44px] on mobile for thumb-friendly touch targets
+                className={`w-full min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 sm:aspect-square border rounded flex items-center justify-center font-mono text-xs sm:text-sm font-bold transition-all cursor-pointer active:scale-95 ${btnClasses}`}
                 title={`Toggle bit ${absoluteBitIndex} (Value: ${Math.pow(2, 7 - bitIndexWithinOctet)})`}
               >
                 {bit}
@@ -71,7 +72,8 @@ export const BinaryVisualizer: React.FC<BinaryVisualizerProps> = ({ result, ip, 
     }
 
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-2 w-full">
+      // 1-col on xs, 2-col from sm — gives 4×8 and 2×16 layouts for thumb navigation
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 py-2 w-full">
         {octetGroups[0]}
         {octetGroups[1]}
         {octetGroups[2]}
@@ -80,7 +82,7 @@ export const BinaryVisualizer: React.FC<BinaryVisualizerProps> = ({ result, ip, 
     );
   };
 
-  const containerClasses = "bg-white border-zinc-200/80 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] dark:bg-[#0d0e15]/80 dark:border-white/[0.04] dark:shadow-[inset_0_1px_2px_rgba(255,255,255,0.01)] rounded-2xl p-6 transition-all duration-300 hover:border-zinc-300 dark:hover:border-zinc-700/60 flex flex-col gap-6";
+  const containerClasses = "bg-white border border-zinc-200/80 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] dark:bg-[#0d0e15]/80 dark:border-white/[0.04] dark:shadow-[inset_0_1px_2px_rgba(255,255,255,0.01)] rounded-2xl p-4 sm:p-6 md:p-8 transition-all duration-300 hover:border-zinc-300 dark:hover:border-zinc-700/60 flex flex-col gap-6";
 
   return (
     <div className={containerClasses}>

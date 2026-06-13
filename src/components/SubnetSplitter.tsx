@@ -63,7 +63,7 @@ export const SubnetSplitter: React.FC<SubnetSplitterProps> = ({
     });
   }
 
-  const containerClasses = "bg-white border-zinc-200/80 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] dark:bg-[#0d0e15]/80 dark:border-white/[0.04] dark:shadow-[inset_0_1px_2px_rgba(255,255,255,0.01)] rounded-2xl p-6 transition-all duration-300 flex flex-col gap-6 h-full";
+  const containerClasses = "bg-white border border-zinc-200/80 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] dark:bg-[#0d0e15]/80 dark:border-white/[0.04] dark:shadow-[inset_0_1px_2px_rgba(255,255,255,0.01)] rounded-2xl p-4 sm:p-6 transition-all duration-300 flex flex-col gap-6 h-full";
 
   return (
     <div className={containerClasses}>

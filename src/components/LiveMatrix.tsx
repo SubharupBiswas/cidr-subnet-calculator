@@ -36,8 +36,8 @@ export const LiveMatrix: React.FC<LiveMatrixProps> = ({ result }) => {
   };
 
   // Base card wrapper that adapts to light/dark
-  const cardClasses = "bg-white border-zinc-200/80 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] dark:bg-[#0d0e15]/80 dark:border-white/[0.04] dark:shadow-[inset_0_1px_2px_rgba(255,255,255,0.01)] rounded-2xl p-6 transition-all duration-300 flex flex-col gap-6 h-full";
-  const internalCardClasses = "bg-white border border-zinc-200/80 shadow-sm dark:bg-zinc-950/40 dark:border-white/[0.04] rounded-xl p-5 dark:shadow-[inset_0_1px_2px_rgba(255,255,255,0.01)] transition-all duration-300 relative flex flex-col justify-center overflow-hidden group hover:border-zinc-300 dark:hover:border-zinc-800/80";
+  const cardClasses = "bg-white border border-zinc-200/80 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] dark:bg-[#0d0e15]/80 dark:border-white/[0.04] dark:shadow-[inset_0_1px_2px_rgba(255,255,255,0.01)] rounded-2xl p-4 sm:p-6 transition-all duration-300 flex flex-col gap-6 h-full";
+  const internalCardClasses = "bg-white border border-zinc-200/80 shadow-sm dark:bg-zinc-950/40 dark:border-white/[0.04] rounded-xl p-4 sm:p-5 dark:shadow-[inset_0_1px_2px_rgba(255,255,255,0.01)] transition-all duration-300 relative flex flex-col justify-center overflow-hidden group hover:border-zinc-300 dark:hover:border-zinc-800/80";
 
   return (
     <div className={cardClasses}>
@@ -53,7 +53,7 @@ export const LiveMatrix: React.FC<LiveMatrixProps> = ({ result }) => {
             <Network className="w-3 h-3 text-zinc-400 dark:text-zinc-500" />
             Subnet Mask
           </span>
-          <span className="font-mono text-xl lg:text-2xl font-bold text-purple-600 dark:text-purple-400 mt-2 tracking-tight tabular-nums pr-10">
+          <span className="font-mono text-lg sm:text-xl lg:text-2xl font-bold text-purple-600 dark:text-purple-400 mt-2 tracking-tight tabular-nums pr-10">
             {result?.subnetMask || '255.255.255.0'}
           </span>
           {copyButton(result?.subnetMask || '255.255.255.0', 'mask')}
@@ -65,7 +65,7 @@ export const LiveMatrix: React.FC<LiveMatrixProps> = ({ result }) => {
             <Network className="w-3 h-3 text-zinc-400 dark:text-zinc-500" />
             Wildcard Mask
           </span>
-          <span className="font-mono text-xl lg:text-2xl font-bold text-rose-500 mt-2 tracking-tight tabular-nums pr-10">
+          <span className="font-mono text-lg sm:text-xl lg:text-2xl font-bold text-rose-500 mt-2 tracking-tight tabular-nums pr-10">
             {result?.wildcardMask || '0.0.0.255'}
           </span>
           {copyButton(result?.wildcardMask || '0.0.0.255', 'wildcard')}
@@ -77,7 +77,7 @@ export const LiveMatrix: React.FC<LiveMatrixProps> = ({ result }) => {
             <Server className="w-3 h-3 text-zinc-400 dark:text-zinc-500" />
             Network Address
           </span>
-          <span className="font-mono text-xl lg:text-2xl font-bold text-cyan-600 dark:text-cyan-400 mt-2 tracking-tight tabular-nums pr-10">
+          <span className="font-mono text-lg sm:text-xl lg:text-2xl font-bold text-cyan-600 dark:text-cyan-400 mt-2 tracking-tight tabular-nums pr-10">
             {result?.networkAddress || '192.168.1.0'}
           </span>
           {copyButton(result?.networkAddress || '192.168.1.0', 'network')}
@@ -89,7 +89,7 @@ export const LiveMatrix: React.FC<LiveMatrixProps> = ({ result }) => {
             <Radio className="w-3 h-3 text-zinc-400 dark:text-zinc-500" />
             Broadcast Address
           </span>
-          <span className="font-mono text-xl lg:text-2xl font-bold text-amber-600 dark:text-amber-400 mt-2 tracking-tight tabular-nums pr-10">
+          <span className="font-mono text-lg sm:text-xl lg:text-2xl font-bold text-amber-600 dark:text-amber-400 mt-2 tracking-tight tabular-nums pr-10">
             {result?.broadcastAddress || '192.168.1.255'}
           </span>
           {copyButton(result?.broadcastAddress || '192.168.1.255', 'broadcast')}
@@ -113,7 +113,7 @@ export const LiveMatrix: React.FC<LiveMatrixProps> = ({ result }) => {
             <Users className="w-3 h-3 text-zinc-400 dark:text-zinc-500" />
             Total Usable Hosts
           </span>
-          <span className="font-mono text-xl lg:text-2xl font-bold text-zinc-800 dark:text-zinc-100 mt-2 tracking-tight tabular-nums pr-10">
+          <span className="font-mono text-lg sm:text-xl lg:text-2xl font-bold text-zinc-800 dark:text-zinc-100 mt-2 tracking-tight tabular-nums pr-10">
             {result ? formatHosts(result.totalUsableHosts) : '254'}
           </span>
           {copyButton(result ? formatHosts(result.totalUsableHosts) : '254', 'hosts')}
@@ -125,7 +125,7 @@ export const LiveMatrix: React.FC<LiveMatrixProps> = ({ result }) => {
             <Server className="w-3 h-3 text-zinc-400 dark:text-zinc-500" />
             Hex IP Value
           </span>
-          <span className="font-mono text-xl lg:text-2xl font-bold text-zinc-500 dark:text-zinc-400 mt-2 tracking-tight tabular-nums pr-10">
+          <span className="font-mono text-lg sm:text-xl lg:text-2xl font-bold text-zinc-500 dark:text-zinc-400 mt-2 tracking-tight tabular-nums pr-10">
             {result ? `0x${ipToLong(result.networkAddress).toString(16).toUpperCase().padStart(8, '0')}` : '0xC0A80100'}
           </span>
           {copyButton(result ? `0x${ipToLong(result.networkAddress).toString(16).toUpperCase().padStart(8, '0')}` : '0xC0A80100', 'hexip')}
@@ -137,7 +137,7 @@ export const LiveMatrix: React.FC<LiveMatrixProps> = ({ result }) => {
             <Award className="w-3 h-3 text-zinc-400 dark:text-zinc-500" />
             IP Class
           </span>
-          <span className="font-mono text-xl lg:text-2xl font-bold text-zinc-800 dark:text-zinc-100 mt-2 tracking-tight tabular-nums pr-10">
+          <span className="font-mono text-lg sm:text-xl lg:text-2xl font-bold text-zinc-800 dark:text-zinc-100 mt-2 tracking-tight tabular-nums pr-10">
             {result?.ipClass || 'Class C'}
           </span>
           {copyButton(result?.ipClass || 'Class C', 'class')}

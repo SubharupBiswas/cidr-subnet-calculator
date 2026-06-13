@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Network, Terminal, Share2, RefreshCw, Moon, Sun } from 'lucide-react';
+import { Network, Terminal, Share2, RefreshCw, Moon, Sun, Calculator, GitFork, Cpu, Layout, BookOpen } from 'lucide-react';
 import { CalculatorForm } from './components/CalculatorForm';
 import { LiveMatrix } from './components/LiveMatrix';
 import { BinaryVisualizer } from './components/BinaryVisualizer';
@@ -10,6 +10,8 @@ import { FaqAccordion } from './components/FaqAccordion';
 import { Footer } from './components/Footer';
 import { SubnetGuide } from './components/SubnetGuide';
 import { WidgetGenerator } from './components/WidgetGenerator';
+import { VlsmPlanner } from './components/VlsmPlanner';
+import { MacLookup } from './components/MacLookup';
 import { calculateSubnet, isValidIp, SubnetResult } from './utils/ipv4Utils';
 
 function AdSlot({ className, type }: { className?: string; type: 'banner' | 'rectangle' }) {
@@ -37,8 +39,9 @@ function App() {
   const [copiedLink, setCopiedLink] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
   
-  // View Switcher State
-  const [activeView, setActiveView] = useState<'calculator' | 'guide' | 'widget'>('calculator');
+  // View Switcher State — five routing nodes
+  type ActiveView = 'calculator' | 'vlsm' | 'oui' | 'widget' | 'guide';
+  const [activeView, setActiveView] = useState<ActiveView>('calculator');
 
   // Embed State
   const [isEmbedded, setIsEmbedded] = useState<boolean>(false);
@@ -271,43 +274,36 @@ function App() {
         {/* Global Adsense/Carbon Top Placement */}
         <AdSlot type="banner" className="mb-8" />
 
-        {/* View Switcher Tab Bar */}
-        <div className="flex items-center justify-center mb-8">
-          <div className="bg-white/70 dark:bg-[#090a0f]/60 backdrop-blur-md border border-zinc-200/80 dark:border-white/[0.04] p-1 rounded-xl shadow-sm dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.02)] flex gap-1">
-            <button
-              onClick={() => setActiveView('calculator')}
-              className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 cursor-pointer ${
-                activeView === 'calculator'
-                  ? 'bg-zinc-100 text-zinc-900 shadow-sm dark:bg-zinc-800/80 dark:text-zinc-100'
-                  : 'text-zinc-500 hover:text-zinc-700 hover:bg-zinc-50 dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:bg-zinc-800/40'
-              }`}
-            >
-              Calculator
-            </button>
-            <button
-              onClick={() => setActiveView('guide')}
-              className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 cursor-pointer ${
-                activeView === 'guide'
-                  ? 'bg-zinc-100 text-zinc-900 shadow-sm dark:bg-zinc-800/80 dark:text-zinc-100'
-                  : 'text-zinc-500 hover:text-zinc-700 hover:bg-zinc-50 dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:bg-zinc-800/40'
-              }`}
-            >
-              Subnet Guide
-            </button>
-            <button
-              onClick={() => setActiveView('widget')}
-              className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 cursor-pointer ${
-                activeView === 'widget'
-                  ? 'bg-zinc-100 text-zinc-900 shadow-sm dark:bg-zinc-800/80 dark:text-zinc-100'
-                  : 'text-zinc-500 hover:text-zinc-700 hover:bg-zinc-50 dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:bg-zinc-800/40'
-              }`}
-            >
-              Widget Builder
-            </button>
+        {/* ── Premium 5-Node Glass Control Deck ── */}
+        <div className="flex items-center justify-center mb-8 px-2">
+          <div className="inline-flex p-1 bg-zinc-100/80 dark:bg-zinc-950/60 border border-zinc-200/60 dark:border-white/[0.04] rounded-xl backdrop-blur-md max-w-full overflow-x-auto scrollbar-none shadow-sm gap-0.5">
+            {(
+              [
+                { key: 'calculator' as const, label: 'Calculator',    icon: <Calculator className="w-3 h-3" /> },
+                { key: 'vlsm'       as const, label: 'VLSM Architect', icon: <GitFork    className="w-3 h-3" /> },
+                { key: 'oui'        as const, label: 'OUI Lookup',     icon: <Cpu        className="w-3 h-3" /> },
+                { key: 'widget'     as const, label: 'Widget Builder', icon: <Layout     className="w-3 h-3" /> },
+                { key: 'guide'      as const, label: 'Tech Guide',     icon: <BookOpen   className="w-3 h-3" /> },
+              ]
+            ).map(tab => (
+              <button
+                key={tab.key}
+                onClick={() => setActiveView(tab.key)}
+                className={`px-3 sm:px-4 py-2 text-xs font-mono tracking-tight rounded-lg flex items-center gap-2 whitespace-nowrap cursor-pointer transition-all duration-200 ${
+                  activeView === tab.key
+                    ? 'bg-white dark:bg-zinc-900 text-cyan-600 dark:text-cyan-400 border border-zinc-200/50 dark:border-zinc-800/80 shadow-sm font-semibold'
+                    : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 hover:bg-white/60 dark:hover:bg-zinc-900/40'
+                }`}
+              >
+                {tab.icon}
+                <span className="hidden sm:inline">{tab.label}</span>
+                <span className="sm:hidden">{tab.key === 'calculator' ? 'Calc' : tab.key === 'vlsm' ? 'VLSM' : tab.key === 'oui' ? 'OUI' : tab.key === 'widget' ? 'Embed' : 'Guide'}</span>
+              </button>
+            ))}
           </div>
         </div>
 
-        {/* Hero Copy Writing Intro */}
+        {/* Hero intro — calculator tab only */}
         {activeView === 'calculator' && (
           <section aria-label="Utility Description" className="mb-10 max-w-3xl">
             <div className="flex items-center gap-2 text-cyan-600 dark:text-cyan-400 text-xs font-mono font-bold uppercase tracking-[0.15em] mb-2.5">
@@ -326,30 +322,20 @@ function App() {
         {/* VIEW: CALCULATOR */}
         {activeView === 'calculator' && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start w-full">
-            {/* LEFT PANELS: Controlled Actions & State Triggers (Span 5) */}
+            {/* LEFT PANELS */}
             <div className="lg:col-span-5 flex flex-col gap-6 w-full">
-              <CalculatorForm
-                ip={ip}
-                setIp={setIp}
-                prefix={prefix}
-                setPrefix={setPrefix}
-              />
-              <BinaryVisualizer
-                result={result}
-                ip={ip}
-                setIp={setIp}
-              />
+              <CalculatorForm ip={ip} setIp={setIp} prefix={prefix} setPrefix={setPrefix} />
+              <BinaryVisualizer result={result} ip={ip} setIp={setIp} />
               <HistoryTracker
                 history={history}
                 onLoadHistory={handleLoadHistory}
                 onDeleteHistoryItem={handleDeleteHistoryItem}
                 onClearHistory={handleClearHistory}
               />
-              {/* CheatSheet shifted to the base of the left-hand column */}
               <CheatSheet currentPrefix={prefix} onSelectPrefix={setPrefix} />
             </div>
 
-            {/* RIGHT PANELS: Live High-Contrast Data Layout Matrix (Span 7) */}
+            {/* RIGHT PANELS */}
             <div className="lg:col-span-7 flex flex-col gap-6 w-full">
               <LiveMatrix result={result} />
               <SubnetSplitter result={result} onLoadSubnet={handleLoadSubnet} />
@@ -358,22 +344,30 @@ function App() {
           </div>
         )}
 
-        {/* FULL-WIDTH FAQ ACCORDION — anchored below the bento grid */}
-        {activeView === 'calculator' && (
-          <div className="w-full mt-12">
-            <FaqAccordion />
-          </div>
+        {/* VIEW: VLSM ARCHITECT */}
+        {activeView === 'vlsm' && (
+          <VlsmPlanner />
         )}
 
-        {/* VIEW: GUIDE */}
+        {/* VIEW: OUI LOOKUP */}
+        {activeView === 'oui' && (
+          <MacLookup />
+        )}
+
+        {/* VIEW: WIDGET BUILDER */}
+        {activeView === 'widget' && (
+          <WidgetGenerator />
+        )}
+
+        {/* VIEW: TECHNICAL GUIDE */}
         {activeView === 'guide' && (
           <SubnetGuide />
         )}
 
-        {/* VIEW: WIDGET GENERATOR */}
-        {activeView === 'widget' && (
-          <WidgetGenerator />
-        )}
+        {/* FULL-WIDTH FAQ — permanently anchored at the baseline of every view */}
+        <div className="w-full mt-12">
+          <FaqAccordion />
+        </div>
 
       </div>
 
