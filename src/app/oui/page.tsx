@@ -149,7 +149,7 @@ export default function MacLookup() {
   };
 
   const statusConfig = {
-    idle:    { icon: <Wifi className="w-5 h-5 text-zinc-400 dark:text-zinc-500" />,          chipIcon: <Wifi className="w-3.5 h-3.5" />,          label: 'Awaiting Input',          badge: 'bg-zinc-100 text-zinc-500 border-zinc-200 dark:bg-zinc-800/60 dark:text-zinc-400 dark:border-zinc-700/40' },
+    idle:    { icon: <Wifi className="w-5 h-5 text-[var(--color-text-muted)] dark:text-[var(--color-text-main)]0" />,          chipIcon: <Wifi className="w-3.5 h-3.5" />,          label: 'Awaiting Input',          badge: 'bg-zinc-100 text-[var(--color-text-main)]0 border-zinc-200 dark:bg-zinc-800/60 dark:text-[var(--color-text-muted)] dark:border-zinc-700/40' },
     known:   { icon: <ShieldCheck className="w-5 h-5 text-emerald-500 dark:text-emerald-400" />, chipIcon: <ShieldCheck className="w-3.5 h-3.5" />, label: 'Vendor Identified',     badge: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20' },
     unknown: { icon: <ShieldAlert className="w-5 h-5 text-amber-500 dark:text-amber-400" />,   chipIcon: <ShieldAlert className="w-3.5 h-3.5" />,   label: 'OUI Not in Dictionary', badge: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/20' },
     invalid: { icon: <ShieldX className="w-5 h-5 text-rose-500 dark:text-rose-400" />,         chipIcon: <ShieldX className="w-3.5 h-3.5" />,         label: 'Invalid MAC Format',    badge: 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-500/10 dark:text-rose-400 dark:border-rose-500/20' },
@@ -159,21 +159,21 @@ export default function MacLookup() {
 
   return (
     <div className="bento-card p-5 sm:p-7 flex flex-col gap-6">
-      <div className="flex flex-col gap-2 border-b border-zinc-200 dark:border-zinc-800 pb-5">
+      <div className="flex flex-col gap-2 border-b border-zinc-200 dark:border-[var(--color-border)] pb-5">
         <div className="flex items-center gap-3">
           <Wifi className="w-5 h-5 text-cyan-400 shrink-0" />
-          <h2 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
+          <h2 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-[var(--color-text-main)] tracking-tight">
             MAC / OUI Vendor Analyzer
           </h2>
         </div>
-        <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
+        <p className="text-sm text-[var(--color-text-main)]0 dark:text-[var(--color-text-muted)] leading-relaxed">
           Enter a MAC address in any delimiter format (colon, dash, or dot). The OUI prefix is instantly matched against a hardcoded hardware vendor dictionary — completely offline.
         </p>
       </div>
 
       <div className="relative">
         <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none">
-          <Search className="w-4 h-4 text-zinc-400 dark:text-zinc-500" />
+          <Search className="w-4 h-4 text-[var(--color-text-muted)] dark:text-[var(--color-text-main)]0" />
         </div>
         <input
           ref={inputRef}
@@ -183,12 +183,12 @@ export default function MacLookup() {
           placeholder="e.g.  00:1A:4B:C0:FF:EE  or  001A4BC0FFEE"
           spellCheck={false}
           aria-label="MAC Address or OUI Prefix Input"
-          className={`w-full pl-10 pr-36 py-3.5 rounded-xl border font-mono text-base text-zinc-800 dark:text-zinc-100 bg-zinc-100/70 dark:bg-zinc-950/70 focus:outline-none transition-all
+          className={`w-full pl-10 pr-36 py-3.5 rounded-xl border font-mono text-base text-zinc-800 dark:text-[var(--color-text-main)] bg-zinc-100/70 dark:bg-[var(--color-bg)]/70 focus:outline-none transition-all
             ${status === 'invalid'
               ? 'border-rose-500/40 shadow-[0_0_0_1px_rgba(244,63,94,0.15)]'
               : status === 'known'
               ? 'border-emerald-500/40 shadow-[0_0_0_1px_rgba(16,185,129,0.15)]'
-              : 'border-zinc-200 dark:border-zinc-800 focus:border-cyan-500/50'
+              : 'border-zinc-200 dark:border-[var(--color-border)] focus:border-cyan-500/50'
             }`}
         />
         <div className={`absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1.5 px-2.5 py-1 rounded-md border text-xs font-semibold ${sc.badge}`}>
@@ -209,12 +209,12 @@ export default function MacLookup() {
               <p className={`text-lg sm:text-xl font-bold break-all ${status === 'known' ? 'text-emerald-800 dark:text-emerald-300' : 'text-amber-800 dark:text-amber-300'}`}>
                 {lookupResult.vendor}
               </p>
-              <p className="text-xs font-mono text-zinc-500 dark:text-zinc-400 mt-0.5">OUI Prefix: {lookupResult.oui}</p>
+              <p className="text-xs font-mono text-[var(--color-text-main)]0 dark:text-[var(--color-text-muted)] mt-0.5">OUI Prefix: {lookupResult.oui}</p>
             </div>
           </div>
 
           {[
-            { label: 'Formatted MAC', value: lookupResult.formatted, color: 'text-zinc-800 dark:text-zinc-100' },
+            { label: 'Formatted MAC', value: lookupResult.formatted, color: 'text-zinc-800 dark:text-[var(--color-text-main)]' },
             { label: 'MAC Type', value: lookupResult.macType, color: 'text-zinc-700 dark:text-zinc-300' },
             {
               label: 'Multicast Bit',
@@ -228,21 +228,21 @@ export default function MacLookup() {
             },
           ].map(item => (
             <div key={item.label} className="bento-inner-card p-4">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-zinc-400 dark:text-zinc-500 mb-1">{item.label}</p>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-[var(--color-text-muted)] dark:text-[var(--color-text-main)]0 mb-1">{item.label}</p>
               <p className={`font-mono text-sm font-bold break-all ${item.color}`}>{item.value}</p>
             </div>
           ))}
 
-          <div className="col-span-1 sm:col-span-2 text-[10px] font-mono text-zinc-500 dark:text-zinc-600 bg-zinc-100 dark:bg-zinc-900/40 rounded-lg px-3 py-2 border border-zinc-200 dark:border-zinc-800/60">
-            Accepted: <span className="text-zinc-450 dark:text-zinc-500">AA:BB:CC:DD:EE:FF</span> · <span className="text-zinc-450 dark:text-zinc-500">AA-BB-CC-DD-EE-FF</span> · <span className="text-zinc-450 dark:text-zinc-500">AABB.CCDD.EEFF</span> · <span className="text-zinc-450 dark:text-zinc-500">AABBCCDDEEFF</span>
+          <div className="col-span-1 sm:col-span-2 text-[10px] font-mono text-[var(--color-text-main)]0 dark:text-zinc-600 bg-zinc-100 dark:bg-[var(--color-surface)] rounded-lg px-3 py-2 border border-zinc-200 dark:border-[var(--color-border)]">
+            Accepted: <span className="text-zinc-450 dark:text-[var(--color-text-main)]0">AA:BB:CC:DD:EE:FF</span> · <span className="text-zinc-450 dark:text-[var(--color-text-main)]0">AA-BB-CC-DD-EE-FF</span> · <span className="text-zinc-450 dark:text-[var(--color-text-main)]0">AABB.CCDD.EEFF</span> · <span className="text-zinc-450 dark:text-[var(--color-text-main)]0">AABBCCDDEEFF</span>
           </div>
         </div>
       )}
 
       {status === 'idle' && !input && (
-        <div className="border border-dashed border-zinc-200 dark:border-zinc-800 rounded-xl p-8 flex flex-col items-center justify-center gap-3 text-center">
-          <Wifi className="w-10 h-10 text-zinc-400 dark:text-zinc-700" />
-          <p className="text-sm text-zinc-500 dark:text-zinc-650 max-w-xs">
+        <div className="border border-dashed border-zinc-200 dark:border-[var(--color-border)] rounded-xl p-8 flex flex-col items-center justify-center gap-3 text-center">
+          <Wifi className="w-10 h-10 text-[var(--color-text-muted)] dark:text-zinc-700" />
+          <p className="text-sm text-[var(--color-text-main)]0 dark:text-zinc-650 max-w-xs">
             Type any MAC address above. Vendor identification is instant — no API calls required.
           </p>
           <div className="flex flex-wrap justify-center gap-2 mt-2">
@@ -250,7 +250,7 @@ export default function MacLookup() {
               <button
                 key={example}
                 onClick={() => handleChange(example)}
-                className="text-xs font-mono px-2.5 py-1 rounded-md bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700 text-zinc-550 dark:text-zinc-400 hover:text-cyan-600 dark:hover:text-cyan-400 hover:border-zinc-300 dark:hover:border-cyan-500/40 transition-all cursor-pointer"
+                className="text-xs font-mono px-2.5 py-1 rounded-md bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700 text-zinc-550 dark:text-[var(--color-text-muted)] hover:text-cyan-600 dark:hover:text-cyan-400 hover:border-zinc-300 dark:hover:border-cyan-500/40 transition-all cursor-pointer"
               >
                 {example}
               </button>

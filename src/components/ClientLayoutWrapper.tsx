@@ -10,7 +10,7 @@ import { FaqAccordion } from './FaqAccordion';
 export function AdSlot({ className, type }: { className?: string; type: 'banner' | 'rectangle' }) {
   return (
     <div
-      className={`relative w-full overflow-hidden select-none rounded-xl border border-zinc-200 dark:border-zinc-800 bg-zinc-100/40 dark:bg-zinc-900/40 backdrop-blur-md flex flex-col items-center justify-center gap-1.5 ${className ?? ''} ${type === 'banner' ? 'min-h-[90px]' : 'min-h-[250px]'}`}
+      className={`relative w-full overflow-hidden select-none rounded-xl border border-zinc-200 dark:border-[var(--color-border)] bg-zinc-100/40 dark:bg-[var(--color-surface)] backdrop-blur-md flex flex-col items-center justify-center gap-1.5 ${className ?? ''} ${type === 'banner' ? 'min-h-[90px]' : 'min-h-[250px]'}`}
     >
       {/* Fine dot grid texture inside ad frame */}
       <div className="absolute inset-0 opacity-40"
@@ -19,10 +19,10 @@ export function AdSlot({ className, type }: { className?: string; type: 'banner'
           backgroundSize: '16px 16px'
         }}
       />
-      <span className="text-[9px] tracking-[0.22em] uppercase font-mono font-bold text-zinc-500 dark:text-zinc-600 bg-zinc-200 dark:bg-zinc-950/80 border border-zinc-300 dark:border-zinc-800 px-2.5 py-1 rounded-md z-10">
+      <span className="text-[9px] tracking-[0.22em] uppercase font-mono font-bold text-[var(--color-text-main)]0 dark:text-zinc-600 bg-zinc-200 dark:bg-[var(--color-bg)]/80 border border-zinc-300 dark:border-[var(--color-border)] px-2.5 py-1 rounded-md z-10">
         Advertisement
       </span>
-      <span className="text-[10px] font-mono text-zinc-400 dark:text-zinc-700 z-10">
+      <span className="text-[10px] font-mono text-[var(--color-text-muted)] dark:text-zinc-700 z-10">
         {type === 'banner' ? '728×90 / 970×90 Leaderboard' : '300×250 / 336×280 Rectangle'}
       </span>
     </div>
@@ -81,7 +81,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
     { path: '/guide',  mobileKey: 'Guide', label: 'Tech Guide',      icon: <BookOpen   className="w-3.5 h-3.5" /> },
   ];
 
-  const headerActionBtn = "p-2 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900/60 text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200 hover:border-zinc-300 dark:hover:border-zinc-700 hover:bg-zinc-200 dark:hover:bg-zinc-800/80 transition-all duration-200 cursor-pointer";
+  const headerActionBtn = "p-2 rounded-lg border border-zinc-200 dark:border-[var(--color-border)] bg-zinc-100 dark:bg-[var(--color-surface)] text-[var(--color-text-main)]0 hover:text-zinc-800 dark:hover:text-zinc-200 hover:border-zinc-300 dark:hover:border-zinc-700 hover:bg-zinc-200 dark:hover:bg-zinc-800/80 transition-all duration-200 cursor-pointer";
 
   /* ── EMBED MODE ── */
   if (isEmbedded) {
@@ -90,7 +90,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[250px] bg-gradient-to-b from-cyan-500/8 to-transparent blur-[100px] pointer-events-none z-0" />
         <div className="w-full flex flex-col gap-6 relative z-10 max-w-5xl mx-auto">
           {/* Embed mini-header */}
-          <div className="flex justify-between items-center bg-zinc-100/75 dark:bg-zinc-900/70 backdrop-blur-xl p-3 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-md dark:shadow-lg shadow-zinc-200/50 dark:shadow-black/30">
+          <div className="flex justify-between items-center bg-zinc-100/75 dark:bg-[var(--color-surface)] backdrop-blur-xl p-3 rounded-xl border border-zinc-200 dark:border-[var(--color-border)] shadow-md dark:shadow-lg shadow-zinc-200/50 dark:shadow-black/30">
             <div className="flex items-center gap-2.5">
               <div className="h-6 w-6 rounded-md bg-gradient-to-tr from-cyan-500 to-emerald-400 flex items-center justify-center shadow-[0_4px_12px_rgba(34,211,238,0.15)] dark:shadow-[0_0_12px_rgba(34,211,238,0.35)]">
                 <Network className="w-3 h-3 text-zinc-950 stroke-[2.5]" />
@@ -116,7 +116,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
       <div className="max-w-7xl w-full mx-auto px-4 md:px-8 pt-5 pb-10 z-10 flex-grow relative">
 
         {/* ── Floating Header ── */}
-        <header className="mb-6 flex items-center justify-between bg-zinc-100/75 dark:bg-zinc-900/75 backdrop-blur-xl border border-zinc-250 dark:border-zinc-800 px-4 md:px-5 h-14 rounded-2xl shadow-md dark:shadow-lg shadow-zinc-200/50 dark:shadow-black/40 transition-colors duration-300">
+        <header className="mb-6 flex items-center justify-between bg-zinc-100/75 dark:bg-[var(--color-surface)] backdrop-blur-xl border border-zinc-250 dark:border-[var(--color-border)] px-4 md:px-5 h-14 rounded-2xl shadow-md dark:shadow-lg shadow-zinc-200/50 dark:shadow-black/40 transition-colors duration-300">
           {/* Logo */}
           <div className="flex items-center gap-3">
             <div className="h-8 w-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-emerald-400 flex items-center justify-center shadow-[0_4px_16px_rgba(34,211,238,0.15)] dark:shadow-[0_0_16px_rgba(34,211,238,0.3)]">
@@ -144,7 +144,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 border transition-all duration-200 cursor-pointer font-mono ${
                 copiedLink
                   ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/30 shadow-[0_4px_12px_rgba(16,185,129,0.05)] dark:shadow-[0_0_12px_rgba(16,185,129,0.15)]'
-                  : 'bg-zinc-100 dark:bg-zinc-900/60 text-zinc-500 dark:text-zinc-400 border-zinc-200 dark:border-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 hover:text-zinc-800 dark:hover:text-zinc-200'
+                  : 'bg-zinc-100 dark:bg-[var(--color-surface)] text-[var(--color-text-main)]0 dark:text-[var(--color-text-muted)] border-zinc-200 dark:border-[var(--color-border)] hover:bg-zinc-200 dark:hover:bg-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 hover:text-zinc-800 dark:hover:text-zinc-200'
               }`}
             >
               {copiedLink ? <Check className="w-3 h-3" /> : <Share2 className="w-3 h-3" />}
@@ -158,7 +158,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
 
         {/* ── Navigation Tab Bar ── */}
         <nav className="flex items-center justify-center mb-8 px-2" aria-label="Main navigation">
-          <div className="inline-flex p-1 bg-zinc-200/40 dark:bg-zinc-900/70 border border-zinc-200 dark:border-zinc-800 rounded-xl backdrop-blur-md overflow-x-auto scrollbar-none shadow-inner gap-0.5">
+          <div className="inline-flex p-1 bg-zinc-200/40 dark:bg-[var(--color-surface)] border border-zinc-200 dark:border-[var(--color-border)] rounded-xl backdrop-blur-md overflow-x-auto scrollbar-none shadow-inner gap-0.5">
             {navItems.map(tab => {
               const isActive = pathname === tab.path || (tab.path !== '/' && pathname.startsWith(tab.path));
               return (
@@ -168,7 +168,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
                   className={`relative px-3 sm:px-4 py-2 text-xs font-mono tracking-tight rounded-lg flex items-center gap-1.5 whitespace-nowrap cursor-pointer transition-all duration-200 ${
                     isActive
                       ? 'tab-active-indicator bg-white dark:bg-zinc-800 text-cyan-600 dark:text-cyan-400 border border-zinc-200 dark:border-zinc-700/60 shadow-sm font-semibold'
-                      : 'text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-300 hover:bg-zinc-200/40 dark:hover:bg-zinc-800/50'
+                      : 'text-[var(--color-text-main)]0 hover:text-zinc-800 dark:hover:text-zinc-300 hover:bg-zinc-200/40 dark:hover:bg-zinc-800/50'
                   }`}
                 >
                   {tab.icon}

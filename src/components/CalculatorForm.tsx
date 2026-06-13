@@ -67,10 +67,10 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
   return (
     <div className="bento-card bento-card-hover p-5 flex flex-col gap-5">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 pb-4">
+      <div className="flex items-center justify-between border-b border-zinc-200 dark:border-[var(--color-border)] pb-4">
         <div className="flex items-center gap-2.5">
           <Sliders className="w-4 h-4 text-cyan-400" />
-          <h2 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 tracking-tight font-mono uppercase tracking-widest">Configuration</h2>
+          <h2 className="text-sm font-bold text-zinc-900 dark:text-[var(--color-text-main)] tracking-tight font-mono uppercase tracking-widest">Configuration</h2>
         </div>
         {!isIpValid && ip !== '' && (
           <span className="text-[10px] text-rose-400 font-mono animate-pulse flex items-center gap-1">
@@ -82,13 +82,13 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
 
       {/* IP Input Group */}
       <div className="flex flex-col gap-2">
-        <label className="text-[10px] uppercase font-bold tracking-widest text-zinc-500 font-mono flex items-center gap-1.5">
+        <label className="text-[10px] uppercase font-bold tracking-widest text-[var(--color-text-main)]0 font-mono flex items-center gap-1.5">
           <Globe className="w-3 h-3" />
           IPv4 Address / CIDR
         </label>
 
         {/* Unified pill input row */}
-        <div className={`flex flex-wrap sm:flex-nowrap items-center gap-2 bg-zinc-100/70 dark:bg-zinc-950/70 border rounded-xl px-3 py-2.5 transition-all duration-200 ${!isIpValid && ip !== '' ? 'border-rose-500/40' : 'border-zinc-200 dark:border-zinc-800 focus-within:border-zinc-350 dark:focus-within:border-zinc-700'}`}>
+        <div className={`flex flex-wrap sm:flex-nowrap items-center gap-2 bg-zinc-100/70 dark:bg-[var(--color-bg)]/70 border rounded-xl px-3 py-2.5 transition-all duration-200 ${!isIpValid && ip !== '' ? 'border-rose-500/40' : 'border-zinc-200 dark:border-[var(--color-border)] focus-within:border-zinc-350 dark:focus-within:border-zinc-700'}`}>
           {/* Octets */}
           <div className="flex items-center gap-0.5 flex-1">
             {[0, 1, 2, 3].map((index) => (
@@ -113,8 +113,8 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
           </div>
 
           {/* CIDR divider + prefix */}
-          <div className="flex items-center gap-1.5 pl-2 border-l border-zinc-200 dark:border-zinc-800 shrink-0">
-            <span className="text-zinc-500 font-mono text-base font-bold">/</span>
+          <div className="flex items-center gap-1.5 pl-2 border-l border-zinc-200 dark:border-[var(--color-border)] shrink-0">
+            <span className="text-[var(--color-text-main)]0 font-mono text-base font-bold">/</span>
             <input
               type="number"
               min="1"
@@ -131,7 +131,7 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
       {/* Prefix Slider */}
       <div className="flex flex-col gap-3">
         <div className="flex items-center justify-between">
-          <span className="text-[10px] uppercase font-bold tracking-widest text-zinc-500 font-mono">Prefix Length</span>
+          <span className="text-[10px] uppercase font-bold tracking-widest text-[var(--color-text-main)]0 font-mono">Prefix Length</span>
           <span className="text-xs font-mono font-bold text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 px-2 py-0.5 rounded-md">/{prefix}</span>
         </div>
         <div className="flex items-center gap-3">
@@ -152,7 +152,7 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
 
       {/* Quick Presets */}
       <div className="flex flex-col gap-2">
-        <span className="text-[10px] uppercase font-bold tracking-widest text-zinc-500 font-mono">Quick Presets</span>
+        <span className="text-[10px] uppercase font-bold tracking-widest text-[var(--color-text-main)]0 font-mono">Quick Presets</span>
         <div className="flex flex-wrap gap-1.5">
           {commonPrefixes.map((p) => (
             <button
@@ -161,7 +161,7 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
               className={`px-2.5 py-1 rounded-md text-xs font-mono border transition-all duration-150 cursor-pointer ${
                 prefix === p
                   ? 'bg-cyan-500/10 border-cyan-500/30 text-cyan-600 dark:text-cyan-400 shadow-[0_4px_12px_rgba(34,211,238,0.08)] dark:shadow-[0_0_12px_rgba(34,211,238,0.12)]'
-                  : 'bg-zinc-100 dark:bg-zinc-900/60 border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 hover:border-zinc-300 dark:hover:border-zinc-700 hover:bg-zinc-200 dark:hover:bg-zinc-800/60'
+                  : 'bg-zinc-100 dark:bg-[var(--color-surface)] border-zinc-200 dark:border-[var(--color-border)] text-[var(--color-text-main)]0 hover:text-zinc-700 dark:hover:text-zinc-300 hover:border-zinc-300 dark:hover:border-zinc-700 hover:bg-zinc-200 dark:hover:bg-zinc-800/60'
               }`}
             >
               /{p}

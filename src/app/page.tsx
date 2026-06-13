@@ -17,14 +17,14 @@ import type { HistoryItem } from '../components/HistoryTracker';
 function AdSlot({ className, type }: { className?: string; type: 'banner' | 'rectangle' }) {
   return (
     <div
-      className={`relative w-full overflow-hidden select-none rounded-2xl border bg-white border-zinc-200/80 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] dark:bg-[#090a10]/40 dark:border-zinc-800/40 dark:backdrop-blur-md flex flex-col items-center justify-center dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.01)] ${className} ${type === 'banner' ? 'min-h-[90px]' : 'min-h-[250px]'
+      className={`relative w-full overflow-hidden select-none rounded-2xl border bg-white border-zinc-200/80 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] dark:bg-[#090a10]/40 dark:border-[var(--color-border)] dark:backdrop-blur-md flex flex-col items-center justify-center dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.01)] ${className} ${type === 'banner' ? 'min-h-[90px]' : 'min-h-[250px]'
         }`}
     >
       <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.03)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none" />
-      <span className="text-[9px] tracking-[0.2em] uppercase font-mono font-bold text-zinc-500 bg-zinc-100 dark:bg-zinc-900/80 border border-zinc-300 dark:border-zinc-800/60 px-2 py-0.5 rounded-md z-10 shadow-sm">
+      <span className="text-[9px] tracking-[0.2em] uppercase font-mono font-bold text-[var(--color-text-main)]0 bg-zinc-100 dark:bg-[var(--color-surface)] border border-zinc-300 dark:border-[var(--color-border)] px-2 py-0.5 rounded-md z-10 shadow-sm">
         Ad Placement Space
       </span>
-      <span className="text-[10px] font-mono text-zinc-500 dark:text-zinc-600 mt-1 z-10">
+      <span className="text-[10px] font-mono text-[var(--color-text-main)]0 dark:text-zinc-600 mt-1 z-10">
         {type === 'banner' ? 'Supports 728x90 / 970x90 Leaderboards' : 'Supports 300x250 / 336x280 Rectangles'}
       </span>
     </div>
@@ -184,10 +184,10 @@ function SubnetCalculatorContent() {
           <Terminal className="w-3.5 h-3.5 stroke-[2.5]" />
           &gt;_ Subnetwork Engineering
         </div>
-        <h2 className="text-3xl font-extrabold tracking-tight leading-tight sm:text-4xl text-zinc-900 dark:text-white">
+        <h2 className="text-3xl font-extrabold tracking-tight leading-tight sm:text-4xl text-zinc-900 dark:text-[var(--color-text-main)]">
           Advanced IPv4 Subnet Calculator
         </h2>
-        <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
+        <p className="mt-2 text-sm text-[var(--color-text-main)]0 dark:text-[var(--color-text-muted)] leading-relaxed">
           Configure IP parameters client-side to instantly visualize boundaries, masks, binary structures, and subnet splits. Ideal for network architects, systems engineers, and DevOps.
         </p>
       </section>
@@ -195,10 +195,10 @@ function SubnetCalculatorContent() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start w-full">
         <div className="lg:col-span-5 flex flex-col gap-6 w-full">
           <CalculatorForm ip={ip} setIp={setIp} prefix={prefix} setPrefix={setPrefix} />
-          <Suspense fallback={<div className="animate-pulse h-[200px] bg-zinc-100 dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 rounded-2xl w-full" />}>
+          <Suspense fallback={<div className="animate-pulse h-[200px] bg-zinc-100 dark:bg-[var(--color-surface)] border border-zinc-200 dark:border-[var(--color-border)] rounded-2xl w-full" />}>
             <BinaryVisualizer result={result} ip={ip} setIp={setIp} />
           </Suspense>
-          <Suspense fallback={<div className="animate-pulse h-[140px] bg-zinc-100 dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 rounded-2xl w-full" />}>
+          <Suspense fallback={<div className="animate-pulse h-[140px] bg-zinc-100 dark:bg-[var(--color-surface)] border border-zinc-200 dark:border-[var(--color-border)] rounded-2xl w-full" />}>
             <HistoryTracker
               history={history}
               onLoadHistory={handleLoadHistory}
@@ -206,14 +206,14 @@ function SubnetCalculatorContent() {
               onClearHistory={handleClearHistory}
             />
           </Suspense>
-          <Suspense fallback={<div className="animate-pulse h-[100px] bg-zinc-100 dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 rounded-2xl w-full" />}>
+          <Suspense fallback={<div className="animate-pulse h-[100px] bg-zinc-100 dark:bg-[var(--color-surface)] border border-zinc-200 dark:border-[var(--color-border)] rounded-2xl w-full" />}>
             <CheatSheet currentPrefix={prefix} onSelectPrefix={setPrefix} />
           </Suspense>
         </div>
 
         <div className="lg:col-span-7 flex flex-col gap-6 w-full">
           <LiveMatrix result={result} />
-          <Suspense fallback={<div className="animate-pulse h-[260px] bg-zinc-100 dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 rounded-2xl w-full" />}>
+          <Suspense fallback={<div className="animate-pulse h-[260px] bg-zinc-100 dark:bg-[var(--color-surface)] border border-zinc-200 dark:border-[var(--color-border)] rounded-2xl w-full" />}>
             <SubnetSplitter result={result} onLoadSubnet={handleLoadSubnet} />
           </Suspense>
           <AdSlot type="rectangle" />

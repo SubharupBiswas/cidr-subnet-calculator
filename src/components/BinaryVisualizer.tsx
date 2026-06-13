@@ -39,10 +39,10 @@ export const BinaryVisualizer: FC<BinaryVisualizerProps> = ({ result, ip, setIp 
   return (
     <div className="bento-card bento-card-hover p-5 flex flex-col gap-5">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 pb-4">
+      <div className="flex items-center justify-between border-b border-zinc-200 dark:border-[var(--color-border)] pb-4">
         <div className="flex items-center gap-2.5">
           <Activity className="w-4 h-4 text-cyan-400" />
-          <h2 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 tracking-tight font-mono uppercase tracking-widest">Binary Stream</h2>
+          <h2 className="text-sm font-bold text-zinc-900 dark:text-[var(--color-text-main)] tracking-tight font-mono uppercase tracking-widest">Binary Stream</h2>
         </div>
         {/* Legend */}
         <div className="flex items-center gap-3">
@@ -78,7 +78,7 @@ export const BinaryVisualizer: FC<BinaryVisualizerProps> = ({ result, ip, setIp 
           } else if (!isOne && isNetBit) {
             bitClass = 'bg-emerald-100/50 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800/30 text-emerald-500 dark:text-emerald-700 hover:bg-emerald-200/50 dark:hover:bg-emerald-950/60 hover:border-emerald-300 dark:hover:border-emerald-700/40 hover:text-emerald-650 dark:hover:text-emerald-500';
           } else {
-            bitClass = 'bg-zinc-100/60 dark:bg-zinc-900/60 border-zinc-200 dark:border-zinc-800 text-zinc-400 dark:text-zinc-600 hover:bg-zinc-200/80 dark:hover:bg-zinc-800/80 hover:border-zinc-350 dark:hover:border-zinc-700 hover:text-zinc-700 dark:hover:text-zinc-400';
+            bitClass = 'bg-zinc-100/60 dark:bg-[var(--color-surface)] border-zinc-200 dark:border-[var(--color-border)] text-[var(--color-text-muted)] dark:text-zinc-600 hover:bg-zinc-200/80 dark:hover:bg-zinc-800/80 hover:border-zinc-350 dark:hover:border-zinc-700 hover:text-zinc-700 dark:hover:text-[var(--color-text-muted)]';
           }
 
           const bitWeight = Math.pow(2, 7 - (index % 8));
@@ -104,15 +104,15 @@ export const BinaryVisualizer: FC<BinaryVisualizerProps> = ({ result, ip, setIp 
           const label = ip.split('.')[i] || String(octetValue);
           return (
             <div key={i} className="flex flex-col items-center gap-0.5">
-              <span className="text-[9px] font-mono text-zinc-500 dark:text-zinc-600 uppercase tracking-widest">oct {i + 1}</span>
-              <span className="text-xs font-mono font-bold text-zinc-700 dark:text-zinc-400">{label}</span>
+              <span className="text-[9px] font-mono text-[var(--color-text-main)]0 dark:text-zinc-600 uppercase tracking-widest">oct {i + 1}</span>
+              <span className="text-xs font-mono font-bold text-zinc-700 dark:text-[var(--color-text-muted)]">{label}</span>
             </div>
           );
         })}
       </div>
 
       {/* Info note */}
-      <p className="text-[10px] font-mono text-zinc-500 dark:text-zinc-600 leading-relaxed border-t border-zinc-200 dark:border-zinc-800/60 pt-3">
+      <p className="text-[10px] font-mono text-[var(--color-text-main)]0 dark:text-zinc-600 leading-relaxed border-t border-zinc-200 dark:border-[var(--color-border)] pt-3">
         Click any bit to toggle. <span className="text-emerald-650 dark:text-emerald-500">Network bits</span> define the boundary — <span className="text-amber-650 dark:text-amber-500">Host bits</span> address endpoints.
       </p>
     </div>

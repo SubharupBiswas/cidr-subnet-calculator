@@ -27,14 +27,14 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
       className={`shrink-0 p-1.5 rounded-md border transition-all duration-150 ${
         copiedKey === id
           ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/25'
-          : 'bg-zinc-100 dark:bg-zinc-800/80 border-zinc-200 dark:border-zinc-700/60 text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-700/80 hover:border-zinc-300 dark:hover:border-zinc-600'
+          : 'bg-zinc-100 dark:bg-zinc-800/80 border-zinc-200 dark:border-zinc-700/60 text-[var(--color-text-main)]0 hover:text-zinc-700 dark:hover:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-700/80 hover:border-zinc-300 dark:hover:border-zinc-600'
       }`}
     >
       {copiedKey === id ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
     </button>
   );
 
-  const formatHosts = (num: number) => num.toLocaleString();
+  const formatHosts = (num: number) => num.toLocaleString('en-US');
 
   // Standard metric card
   const MetricCard = ({
@@ -42,7 +42,7 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
   }: { label: string; value: string; color: string; icon: React.ReactNode; id: string }) => (
     <div className="bento-inner-card p-4 flex flex-col gap-2">
       <div className="flex items-center justify-between">
-        <span className="flex items-center gap-1.5 font-mono text-[9px] font-bold tracking-[0.2em] text-zinc-500 uppercase">
+        <span className="flex items-center gap-1.5 font-mono text-[9px] font-bold tracking-[0.2em] text-[var(--color-text-main)]0 uppercase">
           {icon}
           {label}
         </span>
@@ -58,7 +58,7 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
   }: { label: string; value: string; color: string; accentColor: string; icon: React.ReactNode; id: string; sublabel?: string }) => (
     <div className={`bento-inner-card p-5 flex flex-col gap-3 col-span-2 border-l-2 ${accentColor}`}>
       <div className="flex items-start justify-between gap-2">
-        <div className="flex items-center gap-1.5 font-mono text-[9px] font-bold tracking-[0.2em] text-zinc-500 uppercase">
+        <div className="flex items-center gap-1.5 font-mono text-[9px] font-bold tracking-[0.2em] text-[var(--color-text-main)]0 uppercase">
           {icon}
           {label}
         </div>
@@ -74,15 +74,15 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
   );
 
   const hexIp = result
-    ? `0x${ipToLong(result.networkAddress).toString(16).toUpperCase().padStart(8, '0')}`
-    : '0xC0A80100';
+    ? `0x${ipToLong(result.ip).toString(16).toUpperCase().padStart(8, '0')}`
+    : '0xC0A80101';
 
   return (
     <div className="bento-card p-5 flex flex-col gap-5 h-full">
       {/* Header */}
-      <div className="flex items-center gap-2.5 border-b border-zinc-200 dark:border-zinc-800 pb-4">
+      <div className="flex items-center gap-2.5 border-b border-zinc-200 dark:border-[var(--color-border)] pb-4">
         <Server className="w-4 h-4 text-cyan-400" />
-        <h2 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 tracking-tight font-mono uppercase tracking-widest">Network Matrix</h2>
+        <h2 className="text-sm font-bold text-zinc-900 dark:text-[var(--color-text-main)] tracking-tight font-mono uppercase tracking-widest">Network Matrix</h2>
       </div>
 
       {/* Bento Grid */}
@@ -138,7 +138,7 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
         <MetricCard
           label="Hex IP Value"
           value={hexIp}
-          color="text-zinc-500 dark:text-zinc-400"
+          color="text-[var(--color-text-main)]0 dark:text-[var(--color-text-muted)]"
           icon={<Server className="w-3 h-3" />}
           id="hexip"
         />
@@ -158,12 +158,12 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
             {result.ipType.type === 'Private' || result.ipType.type === 'Loopback' ? (
               <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
             ) : result.ipType.type === 'Public' ? (
-              <Globe2 className="w-4 h-4 text-zinc-400 shrink-0" />
+              <Globe2 className="w-4 h-4 text-[var(--color-text-muted)] shrink-0" />
             ) : (
               <ShieldAlert className="w-4 h-4 text-amber-400 shrink-0" />
             )}
             <div className="flex flex-col">
-              <span className="font-mono text-[9px] font-bold tracking-[0.2em] text-zinc-500 dark:text-zinc-650 uppercase">Address Scope</span>
+              <span className="font-mono text-[9px] font-bold tracking-[0.2em] text-[var(--color-text-main)]0 dark:text-zinc-650 uppercase">Address Scope</span>
               <span className="font-mono text-sm font-bold text-zinc-700 dark:text-zinc-300 mt-0.5">{result.ipType.description}</span>
             </div>
           </div>
