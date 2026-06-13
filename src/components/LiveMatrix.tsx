@@ -26,8 +26,8 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
       aria-label={`Copy ${id}`}
       className={`shrink-0 p-1.5 rounded-md border transition-all duration-150 ${
         copiedKey === id
-          ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/25'
-          : 'bg-zinc-800/80 border-zinc-700/60 text-zinc-500 hover:text-zinc-200 hover:bg-zinc-700/80 hover:border-zinc-600'
+          ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/25'
+          : 'bg-zinc-100 dark:bg-zinc-800/80 border-zinc-200 dark:border-zinc-700/60 text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-700/80 hover:border-zinc-300 dark:hover:border-zinc-600'
       }`}
     >
       {copiedKey === id ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
@@ -80,9 +80,9 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
   return (
     <div className="bento-card p-5 flex flex-col gap-5 h-full">
       {/* Header */}
-      <div className="flex items-center gap-2.5 border-b border-zinc-800 pb-4">
+      <div className="flex items-center gap-2.5 border-b border-zinc-200 dark:border-zinc-800 pb-4">
         <Server className="w-4 h-4 text-cyan-400" />
-        <h2 className="text-sm font-bold text-zinc-100 tracking-tight font-mono uppercase tracking-widest">Network Matrix</h2>
+        <h2 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 tracking-tight font-mono uppercase tracking-widest">Network Matrix</h2>
       </div>
 
       {/* Bento Grid */}
@@ -91,7 +91,7 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
         <HeroCard
           label="Usable Host Range"
           value={result?.usableHostRange || '192.168.1.1 – 192.168.1.254'}
-          color="text-emerald-400 glow-text-emerald"
+          color="text-emerald-600 dark:text-emerald-400 dark:glow-text-emerald"
           accentColor="border-l-emerald-500/60"
           icon={<Users className="w-3 h-3" />}
           id="range"
@@ -99,7 +99,7 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
         <HeroCard
           label="Total Usable Hosts"
           value={result ? formatHosts(result.totalUsableHosts) : '254'}
-          color="text-cyan-300 glow-text-cyan"
+          color="text-cyan-600 dark:text-cyan-300 dark:glow-text-cyan"
           accentColor="border-l-cyan-500/60"
           icon={<Users className="w-3 h-3" />}
           id="hosts"
@@ -110,42 +110,42 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
         <MetricCard
           label="Network Address"
           value={result?.networkAddress || '192.168.1.0'}
-          color="text-cyan-400"
+          color="text-cyan-600 dark:text-cyan-400"
           icon={<Server className="w-3 h-3" />}
           id="network"
         />
         <MetricCard
           label="Broadcast Address"
           value={result?.broadcastAddress || '192.168.1.255'}
-          color="text-amber-400"
+          color="text-amber-600 dark:text-amber-400"
           icon={<Radio className="w-3 h-3" />}
           id="broadcast"
         />
         <MetricCard
           label="Subnet Mask"
           value={result?.subnetMask || '255.255.255.0'}
-          color="text-purple-400"
+          color="text-purple-600 dark:text-purple-400"
           icon={<Network className="w-3 h-3" />}
           id="mask"
         />
         <MetricCard
           label="Wildcard Mask"
           value={result?.wildcardMask || '0.0.0.255'}
-          color="text-rose-400"
+          color="text-rose-600 dark:text-rose-400"
           icon={<Network className="w-3 h-3" />}
           id="wildcard"
         />
         <MetricCard
           label="Hex IP Value"
           value={hexIp}
-          color="text-zinc-400"
+          color="text-zinc-500 dark:text-zinc-400"
           icon={<Server className="w-3 h-3" />}
           id="hexip"
         />
         <MetricCard
           label="IP Class"
           value={result?.ipClass || 'Class C'}
-          color="text-zinc-200"
+          color="text-zinc-700 dark:text-zinc-200"
           icon={<Award className="w-3 h-3" />}
           id="class"
         />
@@ -163,25 +163,25 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
               <ShieldAlert className="w-4 h-4 text-amber-400 shrink-0" />
             )}
             <div className="flex flex-col">
-              <span className="font-mono text-[9px] font-bold tracking-[0.2em] text-zinc-600 uppercase">Address Scope</span>
-              <span className="font-mono text-sm font-bold text-zinc-300 mt-0.5">{result.ipType.description}</span>
+              <span className="font-mono text-[9px] font-bold tracking-[0.2em] text-zinc-500 dark:text-zinc-650 uppercase">Address Scope</span>
+              <span className="font-mono text-sm font-bold text-zinc-700 dark:text-zinc-300 mt-0.5">{result.ipType.description}</span>
             </div>
           </div>
           <div className="flex items-center gap-2.5">
             {(result.ipType.type === 'Private' || result.ipType.type === 'Loopback') && (
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500 shadow-[0_2px_6px_rgba(16,185,129,0.4)] dark:shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
               </span>
             )}
             {result.ipType.type === 'Link-Local' && (
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.8)]" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500 shadow-[0_2px_6px_rgba(245,158,11,0.4)] dark:shadow-[0_0_8px_rgba(245,158,11,0.8)]" />
               </span>
             )}
             {result.ipType.type === 'Public' && (
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-zinc-400 shadow-[0_0_8px_rgba(161,161,170,0.5)]" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-zinc-400 shadow-sm dark:shadow-[0_0_8px_rgba(161,161,170,0.5)]" />
             )}
             <span className={`px-2.5 py-1 rounded-md font-mono text-[9px] font-bold tracking-wider uppercase border ${result.ipType.badgeColor}`}>
               {result.ipType.type}

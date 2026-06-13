@@ -65,30 +65,30 @@ export const CheatSheet: FC<CheatSheetProps> = ({
       >
         <div className="flex items-center gap-2.5">
           <BookOpen className="w-4 h-4 text-cyan-400" />
-          <h2 className="text-sm font-bold text-zinc-100 tracking-tight font-mono uppercase tracking-widest">CIDR Cheat Sheet</h2>
+          <h2 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 tracking-tight font-mono uppercase tracking-widest">CIDR Cheat Sheet</h2>
         </div>
-        <div className="p-1 rounded-md border border-zinc-800 bg-zinc-900/60 text-zinc-500 group-hover:text-zinc-300 group-hover:border-zinc-700 transition-all">
+        <div className="p-1 rounded-md border border-zinc-200 dark:border-zinc-800 bg-zinc-100 dark:bg-zinc-900/60 text-zinc-500 group-hover:text-zinc-800 dark:group-hover:text-zinc-300 group-hover:border-zinc-350 dark:group-hover:border-zinc-700 transition-all">
           <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isOpen ? 'rotate-180 text-teal-600 dark:text-teal-400' : ''}`} />
         </div>
       </button>
 
       {isOpen && (
         <div className="flex flex-col gap-4 mt-2 animate-fade-in">
-          <p className="text-[10px] text-zinc-600 font-mono">
+          <p className="text-[10px] text-zinc-500 dark:text-zinc-650 font-mono">
             Click any row to load that prefix into the calculator.
           </p>
 
-          <div className="overflow-y-auto border border-zinc-800 rounded-xl bg-zinc-950/40 max-h-[380px] scrollbar-none">
+          <div className="overflow-y-auto border border-zinc-200 dark:border-zinc-800 rounded-xl bg-zinc-100/30 dark:bg-zinc-950/40 max-h-[380px] scrollbar-none">
             <table className="w-full text-left border-collapse font-mono text-xs">
-              <thead className="sticky top-0 bg-zinc-900/90 backdrop-blur-sm z-10 border-b border-zinc-800">
-                <tr className="text-zinc-600 font-semibold tracking-wider text-[9px] uppercase font-mono">
+              <thead className="sticky top-0 bg-zinc-200/95 dark:bg-zinc-900/90 backdrop-blur-sm z-10 border-b border-zinc-200 dark:border-zinc-800">
+                <tr className="text-zinc-550 dark:text-zinc-500 font-semibold tracking-wider text-[9px] uppercase font-mono">
                   <th className="py-2.5 px-4 w-16 text-center">CIDR</th>
                   <th className="py-2.5 px-4">Subnet Mask</th>
                   <th className="py-2.5 px-4">Wildcard Mask</th>
                   <th className="py-2.5 px-4 text-right">Usable Hosts</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-zinc-800/50">
+              <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800/50">
                 {cheatSheetData.map((row) => {
                   const isActive = row.prefix === currentPrefix;
                   return (
@@ -98,15 +98,15 @@ export const CheatSheet: FC<CheatSheetProps> = ({
                       onClick={() => onSelectPrefix(row.prefix)}
                       className={`cursor-pointer transition-all font-mono text-xs ${
                         isActive
-                          ? 'bg-cyan-500/10 text-cyan-400 font-semibold'
-                          : 'hover:bg-zinc-800/40 text-zinc-400 hover:text-zinc-200'
+                          ? 'bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 font-semibold'
+                          : 'hover:bg-zinc-200/40 dark:hover:bg-zinc-800/40 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200'
                       }`}
                     >
-                      <td className={`py-2 px-4 text-center font-bold font-mono ${isActive ? 'text-cyan-400' : 'text-zinc-600'}`}>
+                      <td className={`py-2 px-4 text-center font-bold font-mono ${isActive ? 'text-cyan-600 dark:text-cyan-400' : 'text-zinc-400 dark:text-zinc-600'}`}>
                         /{row.prefix}
                       </td>
                       <td className="py-2.5 px-4 font-medium">{row.mask}</td>
-                      <td className="py-2.5 px-4 text-zinc-400 dark:text-zinc-500">{row.wildcard}</td>
+                      <td className="py-2.5 px-4 text-zinc-500 dark:text-zinc-500">{row.wildcard}</td>
                       <td className="py-2.5 px-4 text-right font-bold pr-5">
                         {row.hosts.toLocaleString()}
                       </td>

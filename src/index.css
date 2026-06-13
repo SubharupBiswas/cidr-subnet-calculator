@@ -6,17 +6,41 @@
 :root {
   --font-sans: 'Geist', system-ui, -apple-system, sans-serif;
   --font-mono: 'Geist Mono', 'JetBrains Mono', monospace;
-  --color-surface: rgba(24, 24, 27, 0.72);
-  --color-border: #27272a;
-  --color-bg: #09090b;
-  --color-accent: #22d3ee;
   --radius-card: 12px;
+  --color-accent: #22d3ee;
+
+  /* Light Theme Tokens */
+  --color-bg: #f4f4f5;          /* zinc-100 base background */
+  --color-surface: rgba(255, 255, 255, 0.75); /* Clean crisp light bento card */
+  --color-border: #e4e4e7;      /* zinc-200 border lines */
+  --color-text-main: #09090b;   /* zinc-950 primary text */
+  --color-text-muted: #71717a;  /* zinc-500 secondary text */
+  --color-inner-surface: #ffffff;
+  --color-inner-surface-hover: rgba(255, 255, 255, 0.95);
+  --color-mesh: rgba(9, 9, 11, 0.035);
+  --shadow-card: 0 4px 20px -2px rgba(9, 9, 11, 0.05), 0 2px 8px -1px rgba(9, 9, 11, 0.03);
+  --shadow-card-hover: 0 12px 30px -4px rgba(9, 9, 11, 0.08), 0 4px 12px -2px rgba(9, 9, 11, 0.04);
+}
+
+.dark {
+  /* Premium Dark Theme Tokens (Preserve previous bento values exactly) */
+  --color-bg: #09090b;          /* zinc-950 base background */
+  --color-surface: rgba(24, 24, 27, 0.72); 
+  --color-border: #27272a;      /* zinc-800 border lines */
+  --color-text-main: #fafafa;   /* zinc-50 primary text */
+  --color-text-muted: #a1a1aa;  /* zinc-400 secondary text */
+  --color-inner-surface: #18181b; /* zinc-900 */
+  --color-inner-surface-hover: rgba(24, 24, 27, 0.8);
+  --color-mesh: rgba(255, 255, 255, 0.035);
+  --shadow-card: 0 8px 32px -8px rgba(0, 0, 0, 0.5);
+  --shadow-card-hover: 0 0 0 1px rgba(34, 211, 238, 0.08), 0 8px 32px -8px rgba(0, 0, 0, 0.5), 0 0 60px -20px rgba(34, 211, 238, 0.06);
 }
 
 /* ─── Base Typography ─── */
 html, body {
   font-family: var(--font-sans);
   background-color: var(--color-bg);
+  color: var(--color-text-main);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -49,35 +73,34 @@ html {
   border-radius: var(--radius-card);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+  box-shadow: var(--shadow-card);
   transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  color: var(--color-text-main);
 }
 
 .bento-card-hover:hover {
   border-color: rgba(34, 211, 238, 0.25);
-  box-shadow:
-    0 0 0 1px rgba(34, 211, 238, 0.08),
-    0 8px 32px -8px rgba(0, 0, 0, 0.5),
-    0 0 60px -20px rgba(34, 211, 238, 0.06);
+  box-shadow: var(--shadow-card-hover);
   transform: translateY(-1px);
 }
 
 .bento-inner-card {
-  background: rgba(9, 9, 11, 0.5);
-  border: 1px solid #27272a;
+  background: var(--color-inner-surface);
+  border: 1px solid var(--color-border);
   border-radius: 10px;
   transition: border-color 0.15s ease, background 0.15s ease;
 }
 
 .bento-inner-card:hover {
-  background: rgba(24, 24, 27, 0.8);
-  border-color: #3f3f46;
+  background: var(--color-inner-surface-hover);
+  border-color: var(--color-border);
 }
 
 /* ─── Mesh Background Texture ─── */
 .mesh-bg {
   background-color: var(--color-bg);
   background-image:
-    radial-gradient(circle at 1px 1px, rgba(255,255,255,0.035) 1px, transparent 0);
+    radial-gradient(circle at 1px 1px, var(--color-mesh) 1px, transparent 0);
   background-size: 24px 24px;
 }
 

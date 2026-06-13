@@ -39,20 +39,20 @@ export const BinaryVisualizer: FC<BinaryVisualizerProps> = ({ result, ip, setIp 
   return (
     <div className="bento-card bento-card-hover p-5 flex flex-col gap-5">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-zinc-800 pb-4">
+      <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 pb-4">
         <div className="flex items-center gap-2.5">
           <Activity className="w-4 h-4 text-cyan-400" />
-          <h2 className="text-sm font-bold text-zinc-100 tracking-tight font-mono uppercase tracking-widest">Binary Stream</h2>
+          <h2 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 tracking-tight font-mono uppercase tracking-widest">Binary Stream</h2>
         </div>
         {/* Legend */}
         <div className="flex items-center gap-3">
           <span className="flex items-center gap-1.5 text-[10px] font-mono font-semibold">
-            <span className="w-2.5 h-2.5 rounded-sm bg-emerald-500/30 border border-emerald-500/50 inline-block" />
-            <span className="text-emerald-400">Net /{prefix}</span>
+            <span className="w-2.5 h-2.5 rounded-sm bg-emerald-500/20 dark:bg-emerald-500/30 border border-emerald-500/40 dark:border-emerald-500/50 inline-block" />
+            <span className="text-emerald-600 dark:text-emerald-400">Net /{prefix}</span>
           </span>
           <span className="flex items-center gap-1.5 text-[10px] font-mono font-semibold">
-            <span className="w-2.5 h-2.5 rounded-sm bg-amber-500/20 border border-amber-500/40 inline-block" />
-            <span className="text-amber-400">Host /{32 - prefix}</span>
+            <span className="w-2.5 h-2.5 rounded-sm bg-amber-500/10 dark:bg-amber-500/20 border border-amber-500/30 dark:border-amber-500/40 inline-block" />
+            <span className="text-amber-600 dark:text-amber-400">Host /{32 - prefix}</span>
           </span>
         </div>
       </div>
@@ -62,7 +62,7 @@ export const BinaryVisualizer: FC<BinaryVisualizerProps> = ({ result, ip, setIp 
         {stream.map((item) => {
           if (item.type === 'sep') {
             return (
-              <div key={item.id} className="w-px h-6 bg-zinc-700/60 mx-1.5 self-center rounded-full shrink-0" aria-hidden />
+              <div key={item.id} className="w-px h-6 bg-zinc-300 dark:bg-zinc-700/60 mx-1.5 self-center rounded-full shrink-0" aria-hidden />
             );
           }
 
@@ -72,13 +72,13 @@ export const BinaryVisualizer: FC<BinaryVisualizerProps> = ({ result, ip, setIp 
 
           let bitClass = '';
           if (isOne && isNetBit) {
-            bitClass = 'bg-emerald-500/25 border-emerald-500/50 text-emerald-300 shadow-[0_0_8px_rgba(16,185,129,0.2)]';
+            bitClass = 'bg-emerald-500/15 dark:bg-emerald-500/25 border-emerald-500/30 dark:border-emerald-500/50 text-emerald-700 dark:text-emerald-300 shadow-sm dark:shadow-[0_0_8px_rgba(16,185,129,0.2)]';
           } else if (isOne && !isNetBit) {
-            bitClass = 'bg-amber-500/20 border-amber-500/40 text-amber-300 shadow-[0_0_8px_rgba(245,158,11,0.15)]';
+            bitClass = 'bg-amber-500/10 dark:bg-amber-500/20 border-amber-500/30 dark:border-amber-500/40 text-amber-700 dark:text-amber-300 shadow-sm dark:shadow-[0_0_8px_rgba(245,158,11,0.15)]';
           } else if (!isOne && isNetBit) {
-            bitClass = 'bg-emerald-950/40 border-emerald-800/30 text-emerald-700 hover:bg-emerald-950/60 hover:border-emerald-700/40 hover:text-emerald-500';
+            bitClass = 'bg-emerald-100/50 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800/30 text-emerald-500 dark:text-emerald-700 hover:bg-emerald-200/50 dark:hover:bg-emerald-950/60 hover:border-emerald-300 dark:hover:border-emerald-700/40 hover:text-emerald-650 dark:hover:text-emerald-500';
           } else {
-            bitClass = 'bg-zinc-900/60 border-zinc-800 text-zinc-600 hover:bg-zinc-800/80 hover:border-zinc-700 hover:text-zinc-400';
+            bitClass = 'bg-zinc-100/60 dark:bg-zinc-900/60 border-zinc-200 dark:border-zinc-800 text-zinc-400 dark:text-zinc-600 hover:bg-zinc-200/80 dark:hover:bg-zinc-800/80 hover:border-zinc-350 dark:hover:border-zinc-700 hover:text-zinc-700 dark:hover:text-zinc-400';
           }
 
           const bitWeight = Math.pow(2, 7 - (index % 8));
@@ -104,16 +104,16 @@ export const BinaryVisualizer: FC<BinaryVisualizerProps> = ({ result, ip, setIp 
           const label = ip.split('.')[i] || String(octetValue);
           return (
             <div key={i} className="flex flex-col items-center gap-0.5">
-              <span className="text-[9px] font-mono text-zinc-600 uppercase tracking-widest">oct {i + 1}</span>
-              <span className="text-xs font-mono font-bold text-zinc-400">{label}</span>
+              <span className="text-[9px] font-mono text-zinc-500 dark:text-zinc-600 uppercase tracking-widest">oct {i + 1}</span>
+              <span className="text-xs font-mono font-bold text-zinc-700 dark:text-zinc-400">{label}</span>
             </div>
           );
         })}
       </div>
 
       {/* Info note */}
-      <p className="text-[10px] font-mono text-zinc-600 leading-relaxed border-t border-zinc-800/60 pt-3">
-        Click any bit to toggle. <span className="text-emerald-500">Network bits</span> define the boundary — <span className="text-amber-500">Host bits</span> address endpoints.
+      <p className="text-[10px] font-mono text-zinc-500 dark:text-zinc-600 leading-relaxed border-t border-zinc-200 dark:border-zinc-800/60 pt-3">
+        Click any bit to toggle. <span className="text-emerald-650 dark:text-emerald-500">Network bits</span> define the boundary — <span className="text-amber-650 dark:text-amber-500">Host bits</span> address endpoints.
       </p>
     </div>
   );

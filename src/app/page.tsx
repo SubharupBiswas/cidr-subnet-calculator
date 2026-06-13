@@ -195,10 +195,10 @@ function SubnetCalculatorContent() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start w-full">
         <div className="lg:col-span-5 flex flex-col gap-6 w-full">
           <CalculatorForm ip={ip} setIp={setIp} prefix={prefix} setPrefix={setPrefix} />
-          <Suspense fallback={<div className="animate-pulse h-[200px] bg-zinc-100 dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-850 rounded-2xl w-full" />}>
+          <Suspense fallback={<div className="animate-pulse h-[200px] bg-zinc-100 dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 rounded-2xl w-full" />}>
             <BinaryVisualizer result={result} ip={ip} setIp={setIp} />
           </Suspense>
-          <Suspense fallback={<div className="animate-pulse h-[140px] bg-zinc-100 dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-850 rounded-2xl w-full" />}>
+          <Suspense fallback={<div className="animate-pulse h-[140px] bg-zinc-100 dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 rounded-2xl w-full" />}>
             <HistoryTracker
               history={history}
               onLoadHistory={handleLoadHistory}
@@ -206,14 +206,14 @@ function SubnetCalculatorContent() {
               onClearHistory={handleClearHistory}
             />
           </Suspense>
-          <Suspense fallback={<div className="animate-pulse h-[100px] bg-zinc-100 dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-850 rounded-2xl w-full" />}>
+          <Suspense fallback={<div className="animate-pulse h-[100px] bg-zinc-100 dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 rounded-2xl w-full" />}>
             <CheatSheet currentPrefix={prefix} onSelectPrefix={setPrefix} />
           </Suspense>
         </div>
 
         <div className="lg:col-span-7 flex flex-col gap-6 w-full">
           <LiveMatrix result={result} />
-          <Suspense fallback={<div className="animate-pulse h-[260px] bg-zinc-100 dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-850 rounded-2xl w-full" />}>
+          <Suspense fallback={<div className="animate-pulse h-[260px] bg-zinc-100 dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 rounded-2xl w-full" />}>
             <SubnetSplitter result={result} onLoadSubnet={handleLoadSubnet} />
           </Suspense>
           <AdSlot type="rectangle" />

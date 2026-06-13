@@ -159,14 +159,14 @@ export default function MacLookup() {
 
   return (
     <div className="bento-card p-5 sm:p-7 flex flex-col gap-6">
-      <div className="flex flex-col gap-2 border-b border-zinc-800 pb-5">
+      <div className="flex flex-col gap-2 border-b border-zinc-200 dark:border-zinc-800 pb-5">
         <div className="flex items-center gap-3">
           <Wifi className="w-5 h-5 text-cyan-400 shrink-0" />
-          <h2 className="text-xl sm:text-2xl font-bold text-zinc-100 tracking-tight">
+          <h2 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
             MAC / OUI Vendor Analyzer
           </h2>
         </div>
-        <p className="text-sm text-zinc-500 leading-relaxed">
+        <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
           Enter a MAC address in any delimiter format (colon, dash, or dot). The OUI prefix is instantly matched against a hardcoded hardware vendor dictionary — completely offline.
         </p>
       </div>
@@ -183,12 +183,12 @@ export default function MacLookup() {
           placeholder="e.g.  00:1A:4B:C0:FF:EE  or  001A4BC0FFEE"
           spellCheck={false}
           aria-label="MAC Address or OUI Prefix Input"
-          className={`w-full pl-10 pr-36 py-3.5 rounded-xl border font-mono text-base text-zinc-100 bg-zinc-950/70 focus:outline-none transition-all
+          className={`w-full pl-10 pr-36 py-3.5 rounded-xl border font-mono text-base text-zinc-800 dark:text-zinc-100 bg-zinc-100/70 dark:bg-zinc-950/70 focus:outline-none transition-all
             ${status === 'invalid'
               ? 'border-rose-500/40 shadow-[0_0_0_1px_rgba(244,63,94,0.15)]'
               : status === 'known'
               ? 'border-emerald-500/40 shadow-[0_0_0_1px_rgba(16,185,129,0.15)]'
-              : 'border-zinc-800 focus:border-cyan-500/50'
+              : 'border-zinc-200 dark:border-zinc-800 focus:border-cyan-500/50'
             }`}
         />
         <div className={`absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1.5 px-2.5 py-1 rounded-md border text-xs font-semibold ${sc.badge}`}>
@@ -201,8 +201,8 @@ export default function MacLookup() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div className={`col-span-1 sm:col-span-2 flex items-center gap-4 p-4 rounded-xl border ${
             status === 'known'
-              ? 'bg-emerald-500/10 border-emerald-500/20'
-              : 'bg-amber-500/10 border-amber-500/20'
+              ? 'bg-emerald-50 dark:bg-emerald-500/10 border-emerald-250 dark:border-emerald-500/20'
+              : 'bg-amber-50 dark:bg-amber-500/10 border-amber-250 dark:border-amber-500/20'
           }`}>
             {sc.icon}
             <div>
@@ -233,16 +233,16 @@ export default function MacLookup() {
             </div>
           ))}
 
-          <div className="col-span-1 sm:col-span-2 text-[10px] font-mono text-zinc-600 bg-zinc-900/40 rounded-lg px-3 py-2 border border-zinc-800/60">
-            Accepted: <span className="text-zinc-500">AA:BB:CC:DD:EE:FF</span> · <span className="text-zinc-500">AA-BB-CC-DD-EE-FF</span> · <span className="text-zinc-500">AABB.CCDD.EEFF</span> · <span className="text-zinc-500">AABBCCDDEEFF</span>
+          <div className="col-span-1 sm:col-span-2 text-[10px] font-mono text-zinc-500 dark:text-zinc-600 bg-zinc-100 dark:bg-zinc-900/40 rounded-lg px-3 py-2 border border-zinc-200 dark:border-zinc-800/60">
+            Accepted: <span className="text-zinc-450 dark:text-zinc-500">AA:BB:CC:DD:EE:FF</span> · <span className="text-zinc-450 dark:text-zinc-500">AA-BB-CC-DD-EE-FF</span> · <span className="text-zinc-450 dark:text-zinc-500">AABB.CCDD.EEFF</span> · <span className="text-zinc-450 dark:text-zinc-500">AABBCCDDEEFF</span>
           </div>
         </div>
       )}
 
       {status === 'idle' && !input && (
-        <div className="border border-dashed border-zinc-800 rounded-xl p-8 flex flex-col items-center justify-center gap-3 text-center">
-          <Wifi className="w-10 h-10 text-zinc-700" />
-          <p className="text-sm text-zinc-400 dark:text-zinc-600 max-w-xs">
+        <div className="border border-dashed border-zinc-200 dark:border-zinc-800 rounded-xl p-8 flex flex-col items-center justify-center gap-3 text-center">
+          <Wifi className="w-10 h-10 text-zinc-400 dark:text-zinc-700" />
+          <p className="text-sm text-zinc-500 dark:text-zinc-650 max-w-xs">
             Type any MAC address above. Vendor identification is instant — no API calls required.
           </p>
           <div className="flex flex-wrap justify-center gap-2 mt-2">
@@ -250,7 +250,7 @@ export default function MacLookup() {
               <button
                 key={example}
                 onClick={() => handleChange(example)}
-                className="text-xs font-mono px-2.5 py-1 rounded-md bg-zinc-800/60 border border-zinc-700 text-zinc-400 hover:text-cyan-400 hover:border-cyan-500/40 transition-all cursor-pointer"
+                className="text-xs font-mono px-2.5 py-1 rounded-md bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700 text-zinc-550 dark:text-zinc-400 hover:text-cyan-600 dark:hover:text-cyan-400 hover:border-zinc-300 dark:hover:border-cyan-500/40 transition-all cursor-pointer"
               >
                 {example}
               </button>

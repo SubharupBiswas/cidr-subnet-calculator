@@ -39,14 +39,14 @@ export default function WidgetGenerator() {
 
   return (
     <div className="bento-card p-5 md:p-7 w-full flex flex-col gap-7">
-      <div className="flex flex-col gap-2 border-b border-zinc-800 pb-5">
+      <div className="flex flex-col gap-2 border-b border-zinc-200 dark:border-zinc-800 pb-5">
         <div className="flex items-center gap-3">
           <Layout className="w-5 h-5 text-cyan-400" />
-          <h2 className="text-2xl font-bold text-zinc-100 tracking-tight">
+          <h2 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
             Embeddable Widget Generator
           </h2>
         </div>
-        <p className="text-sm text-zinc-500 leading-relaxed">
+        <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
           Integrate our advanced IPv4 subnet calculator directly into your internal dashboard, documentation portal, or developer hub. Fully responsive, client-side, and zero-latency.
         </p>
       </div>
@@ -61,8 +61,8 @@ export default function WidgetGenerator() {
             Live Interactive Sandbox
           </h3>
 
-          <div className="w-full border border-zinc-800 rounded-xl overflow-hidden bg-zinc-950/60 flex flex-col">
-            <div className="flex items-center gap-2 px-4 py-2.5 border-b border-zinc-800 bg-zinc-900/70 backdrop-blur-sm">
+          <div className="w-full border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden bg-zinc-100/30 dark:bg-zinc-950/60 flex flex-col">
+            <div className="flex items-center gap-2 px-4 py-2.5 border-b border-zinc-200 dark:border-zinc-800 bg-zinc-200/50 dark:bg-zinc-900/70 backdrop-blur-sm">
               <span className="w-2.5 h-2.5 rounded-full bg-rose-400/70 dark:bg-rose-500/50"></span>
               <span className="w-2.5 h-2.5 rounded-full bg-amber-400/70 dark:bg-amber-500/50"></span>
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-400/70 dark:bg-emerald-500/50"></span>
@@ -91,15 +91,15 @@ export default function WidgetGenerator() {
           </h3>
 
           <div className="relative group">
-            <pre className="bg-zinc-950/80 border border-zinc-800 rounded-xl p-5 overflow-x-auto text-xs text-zinc-300 font-mono leading-relaxed scrollbar-none">
+            <pre className="bg-zinc-100/80 dark:bg-zinc-950/80 border border-zinc-200 dark:border-zinc-800 rounded-xl p-5 overflow-x-auto text-xs text-zinc-700 dark:text-zinc-300 font-mono leading-relaxed scrollbar-none">
               <code>{iframeCode}</code>
             </pre>
             <button
               onClick={handleCopy}
               className={`absolute top-3 right-3 p-2 rounded-lg border transition-all duration-200 cursor-pointer ${
                 copied
-                  ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
-                  : 'bg-zinc-800/80 border-zinc-700 text-zinc-500 hover:text-zinc-200 hover:border-zinc-600 hover:bg-zinc-700/80'
+                  ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/30'
+                  : 'bg-zinc-100 dark:bg-zinc-800/80 border-zinc-200 dark:border-zinc-700 text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200 hover:border-zinc-350 dark:hover:border-zinc-600 hover:bg-zinc-200 dark:hover:bg-zinc-700/80'
               }`}
               title="Copy snippet"
               aria-label="Copy widget embed iframe code"
@@ -118,7 +118,7 @@ export default function WidgetGenerator() {
               </span>
             </div>
             <div className="flex items-start gap-2">
-              <span className="text-xs px-2 py-0.5 bg-zinc-100 text-zinc-600 dark:bg-zinc-900 dark:text-zinc-400 rounded-md font-mono border border-zinc-200 dark:border-zinc-800 shrink-0 mt-0.5">
+              <span className="text-xs px-2 py-0.5 bg-zinc-100 text-zinc-650 dark:bg-zinc-900 dark:text-zinc-400 rounded-md font-mono border border-zinc-200 dark:border-zinc-800 shrink-0 mt-0.5">
                 height="800"
               </span>
               <span className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">

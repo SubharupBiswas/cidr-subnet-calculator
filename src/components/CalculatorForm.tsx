@@ -55,10 +55,10 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
 
   // Per-octet accent colors
   const octetColors = [
-    { text: 'text-emerald-400', ring: 'focus:shadow-[0_0_0_2px_rgba(52,211,153,0.25)]', placeholder: '#88' },
-    { text: 'text-amber-400',   ring: 'focus:shadow-[0_0_0_2px_rgba(251,191,36,0.25)]',  placeholder: '168' },
-    { text: 'text-sky-400',     ring: 'focus:shadow-[0_0_0_2px_rgba(56,189,248,0.25)]',  placeholder: '1' },
-    { text: 'text-fuchsia-400', ring: 'focus:shadow-[0_0_0_2px_rgba(232,121,249,0.25)]', placeholder: '1' },
+    { text: 'text-emerald-600 dark:text-emerald-400', ring: 'focus:shadow-[0_0_0_2px_rgba(52,211,153,0.25)]', placeholder: '#88' },
+    { text: 'text-amber-600 dark:text-amber-400',   ring: 'focus:shadow-[0_0_0_2px_rgba(251,191,36,0.25)]',  placeholder: '168' },
+    { text: 'text-sky-600 dark:text-sky-400',     ring: 'focus:shadow-[0_0_0_2px_rgba(56,189,248,0.25)]',  placeholder: '1' },
+    { text: 'text-fuchsia-600 dark:text-fuchsia-400', ring: 'focus:shadow-[0_0_0_2px_rgba(232,121,249,0.25)]', placeholder: '1' },
   ];
 
   // Compute slider fill percentage for CSS custom property
@@ -67,10 +67,10 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
   return (
     <div className="bento-card bento-card-hover p-5 flex flex-col gap-5">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-zinc-800 pb-4">
+      <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 pb-4">
         <div className="flex items-center gap-2.5">
           <Sliders className="w-4 h-4 text-cyan-400" />
-          <h2 className="text-sm font-bold text-zinc-100 tracking-tight font-mono uppercase tracking-widest">Configuration</h2>
+          <h2 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 tracking-tight font-mono uppercase tracking-widest">Configuration</h2>
         </div>
         {!isIpValid && ip !== '' && (
           <span className="text-[10px] text-rose-400 font-mono animate-pulse flex items-center gap-1">
@@ -88,7 +88,7 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
         </label>
 
         {/* Unified pill input row */}
-        <div className={`flex flex-wrap sm:flex-nowrap items-center gap-2 bg-zinc-950/70 border rounded-xl px-3 py-2.5 transition-all duration-200 ${!isIpValid && ip !== '' ? 'border-rose-500/40' : 'border-zinc-800 focus-within:border-zinc-700'}`}>
+        <div className={`flex flex-wrap sm:flex-nowrap items-center gap-2 bg-zinc-100/70 dark:bg-zinc-950/70 border rounded-xl px-3 py-2.5 transition-all duration-200 ${!isIpValid && ip !== '' ? 'border-rose-500/40' : 'border-zinc-200 dark:border-zinc-800 focus-within:border-zinc-350 dark:focus-within:border-zinc-700'}`}>
           {/* Octets */}
           <div className="flex items-center gap-0.5 flex-1">
             {[0, 1, 2, 3].map((index) => (
@@ -113,7 +113,7 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
           </div>
 
           {/* CIDR divider + prefix */}
-          <div className="flex items-center gap-1.5 pl-2 border-l border-zinc-800 shrink-0">
+          <div className="flex items-center gap-1.5 pl-2 border-l border-zinc-200 dark:border-zinc-800 shrink-0">
             <span className="text-zinc-500 font-mono text-base font-bold">/</span>
             <input
               type="number"
@@ -160,8 +160,8 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
               onClick={() => handlePrefixChange(p)}
               className={`px-2.5 py-1 rounded-md text-xs font-mono border transition-all duration-150 cursor-pointer ${
                 prefix === p
-                  ? 'bg-cyan-500/10 border-cyan-500/30 text-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.12)]'
-                  : 'bg-zinc-900/60 border-zinc-800 text-zinc-500 hover:text-zinc-300 hover:border-zinc-700 hover:bg-zinc-800/60'
+                  ? 'bg-cyan-500/10 border-cyan-500/30 text-cyan-600 dark:text-cyan-400 shadow-[0_4px_12px_rgba(34,211,238,0.08)] dark:shadow-[0_0_12px_rgba(34,211,238,0.12)]'
+                  : 'bg-zinc-100 dark:bg-zinc-900/60 border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 hover:border-zinc-300 dark:hover:border-zinc-700 hover:bg-zinc-200 dark:hover:bg-zinc-800/60'
               }`}
             >
               /{p}
