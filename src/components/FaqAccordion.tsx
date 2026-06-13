@@ -99,9 +99,11 @@ export function FaqAccordion() {
                 />
               </button>
               <div 
-                className={`transition-all duration-300 ease-in-out ${
-                  isOpen ? 'max-h-[500px] border-t border-zinc-200 dark:border-zinc-800/50' : 'max-h-0 border-t-0 border-transparent'
-                } overflow-hidden`}
+                className={`transition-[opacity,transform] duration-200 ease-out origin-top ${
+                  isOpen 
+                    ? 'opacity-100 scale-y-100 translate-y-0 h-auto visible border-t border-zinc-200 dark:border-zinc-800/50' 
+                    : 'opacity-0 scale-y-95 -translate-y-2 h-0 invisible overflow-hidden'
+                }`}
               >
                 <div className="p-5 bg-transparent">
                   {faq.answer}

@@ -1,49 +1,167 @@
+/* ─── Google Fonts: Geist Sans + Geist Mono ─── */
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@300;400;500;600;700&display=swap');
+
 @import "tailwindcss";
 @variant dark (&:where(.dark, .dark *));
 
-/* Custom Scrollbar styling */
+/* ─── Design Tokens ─── */
+:root {
+  --font-sans: 'Geist', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Geist Mono', 'JetBrains Mono', monospace;
+  --color-surface: rgba(24, 24, 27, 0.72);
+  --color-border: #27272a;
+  --color-bg: #09090b;
+  --color-accent: #22d3ee;
+  --radius-card: 12px;
+}
+
+/* ─── Base Typography ─── */
+html, body {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code, pre, .font-mono, [class*="font-mono"] {
+  font-family: var(--font-mono) !important;
+}
+
+/* ─── Scrollbar Styling ─── */
 html {
   scrollbar-width: thin;
-  scrollbar-color: rgba(63, 63, 70, 0.5) transparent;
+  scrollbar-color: #3f3f46 transparent;
 }
 
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: rgba(63, 63, 70, 0.5);
+  background: #3f3f46;
   border-radius: 9999px;
 }
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(113, 113, 122, 0.7);
+::-webkit-scrollbar-thumb:hover { background: #52525b; }
+
+.scrollbar-none::-webkit-scrollbar { display: none; }
+.scrollbar-none { scrollbar-width: none; }
+
+/* ─── Bento Card System ─── */
+.bento-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
-/* Custom Glassmorphism panel styles */
+.bento-card-hover:hover {
+  border-color: rgba(34, 211, 238, 0.25);
+  box-shadow:
+    0 0 0 1px rgba(34, 211, 238, 0.08),
+    0 8px 32px -8px rgba(0, 0, 0, 0.5),
+    0 0 60px -20px rgba(34, 211, 238, 0.06);
+  transform: translateY(-1px);
+}
+
+.bento-inner-card {
+  background: rgba(9, 9, 11, 0.5);
+  border: 1px solid #27272a;
+  border-radius: 10px;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.bento-inner-card:hover {
+  background: rgba(24, 24, 27, 0.8);
+  border-color: #3f3f46;
+}
+
+/* ─── Mesh Background Texture ─── */
+.mesh-bg {
+  background-color: var(--color-bg);
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(255,255,255,0.035) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+/* ─── Custom Slider ─── */
+input[type="range"] {
+  appearance: none;
+  -webkit-appearance: none;
+  height: 4px;
+  border-radius: 9999px;
+  outline: none;
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #22d3ee;
+  box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.15), 0 0 16px rgba(34, 211, 238, 0.35);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 0 4px rgba(34, 211, 238, 0.2), 0 0 24px rgba(34, 211, 238, 0.5);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #22d3ee;
+  box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.15), 0 0 16px rgba(34, 211, 238, 0.35);
+  border: none;
+  cursor: pointer;
+}
+
+/* Light mode slider track */
+input[type="range"] {
+  background: linear-gradient(to right, #22d3ee var(--slider-pct, 70%), #27272a var(--slider-pct, 70%));
+}
+
+/* ─── Glow text utilities ─── */
+.glow-text-cyan {
+  text-shadow: 0 0 20px rgba(34, 211, 238, 0.4);
+}
+.glow-text-emerald {
+  text-shadow: 0 0 16px rgba(16, 185, 129, 0.35);
+}
+.glow-text-amber {
+  text-shadow: 0 0 16px rgba(245, 158, 11, 0.35);
+}
+
+/* ─── Glassmorphism helpers ─── */
 .glass-panel {
   background-color: rgba(18, 18, 22, 0.7);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(63, 63, 70, 0.3);
+  border: 1px solid var(--color-border);
 }
 
-.glass-card-hover {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+/* ─── Tab active indicator ─── */
+.tab-active-indicator {
+  position: relative;
+}
+.tab-active-indicator::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 2px;
+  background: linear-gradient(to right, #22d3ee, #34d399);
+  border-radius: 9999px;
 }
 
-.glass-card-hover:hover {
-  border-color: rgba(6, 182, 212, 0.4);
-  box-shadow: 0 0 25px -5px rgba(6, 182, 212, 0.1);
-  transform: translateY(-2px);
+/* ─── Animate ping for status dots ─── */
+@keyframes ping {
+  75%, 100% { transform: scale(2); opacity: 0; }
 }
-
-.glow-text-emerald {
-  text-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
-}
-
-.glow-text-amber {
-  text-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
-}
+.animate-ping { animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite; }

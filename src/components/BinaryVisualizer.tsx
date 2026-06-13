@@ -1,5 +1,7 @@
-import React from 'react';
-import { HelpCircle, Activity } from 'lucide-react';
+"use client";
+
+import { FC } from 'react';
+import { Activity } from 'lucide-react';
 import { SubnetResult } from '../utils/ipv4Utils';
 
 interface BinaryVisualizerProps {
@@ -8,112 +10,111 @@ interface BinaryVisualizerProps {
   setIp: (ip: string) => void;
 }
 
-export const BinaryVisualizer: React.FC<BinaryVisualizerProps> = ({ result, ip, setIp }) => {
+export const BinaryVisualizer: FC<BinaryVisualizerProps> = ({ result, ip, setIp }) => {
   const prefix = result?.prefix ?? 24;
-  
   const rawBinary = result?.binaryIp?.replace(/\./g, '') || '11000000101010000000000100000001';
 
   const handleBitToggle = (bitIndex: number) => {
-    if (!result && ip !== '') return;
-    
     const chars = rawBinary.split('');
     chars[bitIndex] = chars[bitIndex] === '1' ? '0' : '1';
     const newBinary = chars.join('');
-
-    const octet1 = parseInt(newBinary.substring(0, 8), 2);
-    const octet2 = parseInt(newBinary.substring(8, 16), 2);
-    const octet3 = parseInt(newBinary.substring(16, 24), 2);
-    const octet4 = parseInt(newBinary.substring(24, 32), 2);
-    
-    setIp(`${octet1}.${octet2}.${octet3}.${octet4}`);
+    const o1 = parseInt(newBinary.substring(0, 8), 2);
+    const o2 = parseInt(newBinary.substring(8, 16), 2);
+    const o3 = parseInt(newBinary.substring(16, 24), 2);
+    const o4 = parseInt(newBinary.substring(24, 32), 2);
+    setIp(`${o1}.${o2}.${o3}.${o4}`);
   };
 
-  const renderInteractiveBits = () => {
-    const bits = rawBinary.split('');
-    const octetGroups = [];
-    
-    for (let i = 0; i < 4; i++) {
-      const octetBits = bits.slice(i * 8, i * 8 + 8);
-      octetGroups.push(
-        <div key={`octet-${i}`} className="grid grid-cols-8 gap-1 w-full">
-          {octetBits.map((bit, bitIndexWithinOctet) => {
-            const absoluteBitIndex = i * 8 + bitIndexWithinOctet;
-            const isNetworkBit = absoluteBitIndex < prefix;
-            const isActive = bit === '1';
-            
-            let btnClasses = '';
-            if (isActive) {
-              if (isNetworkBit) {
-                // Active Network Bit (1)
-                btnClasses = 'bg-emerald-50 border-emerald-300 text-emerald-700 shadow-sm dark:bg-emerald-500/10 dark:border-emerald-500/40 dark:text-emerald-400 dark:shadow-[0_0_12px_rgba(16,185,129,0.15)]';
-              } else {
-                // Active Host Bit (1)
-                btnClasses = 'bg-amber-50 border-amber-300 text-amber-700 shadow-sm dark:bg-amber-500/10 dark:border-amber-500/40 dark:text-amber-400 dark:shadow-[0_0_12px_rgba(245,158,11,0.15)]';
-              }
-            } else {
-              // Inactive Bit (0)
-              btnClasses = 'bg-zinc-50 border-zinc-200 text-zinc-400 hover:border-zinc-300 hover:bg-zinc-100 hover:text-zinc-600 dark:bg-zinc-900/80 dark:border-zinc-800/80 dark:text-zinc-600 dark:hover:border-zinc-700 dark:hover:text-zinc-400';
-            }
+  const bits = rawBinary.split('');
 
-            return (
-              <button
-                key={absoluteBitIndex}
-                onClick={() => handleBitToggle(absoluteBitIndex)}
-                // min-h-[44px] / min-w-[44px] on mobile for thumb-friendly touch targets
-                className={`w-full min-h-[44px] min-w-[44px] sm:min-h-0 sm:min-w-0 sm:aspect-square border rounded flex items-center justify-center font-mono text-xs sm:text-sm font-bold transition-all cursor-pointer active:scale-95 ${btnClasses}`}
-                title={`Toggle bit ${absoluteBitIndex} (Value: ${Math.pow(2, 7 - bitIndexWithinOctet)})`}
-              >
-                {bit}
-              </button>
-            );
-          })}
-        </div>
-      );
+  // Build flattened stream with octet separators
+  const stream: Array<{ type: 'bit'; index: number; value: string } | { type: 'sep'; id: string }> = [];
+  for (let i = 0; i < 32; i++) {
+    stream.push({ type: 'bit', index: i, value: bits[i] });
+    if (i < 31 && (i + 1) % 8 === 0) {
+      stream.push({ type: 'sep', id: `sep-${i}` });
     }
-
-    return (
-      // 1-col on xs, 2-col from sm — gives 4×8 and 2×16 layouts for thumb navigation
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 py-2 w-full">
-        {octetGroups[0]}
-        {octetGroups[1]}
-        {octetGroups[2]}
-        {octetGroups[3]}
-      </div>
-    );
-  };
-
-  const containerClasses = "bg-white border border-zinc-200/80 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] dark:bg-[#0d0e15]/80 dark:border-white/[0.04] dark:shadow-[inset_0_1px_2px_rgba(255,255,255,0.01)] rounded-2xl p-4 sm:p-6 md:p-8 transition-all duration-300 hover:border-zinc-300 dark:hover:border-zinc-700/60 flex flex-col gap-6";
+  }
 
   return (
-    <div className={containerClasses}>
-      <div className="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800/60 pb-4">
+    <div className="bento-card bento-card-hover p-5 flex flex-col gap-5">
+      {/* Header */}
+      <div className="flex items-center justify-between border-b border-zinc-800 pb-4">
+        <div className="flex items-center gap-2.5">
+          <Activity className="w-4 h-4 text-cyan-400" />
+          <h2 className="text-sm font-bold text-zinc-100 tracking-tight font-mono uppercase tracking-widest">Binary Stream</h2>
+        </div>
+        {/* Legend */}
         <div className="flex items-center gap-3">
-          <Activity className="w-5 h-5 text-teal-600 dark:text-teal-400" />
-          <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">Interactive Binary Stream</h2>
-        </div>
-        <div className="flex flex-col sm:flex-row items-end sm:items-center gap-2 sm:gap-4 text-xs">
-          <span className="flex items-center gap-1.5 font-semibold">
-            <span className="w-2.5 h-2.5 rounded bg-emerald-100 border border-emerald-300 dark:bg-emerald-400/20 dark:border-emerald-500/30 inline-block" />
-            <span className="text-emerald-700 dark:text-emerald-400">Network ({prefix})</span>
+          <span className="flex items-center gap-1.5 text-[10px] font-mono font-semibold">
+            <span className="w-2.5 h-2.5 rounded-sm bg-emerald-500/30 border border-emerald-500/50 inline-block" />
+            <span className="text-emerald-400">Net /{prefix}</span>
           </span>
-          <span className="flex items-center gap-1.5 font-semibold">
-            <span className="w-2.5 h-2.5 rounded bg-amber-100 border border-amber-300 dark:bg-amber-400/20 dark:border-amber-400/30 inline-block" />
-            <span className="text-amber-700 dark:text-amber-400">Host ({32 - prefix})</span>
+          <span className="flex items-center gap-1.5 text-[10px] font-mono font-semibold">
+            <span className="w-2.5 h-2.5 rounded-sm bg-amber-500/20 border border-amber-500/40 inline-block" />
+            <span className="text-amber-400">Host /{32 - prefix}</span>
           </span>
         </div>
       </div>
 
-      <div className="flex flex-col gap-2">
-        {renderInteractiveBits()}
+      {/* Bit Stream */}
+      <div className="flex items-center flex-wrap gap-y-2 gap-x-0 select-none" role="group" aria-label="32-bit binary representation">
+        {stream.map((item) => {
+          if (item.type === 'sep') {
+            return (
+              <div key={item.id} className="w-px h-6 bg-zinc-700/60 mx-1.5 self-center rounded-full shrink-0" aria-hidden />
+            );
+          }
+
+          const { index, value } = item;
+          const isNetBit = index < prefix;
+          const isOne = value === '1';
+
+          let bitClass = '';
+          if (isOne && isNetBit) {
+            bitClass = 'bg-emerald-500/25 border-emerald-500/50 text-emerald-300 shadow-[0_0_8px_rgba(16,185,129,0.2)]';
+          } else if (isOne && !isNetBit) {
+            bitClass = 'bg-amber-500/20 border-amber-500/40 text-amber-300 shadow-[0_0_8px_rgba(245,158,11,0.15)]';
+          } else if (!isOne && isNetBit) {
+            bitClass = 'bg-emerald-950/40 border-emerald-800/30 text-emerald-700 hover:bg-emerald-950/60 hover:border-emerald-700/40 hover:text-emerald-500';
+          } else {
+            bitClass = 'bg-zinc-900/60 border-zinc-800 text-zinc-600 hover:bg-zinc-800/80 hover:border-zinc-700 hover:text-zinc-400';
+          }
+
+          const bitWeight = Math.pow(2, 7 - (index % 8));
+
+          return (
+            <button
+              key={index}
+              onClick={() => handleBitToggle(index)}
+              title={`Bit ${index} | Weight: ${bitWeight} | ${isNetBit ? 'Network' : 'Host'} bit`}
+              aria-label={`Bit ${index}, value ${value}, ${isNetBit ? 'network' : 'host'} bit`}
+              className={`w-7 h-8 sm:w-6 sm:h-7 rounded-sm border font-mono text-xs font-bold transition-all duration-100 cursor-pointer active:scale-90 flex items-center justify-center shrink-0 ${bitClass}`}
+            >
+              {value}
+            </button>
+          );
+        })}
       </div>
 
-      {/* Informational Note */}
-      <div className="bg-zinc-50 border border-zinc-200 dark:bg-zinc-900/40 dark:backdrop-blur-md dark:border-zinc-800/50 rounded-xl p-4 flex gap-3 mt-2">
-        <HelpCircle className="w-4 h-4 text-zinc-400 shrink-0 mt-0.5" />
-        <p className="text-xs text-zinc-600 dark:text-zinc-400 leading-relaxed">
-          Click any bit to toggle its boolean state. The master IP state will dynamically recalculate. <strong className="text-emerald-700 dark:text-emerald-400 font-semibold">Network bits</strong> define the boundary, while <strong className="text-amber-700 dark:text-amber-400 font-semibold">Host bits</strong> identify endpoints within the subnet.
-        </p>
+      {/* Octet labels */}
+      <div className="grid grid-cols-4 gap-1">
+        {[0, 1, 2, 3].map(i => {
+          const octetValue = parseInt(rawBinary.substring(i * 8, i * 8 + 8), 2);
+          const label = ip.split('.')[i] || String(octetValue);
+          return (
+            <div key={i} className="flex flex-col items-center gap-0.5">
+              <span className="text-[9px] font-mono text-zinc-600 uppercase tracking-widest">oct {i + 1}</span>
+              <span className="text-xs font-mono font-bold text-zinc-400">{label}</span>
+            </div>
+          );
+        })}
       </div>
+
+      {/* Info note */}
+      <p className="text-[10px] font-mono text-zinc-600 leading-relaxed border-t border-zinc-800/60 pt-3">
+        Click any bit to toggle. <span className="text-emerald-500">Network bits</span> define the boundary — <span className="text-amber-500">Host bits</span> address endpoints.
+      </p>
     </div>
   );
 };

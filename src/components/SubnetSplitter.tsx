@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, FC } from 'react';
 import { Columns, ArrowRight, CornerDownRight } from 'lucide-react';
 import { SubnetResult, ipToLong, longToIp } from '../utils/ipv4Utils';
 
@@ -7,7 +7,7 @@ interface SubnetSplitterProps {
   onLoadSubnet: (ip: string, prefix: number) => void;
 }
 
-export const SubnetSplitter: React.FC<SubnetSplitterProps> = ({
+export const SubnetSplitter: FC<SubnetSplitterProps> = ({
   result,
   onLoadSubnet,
 }) => {
@@ -63,23 +63,23 @@ export const SubnetSplitter: React.FC<SubnetSplitterProps> = ({
     });
   }
 
-  const containerClasses = "bg-white border border-zinc-200/80 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] dark:bg-[#0d0e15]/80 dark:border-white/[0.04] dark:shadow-[inset_0_1px_2px_rgba(255,255,255,0.01)] rounded-2xl p-4 sm:p-6 transition-all duration-300 flex flex-col gap-6 h-full";
+  const containerClasses = 'bento-card bento-card-hover p-5 sm:p-6 flex flex-col gap-6 h-full';
 
   return (
     <div className={containerClasses}>
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-zinc-100 dark:border-zinc-800/60 pb-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-zinc-800 pb-4">
         <div className="flex items-center gap-3">
-          <Columns className="w-5 h-5 text-teal-600 dark:text-teal-400" />
-          <h2 className="text-xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">Interactive Subnet Splitter</h2>
+          <Columns className="w-4 h-4 text-cyan-400" />
+          <h2 className="text-sm font-bold text-zinc-100 tracking-tight font-mono uppercase tracking-widest">Subnet Splitter</h2>
         </div>
         
         {/* Split Target Controls */}
-        <div className="flex items-center gap-3 bg-zinc-50 dark:bg-zinc-900/40 backdrop-blur-md border border-zinc-200 dark:border-zinc-800/50 rounded-xl px-3 py-1.5 self-start md:self-auto hover:border-teal-300 dark:hover:border-teal-500/30 transition-colors">
+        <div className="flex items-center gap-3 bg-zinc-900/60 border border-zinc-800 rounded-xl px-3 py-1.5 self-start md:self-auto hover:border-zinc-700 transition-colors">
           <span className="text-[10px] font-semibold tracking-wider text-zinc-500 uppercase">Split into</span>
           <select
             value={targetPrefix}
             onChange={(e) => setTargetPrefix(parseInt(e.target.value, 10))}
-            className="bg-transparent text-teal-600 dark:text-teal-400 font-mono font-bold text-sm focus:outline-none cursor-pointer"
+            className="bg-transparent text-cyan-400 font-mono font-bold text-sm focus:outline-none cursor-pointer"
           >
             {Array.from({ length: 32 - currentPrefix }, (_, idx) => {
               const prefixVal = currentPrefix + 1 + idx;
@@ -105,10 +105,10 @@ export const SubnetSplitter: React.FC<SubnetSplitterProps> = ({
         </div>
 
         {/* Scrollable Subnets Table (No text truncation) */}
-        <div className="overflow-x-auto w-full max-w-full border border-zinc-200 dark:border-zinc-800/40 rounded-xl bg-zinc-50 dark:bg-zinc-950/20">
+        <div className="overflow-x-auto w-full max-w-full border border-zinc-800/60 rounded-xl bg-zinc-950/30 scrollbar-none">
           <table className="w-full text-left border-collapse font-mono text-xs">
             <thead>
-              <tr className="bg-zinc-100 dark:bg-zinc-900/40 border-b border-zinc-200 dark:border-zinc-800/40 text-zinc-600 dark:text-zinc-500 font-semibold tracking-wider text-[10px] uppercase">
+              <tr className="bg-zinc-900/60 border-b border-zinc-800 text-zinc-600 font-semibold tracking-wider text-[9px] uppercase font-mono">
                 <th className="py-3 px-4 w-12 text-center">No.</th>
                 <th className="py-3 px-4">Network Address</th>
                 <th className="py-3 px-4">Usable Host Range</th>
@@ -117,9 +117,9 @@ export const SubnetSplitter: React.FC<SubnetSplitterProps> = ({
                 <th className="py-3 px-4 text-center">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800/40">
+            <tbody className="divide-y divide-zinc-800/40">
               {subnetsList.map((sub, idx) => (
-                <tr key={idx} className="hover:bg-white dark:hover:bg-zinc-900/30 transition-colors text-zinc-700 dark:text-zinc-300 group">
+                <tr key={idx} className="hover:bg-zinc-800/30 transition-colors text-zinc-300 group">
                   <td className="py-3 px-4 text-zinc-500 dark:text-zinc-600 text-center font-semibold">{idx + 1}</td>
                   {/* Network Address - Cyan */}
                   <td className="py-3 px-4 text-cyan-600 dark:text-cyan-400 font-semibold">{sub.network}</td>
@@ -132,7 +132,7 @@ export const SubnetSplitter: React.FC<SubnetSplitterProps> = ({
                   <td className="py-3 px-4 text-center">
                     <button
                       onClick={() => onLoadSubnet(sub.networkIp, targetPrefix)}
-                      className="p-1.5 text-zinc-400 dark:text-zinc-500 hover:text-teal-600 dark:hover:text-teal-400 hover:bg-teal-50 dark:hover:bg-teal-500/10 rounded-md transition-colors inline-flex items-center justify-center cursor-pointer"
+                      className="p-1.5 text-zinc-600 hover:text-cyan-400 hover:bg-cyan-500/10 rounded-md transition-colors inline-flex items-center justify-center cursor-pointer"
                       title="Load Subnet"
                     >
                       <ArrowRight className="w-4 h-4" />
@@ -145,7 +145,7 @@ export const SubnetSplitter: React.FC<SubnetSplitterProps> = ({
         </div>
 
         {isCapped && (
-          <div className="flex items-center gap-2 text-xs text-zinc-600 dark:text-zinc-500 bg-white dark:bg-zinc-900/40 backdrop-blur-md border border-zinc-200 dark:border-zinc-800/50 rounded-xl p-3">
+          <div className="flex items-center gap-2 text-xs text-zinc-500 bg-zinc-900/40 border border-zinc-800 rounded-xl p-3">
             <CornerDownRight className="w-3.5 h-3.5 text-teal-500/60 shrink-0" />
             <span>
               Showing the first <strong>{displayLimit}</strong> subnets of <strong>{numSubnets.toLocaleString()}</strong>.
