@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, KeyboardEvent } from 'react';
+import { useState, useEffect, KeyboardEvent, Fragment } from 'react';
 import { Globe, Sliders } from 'lucide-react';
 import { isValidIp } from '../utils/ipv4Utils';
 
@@ -92,9 +92,8 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
           {/* Octets */}
           <div className="flex items-center gap-0.5 flex-1">
             {[0, 1, 2, 3].map((index) => (
-              <>
+              <Fragment key={`octet-wrapper-${index}`}>
                 <input
-                  key={`octet-${index}`}
                   id={`octet-${index}`}
                   type="text"
                   inputMode="numeric"
@@ -107,9 +106,9 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
                   aria-label={`IP Address Octet ${index + 1}`}
                 />
                 {index < 3 && (
-                  <span key={`dot-${index}`} className="text-zinc-600 font-mono font-bold text-sm select-none">.</span>
+                  <span className="text-zinc-600 font-mono font-bold text-sm select-none">.</span>
                 )}
-              </>
+              </Fragment>
             ))}
           </div>
 
