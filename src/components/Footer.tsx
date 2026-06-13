@@ -11,32 +11,32 @@ export function Footer() {
 
   return (
     <>
-      <footer className="border-t border-slate-800/60 py-8 mt-16 bg-slate-950/40 text-slate-500 text-xs">
+      <footer className="border-t border-zinc-200/80 dark:border-white/[0.04] py-8 mt-16 bg-zinc-50/50 dark:bg-zinc-950/40 text-zinc-500 text-xs transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-6">
 
-          <div className="flex items-center gap-2 text-slate-400">
-            <Network className="w-4 h-4 text-slate-500" />
+          <div className="flex items-center gap-2 text-zinc-500 dark:text-zinc-400">
+            <Network className="w-4 h-4 text-zinc-400 dark:text-zinc-500" />
             <span>© 2026 subnetmask.tech. All rights reserved.</span>
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-6">
             <button
               onClick={() => setModalType('privacy')}
-              className="flex items-center gap-1.5 hover:text-slate-300 transition-colors cursor-pointer"
+              className="flex items-center gap-1.5 hover:text-zinc-800 dark:hover:text-zinc-300 transition-colors cursor-pointer"
             >
               <ShieldAlert className="w-3.5 h-3.5" />
               Privacy Policy
             </button>
             <button
               onClick={() => setModalType('terms')}
-              className="flex items-center gap-1.5 hover:text-slate-300 transition-colors cursor-pointer"
+              className="flex items-center gap-1.5 hover:text-zinc-800 dark:hover:text-zinc-300 transition-colors cursor-pointer"
             >
               <FileText className="w-3.5 h-3.5" />
               Terms of Service
             </button>
             <a
               href="mailto:contact@subnetmask.tech"
-              className="flex items-center gap-1.5 hover:text-slate-300 transition-colors"
+              className="flex items-center gap-1.5 hover:text-zinc-800 dark:hover:text-zinc-300 transition-colors"
             >
               <Mail className="w-3.5 h-3.5" />
               Contact

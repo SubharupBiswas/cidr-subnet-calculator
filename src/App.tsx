@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Network, Terminal, Share2, RefreshCw } from 'lucide-react';
+import { Network, Terminal, Share2, RefreshCw, Moon, Sun } from 'lucide-react';
 import { CalculatorForm } from './components/CalculatorForm';
 import { LiveMatrix } from './components/LiveMatrix';
 import { BinaryVisualizer } from './components/BinaryVisualizer';
@@ -12,16 +12,15 @@ import { calculateSubnet, isValidIp, SubnetResult } from './utils/ipv4Utils';
 
 function AdSlot({ className, type }: { className?: string; type: 'banner' | 'rectangle' }) {
   return (
-    <div 
-      className={`glass-panel border-dashed border-zinc-800 rounded-2xl flex flex-col items-center justify-center relative overflow-hidden select-none bg-zinc-950/20 ${className} ${
-        type === 'banner' ? 'min-h-[100px] w-full' : 'min-h-[250px] w-full'
-      }`}
+    <div
+      className={`relative w-full overflow-hidden select-none rounded-2xl border bg-white border-zinc-200/80 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] dark:bg-[#090a10]/40 dark:border-zinc-800/40 dark:backdrop-blur-md flex flex-col items-center justify-center dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.01)] ${className} ${type === 'banner' ? 'min-h-[90px]' : 'min-h-[250px]'
+        }`}
     >
-      <div className="absolute inset-0 bg-[radial-gradient(#1f1f2e_1px,transparent_1px)] [background-size:16px_16px] opacity-40 pointer-events-none" />
-      <span className="text-[10px] tracking-wider uppercase font-bold text-zinc-500 bg-zinc-900/50 border border-zinc-800 px-2 py-0.5 rounded z-10">
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.03)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none" />
+      <span className="text-[9px] tracking-[0.2em] uppercase font-mono font-bold text-zinc-500 bg-zinc-100 dark:bg-zinc-900/80 border border-zinc-300 dark:border-zinc-800/60 px-2 py-0.5 rounded-md z-10 shadow-sm">
         Ad Placement Space
       </span>
-      <span className="text-[9px] text-zinc-600 mt-1.5 z-10">
+      <span className="text-[10px] font-mono text-zinc-500 dark:text-zinc-600 mt-1 z-10">
         {type === 'banner' ? 'Supports 728x90 / 970x90 Leaderboards' : 'Supports 300x250 / 336x280 Rectangles'}
       </span>
     </div>
@@ -34,8 +33,37 @@ function App() {
   const [result, setResult] = useState<SubnetResult | null>(null);
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [copiedLink, setCopiedLink] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
 
-  // 1. Initial State from URL Query Parameters & localStorage History
+  // Initialize Dark Mode and History
+  useEffect(() => {
+    try {
+      const storedTheme = localStorage.getItem('cidr_calc_theme');
+      if (storedTheme === 'light') {
+        setIsDarkMode(false);
+      }
+      
+      const stored = localStorage.getItem('cidr_calc_history');
+      if (stored) {
+        setHistory(JSON.parse(stored));
+      }
+    } catch (e) {
+      console.error('Error loading config', e);
+    }
+  }, []);
+
+  // Sync Dark Mode to document element
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('cidr_calc_theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('cidr_calc_theme', 'light');
+    }
+  }, [isDarkMode]);
+
+  // URL Params parsing
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const queryIp = params.get('ip');
@@ -50,22 +78,12 @@ function App() {
         setPrefix(p);
       }
     }
-
-    // Load history
-    try {
-      const stored = localStorage.getItem('cidr_calc_history');
-      if (stored) {
-        setHistory(JSON.parse(stored));
-      }
-    } catch (e) {
-      console.error('Error loading history', e);
-    }
   }, []);
 
-  // 2. Perform Subnet Calculation when IP/Prefix change & Sync URL
+  // Perform Subnet Calculation & Sync URL
   useEffect(() => {
     const isIpValid = isValidIp(ip);
-    
+
     // Sync URL search params
     const params = new URLSearchParams();
     if (isIpValid) {
@@ -83,13 +101,12 @@ function App() {
     }
   }, [ip, prefix]);
 
-  // 3. Debounced History Saving to avoid saving partial types
+  // Debounced History Saving
   useEffect(() => {
     if (!result) return;
 
     const timer = setTimeout(() => {
       setHistory(prev => {
-        // Check if matching calculation already exists at the top
         const alreadyExists = prev.find(
           item => item.ip === result.ip && item.prefix === result.prefix
         );
@@ -103,16 +120,15 @@ function App() {
           timestamp: Date.now(),
         };
 
-        const updated = [newItem, ...prev].slice(0, 10); // Keep last 10 calculations
+        const updated = [newItem, ...prev].slice(0, 10);
         localStorage.setItem('cidr_calc_history', JSON.stringify(updated));
         return updated;
       });
-    }, 1500); // 1.5 second debounce
+    }, 1500);
 
     return () => clearTimeout(timer);
   }, [result]);
 
-  // History Operations
   const handleLoadHistory = (historyIp: string, historyPrefix: number) => {
     setIp(historyIp);
     setPrefix(historyPrefix);
@@ -131,142 +147,130 @@ function App() {
     localStorage.removeItem('cidr_calc_history');
   };
 
-  // Subnet split loading
   const handleLoadSubnet = (subIp: string, subPrefix: number) => {
     setIp(subIp);
     setPrefix(subPrefix);
   };
 
-  // URL Sharing
   const handleShare = () => {
     navigator.clipboard.writeText(window.location.href);
     setCopiedLink(true);
     setTimeout(() => setCopiedLink(false), 2000);
   };
 
-  // Quick reset to default configuration
   const handleReset = () => {
     setIp('192.168.1.1');
     setPrefix(24);
   };
 
-  return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col selection:bg-cyan-500/25 selection:text-cyan-300">
-      
-      {/* Decorative Top Glows */}
-      <div className="absolute top-0 left-1/4 w-[500px] h-[300px] bg-cyan-500/10 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute top-0 right-1/4 w-[500px] h-[300px] bg-emerald-500/5 rounded-full blur-[100px] pointer-events-none" />
+  const toggleTheme = () => {
+    setIsDarkMode(prev => !prev);
+  };
 
-      {/* Header Bar */}
-      <header className="border-b border-zinc-900 bg-zinc-950/60 backdrop-blur-md sticky top-0 z-30">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
+  return (
+    <div className="min-h-screen font-sans antialiased flex flex-col justify-between relative overflow-x-hidden bg-[#f8f9fc] dark:bg-[#050508] text-zinc-900 dark:text-zinc-100 bg-[linear-gradient(to_right,rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.03)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:24px_24px] transition-colors duration-300">
+
+      {/* Premium Visual Glow Layer */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[350px] bg-gradient-to-b from-cyan-500/10 dark:from-cyan-500/5 to-transparent blur-[140px] pointer-events-none z-0" />
+
+      <div className="max-w-7xl w-full mx-auto p-4 md:p-8 z-10 flex-grow relative">
+
+        {/* Navigation Header Bar */}
+        <header className="mb-8 flex items-center justify-between border bg-white/70 border-zinc-200/80 shadow-sm dark:border-white/[0.04] dark:bg-[#090a0f]/40 backdrop-blur-md px-4 md:px-6 h-16 rounded-xl dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.02)] transition-colors duration-300">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-cyan-500/10 rounded-xl border border-cyan-500/20">
-              <Network className="w-5 h-5 text-cyan-400" />
+            <div className="h-8 w-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-emerald-500 flex items-center justify-center shadow-[0_0_15px_rgba(34,211,238,0.3)] dark:shadow-[0_0_15px_rgba(34,211,238,0.2)]">
+              <Network className="w-4 h-4 text-white dark:text-black stroke-[2.5]" />
             </div>
-            <h1 className="text-lg font-bold tracking-tight bg-gradient-to-r from-zinc-100 to-zinc-400 bg-clip-text text-transparent">
+            <h1 className="text-sm font-bold tracking-tight bg-gradient-to-r from-zinc-700 to-zinc-900 dark:from-zinc-100 dark:to-zinc-400 bg-clip-text text-transparent">
               CIDR Calculator
             </h1>
-            <span className="text-[10px] uppercase font-bold tracking-widest text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-md hidden sm:inline-block">
+            <span className="text-[9px] uppercase font-bold tracking-widest text-cyan-600 bg-cyan-100 border-cyan-200 dark:text-cyan-400 dark:bg-cyan-500/10 border dark:border-cyan-500/20 px-2 py-0.5 rounded-md hidden sm:inline-block shadow-[0_0_10px_-2px_rgba(34,211,238,0.1)]">
               Static Edge
             </span>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5">
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-lg border border-zinc-200 bg-zinc-50 text-zinc-500 hover:text-zinc-800 hover:border-zinc-300 hover:bg-white dark:border-zinc-800 dark:bg-zinc-900/40 dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:border-zinc-700 dark:hover:bg-zinc-900 transition-all duration-200 cursor-pointer shadow-sm"
+              title="Toggle Theme"
+            >
+              {isDarkMode ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
+            </button>
             <button
               onClick={handleReset}
-              className="p-2 rounded-xl border border-zinc-900 bg-zinc-900/30 text-zinc-400 hover:text-zinc-200 hover:border-zinc-800 transition-all cursor-pointer"
-              title="Reset to Default"
+              className="p-2 rounded-lg border border-zinc-200 bg-zinc-50 text-zinc-500 hover:text-zinc-800 hover:border-zinc-300 hover:bg-white dark:border-zinc-800 dark:bg-zinc-900/40 dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:border-zinc-700 dark:hover:bg-zinc-900 transition-all duration-200 cursor-pointer shadow-sm"
+              title="Reset Parameters"
             >
-              <RefreshCw className="w-4 h-4" />
+              <RefreshCw className="w-3.5 h-3.5" />
             </button>
             <button
               onClick={handleShare}
-              className={`px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 border transition-all cursor-pointer ${
-                copiedLink
-                  ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
-                  : 'bg-zinc-900/50 text-zinc-300 border-zinc-800 hover:bg-zinc-800 hover:border-zinc-700'
-              }`}
+              className={`px-3 py-2 rounded-lg text-xs font-semibold flex items-center gap-2 border transition-all duration-200 cursor-pointer shadow-sm ${copiedLink
+                  ? 'bg-emerald-100 text-emerald-700 border-emerald-300 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/30 shadow-[0_0_12px_rgba(16,185,129,0.1)]'
+                  : 'bg-zinc-50 text-zinc-600 border-zinc-200 hover:bg-white hover:border-zinc-300 hover:text-zinc-900 dark:bg-zinc-900/40 dark:text-zinc-300 dark:border-zinc-800 dark:hover:bg-zinc-900 dark:hover:border-zinc-700 dark:hover:text-white'
+                }`}
             >
               <Share2 className="w-3.5 h-3.5" />
-              {copiedLink ? 'Copied Link!' : 'Share'}
+              {copiedLink ? 'Link Copied!' : 'Share Matrix'}
             </button>
           </div>
-        </div>
-      </header>
+        </header>
 
-      {/* Main Container */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 md:px-8 py-8 flex flex-col gap-8">
-        
-        {/* Top Banner Ad Placement */}
-        <AdSlot type="banner" />
+        {/* Global Adsense/Carbon Top Placement */}
+        <AdSlot type="banner" className="mb-8" />
 
-        {/* Banner Title */}
-        <section aria-label="Calculator Title and Description" className="flex flex-col gap-2">
-          <div className="flex items-center gap-2 text-cyan-400 text-xs font-semibold uppercase tracking-wider">
-            <Terminal className="w-3.5 h-3.5" />
-            Subnetwork Engineering
+        {/* Hero Copy Writing Intro */}
+        <section aria-label="Utility Description" className="mb-10 max-w-3xl">
+          <div className="flex items-center gap-2 text-cyan-600 dark:text-cyan-400 text-xs font-mono font-bold uppercase tracking-[0.15em] mb-2.5">
+            <Terminal className="w-3.5 h-3.5 stroke-[2.5]" />
+            &gt;_ Subnetwork Engineering
           </div>
-          <h2 className="text-3xl font-extrabold text-zinc-100 tracking-tight leading-tight sm:text-4xl">
+          <h2 className="text-3xl font-extrabold tracking-tight leading-tight sm:text-4xl text-zinc-900 dark:text-white">
             Advanced IPv4 Subnet Calculator
           </h2>
-          <p className="text-sm text-zinc-400 max-w-3xl leading-relaxed">
+          <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
             Configure IP parameters client-side to instantly visualize boundaries, masks, binary structures, and subnet splits. Ideal for network architects, systems engineers, and DevOps.
           </p>
         </section>
 
-        {/* Dashboard Grid Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          
-          {/* Left Column: Form & History (Col Span 5) */}
-          <section aria-label="Calculator Input Form" className="lg:col-span-5 flex flex-col gap-8">
+        {/* The Clean Two-Column continuous Workspace Canvas */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start w-full">
+
+          {/* LEFT PANELS: Controlled Actions & State Triggers (Span 5) */}
+          <div className="lg:col-span-5 flex flex-col gap-6 w-full">
             <CalculatorForm
               ip={ip}
               setIp={setIp}
               prefix={prefix}
               setPrefix={setPrefix}
             />
-            
+            <BinaryVisualizer
+              result={result}
+              ip={ip}
+              setIp={setIp}
+            />
             <HistoryTracker
               history={history}
               onLoadHistory={handleLoadHistory}
               onDeleteHistoryItem={handleDeleteHistoryItem}
               onClearHistory={handleClearHistory}
             />
-          </section>
+          </div>
 
-          {/* Right Column: Live Metrics (Col Span 7) */}
-          <section aria-label="Calculation Results Matrix" className="lg:col-span-7 flex flex-col gap-8">
+          {/* RIGHT PANELS: Live High-Contrast Data Layout Matrix (Span 7) */}
+          <div className="lg:col-span-7 flex flex-col gap-6 w-full">
             <LiveMatrix result={result} />
+            <SubnetSplitter result={result} onLoadSubnet={handleLoadSubnet} />
+            <CheatSheet currentPrefix={prefix} onSelectPrefix={setPrefix} />
             <AdSlot type="rectangle" />
-          </section>
+            <FaqAccordion />
+          </div>
 
         </div>
+      </div>
 
-        {/* Bottom Rows: Binary breakdown, Subnet Splitter, Cheat Sheet, and FAQs */}
-        <section aria-label="Subnet Analysis Utilities" className="flex flex-col gap-8">
-          
-          <article aria-label="32-Bit Binary Visualizer">
-            <BinaryVisualizer result={result} />
-          </article>
-          
-          <article aria-label="Subnet Splitter Grid">
-            <SubnetSplitter result={result} onLoadSubnet={handleLoadSubnet} />
-          </article>
-          
-          <article aria-label="CIDR Prefix Cheat Sheet">
-            <CheatSheet currentPrefix={prefix} onSelectPrefix={setPrefix} />
-          </article>
-
-          <article aria-label="Frequently Asked Questions">
-            <FaqAccordion />
-          </article>
-
-        </section>
-
-      </main>
-
-      {/* Global Footer & Legal Modals */}
+      {/* Persistent Compliance Footer */}
       <Footer />
     </div>
   );

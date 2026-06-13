@@ -34,34 +34,34 @@ export function LegalModal({ type, onClose }: LegalModalProps) {
   const content = type === 'privacy' ? PRIVACY_TEXT : TERMS_TEXT;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 dark:bg-black/70 backdrop-blur-sm transition-all duration-300">
       <div 
-        className="bg-slate-900 border border-slate-800/80 rounded-xl max-w-2xl w-full p-6 shadow-2xl flex flex-col gap-4 animate-in fade-in zoom-in duration-200"
+        className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/[0.04] rounded-xl max-w-2xl w-full p-6 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] dark:shadow-2xl flex flex-col gap-4 animate-in fade-in zoom-in duration-200 transition-colors"
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-title"
       >
-        <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-          <h2 id="modal-title" className="text-xl font-bold text-slate-100">
+        <div className="flex items-center justify-between border-b border-zinc-200 dark:border-zinc-800 pb-3">
+          <h2 id="modal-title" className="text-xl font-bold text-zinc-900 dark:text-zinc-100">
             {title}
           </h2>
           <button 
             onClick={onClose}
-            className="text-slate-400 hover:text-slate-200 transition-colors cursor-pointer p-1 rounded-md hover:bg-slate-800"
+            className="text-zinc-400 hover:text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-zinc-200 transition-colors cursor-pointer p-1 rounded-md dark:hover:bg-zinc-800"
             aria-label="Close modal"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        <div className="max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar text-slate-300 text-sm leading-relaxed whitespace-pre-wrap">
+        <div className="max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar text-zinc-600 dark:text-zinc-300 text-sm leading-relaxed whitespace-pre-wrap">
           {content}
         </div>
 
-        <div className="border-t border-slate-800 pt-4 flex justify-end">
+        <div className="border-t border-zinc-200 dark:border-zinc-800 pt-4 flex justify-end">
           <button
             onClick={onClose}
-            className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20 transition-all font-semibold py-2 px-6 rounded-lg cursor-pointer"
+            className="bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100 dark:bg-emerald-500/10 dark:text-emerald-400 border dark:border-emerald-500/20 dark:hover:bg-emerald-500/20 transition-all font-semibold py-2 px-6 rounded-lg cursor-pointer shadow-sm"
           >
             Close & Accept
           </button>
