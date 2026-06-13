@@ -35,7 +35,7 @@ export function Footer() {
               Terms of Service
             </button>
             <a
-              href="mailto:biswassubharup2017@gmail.com"
+              href="mailto:contact@subnetmask.tech"
               className="flex items-center gap-1.5 hover:text-slate-300 transition-colors"
             >
               <Mail className="w-3.5 h-3.5" />
