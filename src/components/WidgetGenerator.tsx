@@ -1,24 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import { Code, Check, Copy, Layout } from 'lucide-react';
+import { Code, Check, Copy, Layout, Zap } from 'lucide-react';
 import { CalculatorForm } from './CalculatorForm';
 import { LiveMatrix } from './LiveMatrix';
 import { calculateSubnet, isValidIp, SubnetResult } from '../utils/ipv4Utils';
 
 export const WidgetGenerator: React.FC = () => {
   const [copied, setCopied] = useState(false);
-  const [previewIp, setPreviewIp] = useState<string>('192.168.1.1');
-  const [previewPrefix, setPreviewPrefix] = useState<number>(24);
-  const [previewResult, setPreviewResult] = useState<SubnetResult | null>(null);
+
+  // --------------- Isolated sandbox state ---------------
+  const [widgetIp, setWidgetIp] = useState('10.0.0.1');
+  const [widgetPrefix, setWidgetPrefix] = useState(24);
+  const [widgetResult, setWidgetResult] = useState<SubnetResult | null>(null);
 
   useEffect(() => {
-    if (isValidIp(previewIp)) {
-      setPreviewResult(calculateSubnet(previewIp, previewPrefix));
+    if (isValidIp(widgetIp)) {
+      setWidgetResult(calculateSubnet(widgetIp, widgetPrefix));
     } else {
-      setPreviewResult(null);
+      setWidgetResult(null);
     }
-  }, [previewIp, previewPrefix]);
+  }, [widgetIp, widgetPrefix]);
+  // ------------------------------------------------------
 
-  const iframeCode = `<iframe src="https://subnetmask.tech/?embed=true" width="100%" height="800" style="border:1px solid #27272a; border-radius:12px; background:#050508;" allow="clipboard-write"></iframe>`;
+  const iframeCode = `<iframe
+  src="https://subnetmask.tech/?embed=true"
+  width="100%"
+  height="800"
+  style="border:1px solid #27272a; border-radius:12px; background:#050508;"
+  allow="clipboard-write">
+</iframe>`;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(iframeCode);
@@ -26,49 +35,74 @@ export const WidgetGenerator: React.FC = () => {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const containerClasses = "bg-white border-zinc-200/80 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] dark:bg-[#0d0e15]/80 dark:border-white/[0.04] dark:shadow-[inset_0_1px_2px_rgba(255,255,255,0.01)] rounded-2xl p-6 md:p-8 transition-all duration-300 w-full flex flex-col gap-8";
-
   return (
-    <div className={containerClasses}>
-      <div className="flex flex-col gap-2">
+    <div className="bg-white border border-zinc-200/80 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] dark:bg-[#0d0e15]/80 dark:border-white/[0.04] dark:shadow-[inset_0_1px_2px_rgba(255,255,255,0.01)] rounded-2xl p-6 md:p-8 transition-all duration-300 w-full flex flex-col gap-8">
+
+      {/* Header */}
+      <div className="flex flex-col gap-2 border-b border-zinc-100 dark:border-zinc-800/60 pb-6">
         <div className="flex items-center gap-3">
           <Layout className="w-6 h-6 text-teal-600 dark:text-teal-400" />
-          <h2 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">Embeddable Widget Generator</h2>
+          <h2 className="text-2xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
+            Embeddable Widget Generator
+          </h2>
         </div>
-        <p className="text-zinc-500 dark:text-zinc-400 text-sm">
-          Integrate our advanced IPv4 subnet calculator directly into your internal company dashboard, documentation site, or developer portal. It's fully responsive and client-side zero-latency.
+        <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
+          Integrate our advanced IPv4 subnet calculator directly into your internal dashboard, documentation portal, or developer hub. Fully responsive, client-side, and zero-latency.
         </p>
       </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 items-start">
-        {/* Preview Pane */}
+
+        {/* ── Left: Interactive Live Sandbox ── */}
         <div className="flex flex-col gap-4">
           <h3 className="text-sm font-semibold text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></span> Live Sandbox Preview
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            </span>
+            Live Interactive Sandbox
           </h3>
-          <div className="w-full border border-zinc-200 dark:border-zinc-800/80 rounded-xl overflow-y-auto bg-zinc-50 dark:bg-[#050508] p-4 flex flex-col gap-4 max-h-[700px] custom-scrollbar">
-            <CalculatorForm
-              ip={previewIp}
-              setIp={setPreviewIp}
-              prefix={previewPrefix}
-              setPrefix={setPreviewPrefix}
-            />
-            <LiveMatrix result={previewResult} />
+
+          {/* Sandbox chrome — mimics a framed embed window */}
+          <div className="w-full border border-zinc-200 dark:border-zinc-800/80 rounded-xl overflow-hidden bg-zinc-50 dark:bg-[#050508] flex flex-col">
+            {/* Fake browser / embed header bar */}
+            <div className="flex items-center gap-2 px-4 py-2.5 border-b border-zinc-200 dark:border-zinc-800/60 bg-zinc-100/80 dark:bg-zinc-900/60 backdrop-blur-sm">
+              <span className="w-2.5 h-2.5 rounded-full bg-rose-400/70 dark:bg-rose-500/50"></span>
+              <span className="w-2.5 h-2.5 rounded-full bg-amber-400/70 dark:bg-amber-500/50"></span>
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400/70 dark:bg-emerald-500/50"></span>
+              <span className="ml-3 flex-1 text-[10px] font-mono text-zinc-400 dark:text-zinc-500 truncate">
+                subnetmask.tech/?embed=true
+              </span>
+              <Zap className="w-3 h-3 text-cyan-500" />
+            </div>
+
+            {/* Real live components wired to isolated state */}
+            <div className="p-4 flex flex-col gap-4 max-h-[680px] overflow-y-auto custom-scrollbar">
+              <CalculatorForm
+                ip={widgetIp}
+                setIp={setWidgetIp}
+                prefix={widgetPrefix}
+                setPrefix={setWidgetPrefix}
+              />
+              <LiveMatrix result={widgetResult} />
+            </div>
           </div>
         </div>
 
-        {/* Code Pane */}
+        {/* ── Right: Integration Code Snippet ── */}
         <div className="flex flex-col gap-4">
           <h3 className="text-sm font-semibold text-zinc-700 dark:text-zinc-300 flex items-center gap-2">
-            <Code className="w-4 h-4 text-zinc-400 dark:text-zinc-500" /> Integration Snippet
+            <Code className="w-4 h-4 text-zinc-400 dark:text-zinc-500" />
+            Integration Snippet
           </h3>
+
           <div className="relative group">
-            <pre className="bg-zinc-100 dark:bg-[#090a0d] border border-zinc-200 dark:border-zinc-800/80 rounded-xl p-4 overflow-x-auto text-sm text-zinc-700 dark:text-zinc-300 font-mono shadow-inner">
+            <pre className="bg-zinc-100 dark:bg-[#090a0d] border border-zinc-200 dark:border-zinc-800/80 rounded-xl p-5 overflow-x-auto text-sm text-zinc-700 dark:text-zinc-300 font-mono shadow-inner leading-relaxed">
               <code>{iframeCode}</code>
             </pre>
             <button
               onClick={handleCopy}
-              className={`absolute top-3 right-3 p-2 rounded-lg border transition-all cursor-pointer ${
+              className={`absolute top-3 right-3 p-2 rounded-lg border transition-all duration-200 cursor-pointer ${
                 copied
                   ? 'bg-emerald-50 text-emerald-600 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/30'
                   : 'bg-white border-zinc-200 text-zinc-400 hover:text-zinc-600 hover:border-zinc-300 hover:bg-zinc-50 dark:bg-zinc-800/80 dark:border-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:border-zinc-600 dark:hover:bg-zinc-800 opacity-0 group-hover:opacity-100'
@@ -78,13 +112,28 @@ export const WidgetGenerator: React.FC = () => {
               {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
             </button>
           </div>
-          <div className="flex items-center gap-2 mt-2">
-            <span className="text-xs px-2 py-1 bg-teal-50 text-teal-700 dark:bg-teal-500/10 dark:text-teal-400 rounded-md font-mono border border-teal-100 dark:border-teal-500/20">
-              allow="clipboard-write"
-            </span>
-            <span className="text-xs text-zinc-500">Required for the "Copy to clipboard" functionality within the iframe.</span>
+
+          {/* Notes */}
+          <div className="flex flex-col gap-3 mt-2">
+            <div className="flex items-start gap-2">
+              <span className="text-xs px-2 py-0.5 bg-teal-50 text-teal-700 dark:bg-teal-500/10 dark:text-teal-400 rounded-md font-mono border border-teal-100 dark:border-teal-500/20 shrink-0 mt-0.5">
+                allow="clipboard-write"
+              </span>
+              <span className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                Required permission attribute — enables the embedded calculator's "Copy to clipboard" buttons to function correctly inside the iframe sandbox.
+              </span>
+            </div>
+            <div className="flex items-start gap-2">
+              <span className="text-xs px-2 py-0.5 bg-zinc-100 text-zinc-600 dark:bg-zinc-900 dark:text-zinc-400 rounded-md font-mono border border-zinc-200 dark:border-zinc-800 shrink-0 mt-0.5">
+                height="800"
+              </span>
+              <span className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                Recommended minimum height to display both the form input panel and the full metric matrix without vertical clipping.
+              </span>
+            </div>
           </div>
         </div>
+
       </div>
     </div>
   );

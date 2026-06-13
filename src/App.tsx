@@ -354,8 +354,14 @@ function App() {
               <LiveMatrix result={result} />
               <SubnetSplitter result={result} onLoadSubnet={handleLoadSubnet} />
               <AdSlot type="rectangle" />
-              <FaqAccordion />
             </div>
+          </div>
+        )}
+
+        {/* FULL-WIDTH FAQ ACCORDION — anchored below the bento grid */}
+        {activeView === 'calculator' && (
+          <div className="w-full mt-12">
+            <FaqAccordion />
           </div>
         )}
 
