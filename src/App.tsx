@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Network, Terminal, Share2, HelpCircle, RefreshCw, Github } from 'lucide-react';
+import { Network, Terminal, Share2, RefreshCw } from 'lucide-react';
 import { CalculatorForm } from './components/CalculatorForm';
 import { LiveMatrix } from './components/LiveMatrix';
 import { BinaryVisualizer } from './components/BinaryVisualizer';
@@ -7,6 +7,7 @@ import { SubnetSplitter } from './components/SubnetSplitter';
 import { CheatSheet } from './components/CheatSheet';
 import { HistoryTracker, HistoryItem } from './components/HistoryTracker';
 import { FaqAccordion } from './components/FaqAccordion';
+import { Footer } from './components/Footer';
 import { calculateSubnet, isValidIp, SubnetResult } from './utils/ipv4Utils';
 
 function AdSlot({ className, type }: { className?: string; type: 'banner' | 'rectangle' }) {
@@ -265,30 +266,8 @@ function App() {
 
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-zinc-900 py-6 mt-16 bg-zinc-950/20 text-zinc-500 text-xs text-center">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <Network className="w-4 h-4 text-zinc-600" />
-            <span>© 2026 CIDR Calculator. Zero-cost serverless static deployment.</span>
-          </div>
-          <div className="flex items-center gap-4">
-            <span className="flex items-center gap-1.5">
-              <HelpCircle className="w-3.5 h-3.5 text-zinc-700" />
-              RFC 1918 & 3021 Compliant
-            </span>
-            <a
-              href="https://github.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-zinc-600 hover:text-zinc-400 transition-colors flex items-center gap-1"
-            >
-              <Github className="w-3.5 h-3.5" />
-              Docs
-            </a>
-          </div>
-        </div>
-      </footer>
+      {/* Global Footer & Legal Modals */}
+      <Footer />
     </div>
   );
 }
