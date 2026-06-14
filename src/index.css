@@ -1,40 +1,40 @@
-@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800;900&family=Geist+Mono:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 @variant dark (&:where(.dark, .dark *));
 
 /* ─── Design Tokens ─── */
 :root {
-  --font-sans: 'Geist', 'Inter', system-ui, -apple-system, sans-serif;
-  --font-mono: 'Geist Mono', 'JetBrains Mono', monospace;
-  --radius-card: 12px;
-  --color-accent: #1c1917;
+  /* Fonts mapped to Next.js CSS variables */
+  --font-sans: var(--font-inter, 'Inter'), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-jetbrains-mono, 'JetBrains Mono'), monospace;
+  --radius-card: 14px;
+  --color-accent: oklch(62% 0.18 240);
 
-  /* Light Theme Tokens */
-  --color-bg: #fcfbf9;
-  --color-surface: transparent; 
-  --color-border: #e6e4df;
-  --color-text-main: #1c1917;
-  --color-text-muted: #78716c;
-  --color-inner-surface: transparent;
-  --color-inner-surface-hover: rgba(28, 25, 23, 0.02);
-  --color-mesh: rgba(28, 25, 23, 0.03);
-  --shadow-card: none;
-  --shadow-card-hover: none;
+  /* ── Glacier Steel Canvas (Default Light) ── */
+  --color-bg:            oklch(97.5% 0.008 225);
+  --color-surface:       oklch(100% 0 0);
+  --color-border:        oklch(89% 0.012 225);
+  --color-text-main:     oklch(20% 0.015 230);
+  --color-text-muted:    oklch(50% 0.012 230);
+  --color-inner-surface: oklch(98% 0.006 225);
+  --color-inner-surface-hover: oklch(96% 0.012 225);
+  --color-mesh:          rgba(60, 110, 180, 0.035);
+  --shadow-card:         none;
+  --shadow-card-hover:   none;
 }
 
 .dark {
-  /* Rich, warm-tinted neutrals */
-  --color-bg: oklch(18% 0.012 285);
-  --color-surface: oklch(22% 0.012 285); 
-  --color-border: oklch(28% 0.012 285);
-  --color-text-main: oklch(95% 0.01 285);
-  --color-text-muted: oklch(70% 0.01 285);
-  --color-inner-surface: oklch(24% 0.012 285);
+  /* Rich warm-tinted midnight neutrals */
+  --color-bg:            oklch(14% 0.015 250);
+  --color-surface:       oklch(18% 0.015 250);
+  --color-border:        oklch(22% 0.015 250);
+  --color-text-main:     oklch(93% 0.01 250);
+  --color-text-muted:    oklch(70% 0.01 250);
+  --color-inner-surface: oklch(20% 0.015 250);
   --color-inner-surface-hover: rgba(255, 255, 255, 0.04);
-  --color-mesh: rgba(255, 255, 255, 0.02);
-  --shadow-card: none;
-  --shadow-card-hover: none;
-  --color-accent: #22d3ee;
+  --color-mesh:          rgba(255, 255, 255, 0.02);
+  --shadow-card:         none;
+  --shadow-card-hover:   none;
+  --color-accent:        oklch(76% 0.14 210);
 }
 
 /* ─── Base Typography ─── */
@@ -46,6 +46,7 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Monospace strictly for data values */
 code, pre, .font-mono, [class*="font-mono"] {
   font-family: var(--font-mono) !important;
 }
@@ -53,28 +54,37 @@ code, pre, .font-mono, [class*="font-mono"] {
 /* ─── Scrollbar Styling ─── */
 html {
   scrollbar-width: thin;
-  scrollbar-color: #3f3f46 transparent;
+  scrollbar-color: oklch(70% 0.02 235) transparent;
 }
 
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: #3f3f46;
+  background: oklch(70% 0.025 235);
   border-radius: 9999px;
 }
-::-webkit-scrollbar-thumb:hover { background: #52525b; }
+::-webkit-scrollbar-thumb:hover { background: oklch(60% 0.03 235); }
 
 .scrollbar-none::-webkit-scrollbar { display: none; }
 .scrollbar-none { scrollbar-width: none; }
 
 /* ─── Bento Card System ─── */
 .bento-card {
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   color: var(--color-text-main);
 }
 
 .bento-card-hover:hover {
-  transform: scale(1.005);
+  border-color: oklch(78% 0.04 235);
+  box-shadow: 0 4px 24px -4px rgba(79, 120, 200, 0.1);
+}
+
+.dark .bento-card-hover:hover {
+  border-color: oklch(30% 0.02 250);
+  box-shadow: none;
 }
 
 /* ─── Mesh Background Texture ─── */
@@ -89,10 +99,11 @@ html {
 input[type="range"] {
   appearance: none;
   -webkit-appearance: none;
-  height: 2px;
+  height: 4px;
   border-radius: 9999px;
   outline: none;
   cursor: pointer;
+  /* Filled track set via inline style on each element */
   background: var(--color-border);
 }
 
@@ -102,54 +113,37 @@ input[type="range"]::-webkit-slider-thumb {
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background: var(--color-text-main);
-  box-shadow: 0 0 0 2px var(--color-bg), 0 0 0 3px var(--color-border);
+  background: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-bg), 0 0 0 4px var(--color-border);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
   cursor: pointer;
 }
 
 input[type="range"]::-webkit-slider-thumb:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--color-text-muted);
+  transform: scale(1.15);
+  box-shadow: 0 0 0 3px var(--color-bg), 0 0 0 5px var(--color-accent);
 }
 
 input[type="range"]::-moz-range-thumb {
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background: var(--color-text-main);
-  box-shadow: 0 0 0 2px var(--color-bg), 0 0 0 3px var(--color-border);
+  background: var(--color-accent);
+  box-shadow: 0 0 0 3px var(--color-bg), 0 0 0 4px var(--color-border);
   border: none;
   cursor: pointer;
 }
 
-/* Light mode slider track */
-input[type="range"] {
-  background: linear-gradient(to right, var(--color-text-main) var(--slider-pct, 70%), var(--color-border) var(--slider-pct, 70%));
-}
-
-/* ─── Glow text utilities ─── */
-  .glow-text-cyan {
-    text-shadow: none;
-  }
-  .focus-glow-cyan {
-    box-shadow: none;
-    border-color: var(--color-text-main) !important;
-  }
-.glow-text-emerald {
+/* ─── Glow text utilities (disabled for clean light mode) ─── */
+.glow-text-cyan {
   text-shadow: none;
 }
-.glow-text-amber {
-  text-shadow: none;
+.focus-glow-cyan {
+  box-shadow: none;
+  border-color: var(--color-accent) !important;
 }
-
-/* ─── Glassmorphism helpers ─── */
-.glass-panel {
-  background-color: rgba(18, 18, 22, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--color-border);
-}
+.glow-text-emerald { text-shadow: none; }
+.glow-text-amber   { text-shadow: none; }
 
 /* ─── Tab active indicator ─── */
 .tab-active-indicator {
@@ -163,7 +157,7 @@ input[type="range"] {
   transform: translateX(-50%);
   width: 60%;
   height: 2px;
-  background: linear-gradient(to right, #22d3ee, #34d399);
+  background: linear-gradient(to right, #3b82f6, #22d3ee);
   border-radius: 9999px;
 }
 

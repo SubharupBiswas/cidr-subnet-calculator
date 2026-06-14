@@ -14,7 +14,9 @@ export const BinaryVisualizer: FC<BinaryVisualizerProps> = ({ result, ip, setIp 
   const prefix = result?.prefix ?? 24;
   const rawBinary = result?.binaryIp?.replace(/\./g, '') || '11000000101010000000000100000001';
 
-  const handleBitToggle = (bitIndex: number) => {
+  const handleBitToggle = (e: React.MouseEvent<HTMLButtonElement>, bitIndex: number) => {
+    e.preventDefault();
+    e.stopPropagation();
     const chars = rawBinary.split('');
     chars[bitIndex] = chars[bitIndex] === '1' ? '0' : '1';
     const newBinary = chars.join('');
@@ -85,7 +87,7 @@ export const BinaryVisualizer: FC<BinaryVisualizerProps> = ({ result, ip, setIp 
                     } else if (!isOne && isNetBit) {
                       bitClass = 'bg-emerald-100/50 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800/30 text-emerald-500 dark:text-emerald-750 hover:bg-emerald-200/50 dark:hover:bg-emerald-950/60 hover:border-emerald-300 dark:hover:border-emerald-700/40 hover:text-emerald-500';
                     } else {
-                      bitClass = 'bg-zinc-100/60 dark:bg-[var(--color-surface)] border-zinc-200 dark:border-[var(--color-border)] text-[var(--color-text-muted)] dark:text-zinc-650 hover:bg-zinc-200/80 dark:hover:bg-zinc-800/80 hover:border-zinc-350 dark:hover:border-zinc-700 hover:text-zinc-700 dark:hover:text-[var(--color-text-muted)]';
+                      bitClass = 'bg-[var(--color-inner-surface)] border-[var(--color-border)] text-[var(--color-text-muted)] hover:bg-[var(--color-inner-surface-hover)] hover:border-[var(--color-accent)] hover:text-[var(--color-text-main)] dark:bg-[var(--color-surface)] dark:border-[var(--color-border)] dark:hover:bg-zinc-800/80 dark:hover:border-zinc-700';
                     }
 
                     const bitWeight = Math.pow(2, 7 - bitOffset);
@@ -93,7 +95,8 @@ export const BinaryVisualizer: FC<BinaryVisualizerProps> = ({ result, ip, setIp 
                     return (
                       <button
                         key={index}
-                        onClick={() => handleBitToggle(index)}
+                        type="button"
+                        onClick={(e) => handleBitToggle(e, index)}
                         title={`Bit ${index} | Weight: ${bitWeight} | ${isNetBit ? 'Network' : 'Host'} bit`}
                         aria-label={`Bit ${index}, value ${value}, ${isNetBit ? 'network' : 'host'} bit`}
                         className={`w-7 h-8 sm:w-6 sm:h-7 rounded-sm border font-mono text-xs font-bold transition-all duration-100 cursor-pointer active:scale-90 flex items-center justify-center shrink-0 ${bitClass}`}

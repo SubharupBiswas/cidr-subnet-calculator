@@ -5,7 +5,7 @@ User-agent: *
 Allow: /
 
 # Block embed-mode parameterised URLs from indexing
-Disallow: /?embed=true
+Disallow: /*embed=true
 
 # Sitemap discovery
-Sitemap: https://subnetmask.tech/sitemap
+Sitemap: https://subnetmask.tech/sitemap.xml

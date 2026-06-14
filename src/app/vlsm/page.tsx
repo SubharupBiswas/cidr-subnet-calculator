@@ -141,15 +141,15 @@ export default function VlsmPlanner() {
   }, [parentBlock, parentPrefix, departments]);
 
   const fieldInput = [
-    'bg-transparent w-full font-mono text-sm text-zinc-800 dark:text-zinc-200',
-    'placeholder:text-zinc-450 dark:placeholder:text-zinc-700',
+    'bg-transparent w-full font-mono text-sm text-[var(--color-text-main)]',
+    'placeholder:text-[var(--color-text-muted)]',
     'focus:outline-none',
   ].join(' ');
 
   const fieldWrap = [
-    'bg-zinc-100 dark:bg-[var(--color-bg)]/60',
-    'border border-zinc-250 dark:border-[var(--color-border)]',
-    'focus-within:border-cyan-500/40',
+    'bg-[var(--color-surface)]',
+    'border border-[var(--color-border)]',
+    'focus-within:border-blue-300 dark:focus-within:border-cyan-500/40',
     'rounded-xl px-3.5 py-2.5 transition-all duration-200',
   ].join(' ');
 
@@ -164,7 +164,7 @@ export default function VlsmPlanner() {
             <h1 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-[var(--color-text-main)] tracking-tight leading-none">
               VLSM Calculator — Variable Length Subnet Mask Planner
             </h1>
-            <p className="text-[11px] font-mono text-zinc-550 dark:text-zinc-500 mt-0.5 tracking-wide">
+            <p className="text-[11px] font-mono text-zinc-500 dark:text-zinc-500 mt-0.5 tracking-wide">
               Variable Length Subnet Masking Engine
             </p>
           </div>
@@ -202,6 +202,11 @@ export default function VlsmPlanner() {
             </span>
           </label>
           <div className={`${fieldWrap} flex flex-col justify-center gap-2`}>
+            <div className="flex items-center justify-between text-xs font-mono font-bold mb-0.5">
+              <span className="text-[var(--color-text-muted)] text-[10px]">/{1}</span>
+              <span className="text-blue-600 dark:text-cyan-400 text-sm tabular-nums">/{parentPrefix}</span>
+              <span className="text-[var(--color-text-muted)] text-[10px]">/{30}</span>
+            </div>
             <input
               id="vlsm-parent-prefix"
               type="range"
@@ -209,26 +214,25 @@ export default function VlsmPlanner() {
               max={30}
               value={parentPrefix}
               onChange={e => setParentPrefix(parseInt(e.target.value))}
-              className={[
-                'w-full h-1 bg-zinc-200 dark:bg-zinc-800 rounded-lg appearance-none cursor-pointer focus:outline-none',
-                '[&::-webkit-slider-thumb]:appearance-none',
-                '[&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3',
-                '[&::-webkit-slider-thumb]:rounded-full',
-                '[&::-webkit-slider-thumb]:bg-cyan-400',
-                '[&::-webkit-slider-thumb]:shadow-[0_0_12px_#22d3ee]',
-                '[&::-webkit-slider-thumb]:transition-transform',
-                '[&::-webkit-slider-thumb]:hover:scale-125',
-                '[&::-moz-range-thumb]:w-3 [&::-moz-range-thumb]:h-3',
-                '[&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border-0',
-                '[&::-moz-range-thumb]:bg-cyan-400',
-              ].join(' ')}
+              style={{
+                '--slider-pct': `${Math.round(((parentPrefix - 1) / 29) * 100)}%`,
+              } as React.CSSProperties}
+              className="w-full"
+              aria-label="Parent network prefix slider"
             />
-            <div className="flex justify-between text-[9px] font-mono text-zinc-500 dark:text-zinc-600 select-none">
-              <span>/1</span>
-              <span>/8</span>
-              <span>/16</span>
-              <span>/24</span>
-              <span>/30</span>
+            <div className="flex justify-between text-[9px] font-mono text-[var(--color-text-muted)] select-none mt-0.5">
+              {[1, 8, 16, 24, 30].map(v => (
+                <button
+                  key={v}
+                  type="button"
+                  onClick={() => setParentPrefix(v)}
+                  className={`transition-colors cursor-pointer hover:text-[var(--color-text-main)] ${
+                    parentPrefix === v ? 'font-bold text-blue-600 dark:text-cyan-400' : ''
+                  }`}
+                >
+                  /{v}
+                </button>
+              ))}
             </div>
           </div>
         </div>
@@ -239,7 +243,7 @@ export default function VlsmPlanner() {
           <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-zinc-500 dark:text-zinc-500">
             Department Requirements
           </span>
-          <span className="text-[10px] font-mono text-zinc-500 dark:text-zinc-500 bg-zinc-150 dark:bg-[var(--color-surface)] border border-zinc-250 dark:border-[var(--color-border)] px-2 py-0.5 rounded-md">
+          <span className="text-[10px] font-mono text-zinc-500 dark:text-zinc-500 bg-zinc-100 dark:bg-[var(--color-surface)] border border-zinc-200 dark:border-[var(--color-border)] px-2 py-0.5 rounded-md">
             {departments.length} dept{departments.length !== 1 ? 's' : ''}
           </span>
         </div>
@@ -247,7 +251,7 @@ export default function VlsmPlanner() {
         {departments.map((dept, idx) => (
           <div
             key={dept.id}
-            className="flex items-center gap-2 bg-zinc-100/60 dark:bg-[var(--color-surface)] border border-zinc-250 dark:border-[var(--color-border)] rounded-xl px-3 py-2 group hover:border-zinc-350 dark:hover:border-zinc-700/60 transition-all duration-150"
+            className="flex items-center gap-2 bg-zinc-100/60 dark:bg-[var(--color-surface)] border border-zinc-200 dark:border-[var(--color-border)] rounded-xl px-3 py-2 group hover:border-zinc-300 dark:hover:border-zinc-700/60 transition-all duration-150"
           >
             <span className="font-mono text-xs font-bold text-[var(--color-text-muted)] dark:text-zinc-700 w-7 shrink-0 select-none">
               $_{idx + 1}
@@ -272,7 +276,7 @@ export default function VlsmPlanner() {
             <span className="text-[10px] font-mono text-zinc-500 dark:text-zinc-600 shrink-0">hosts</span>
             <button
               onClick={() => removeDept(dept.id)}
-              className="text-zinc-450 dark:text-[var(--color-text-muted)] hover:text-rose-600 dark:hover:text-rose-500 hover:bg-rose-500/10 dark:hover:bg-rose-500/10 p-1.5 rounded-lg transition-all shrink-0 cursor-pointer opacity-0 group-hover:opacity-100 focus:opacity-100 ml-1"
+              className="text-zinc-400 dark:text-[var(--color-text-muted)] hover:text-rose-600 dark:hover:text-rose-500 hover:bg-rose-500/10 dark:hover:bg-rose-500/10 p-1.5 rounded-lg transition-all shrink-0 cursor-pointer opacity-0 group-hover:opacity-100 focus:opacity-100 ml-1"
               tabIndex={0}
               title="Remove department"
               aria-label={`Delete Department ${dept.name || idx + 1}`}
@@ -284,7 +288,7 @@ export default function VlsmPlanner() {
 
         <button
           onClick={addDept}
-          className="w-full border border-dashed border-zinc-250 dark:border-[var(--color-border)] hover:border-cyan-500/40 dark:hover:border-cyan-500/30 rounded-xl p-3 text-xs font-mono font-medium text-zinc-500 dark:text-zinc-500 hover:text-cyan-600 dark:hover:text-cyan-400 bg-transparent hover:bg-cyan-500/[0.03] transition-all cursor-pointer flex items-center justify-center gap-2 mt-1"
+          className="w-full border border-dashed border-zinc-200 dark:border-[var(--color-border)] hover:border-cyan-500/40 dark:hover:border-cyan-500/30 rounded-xl p-3 text-xs font-mono font-medium text-zinc-500 dark:text-zinc-500 hover:text-cyan-600 dark:hover:text-cyan-400 bg-transparent hover:bg-cyan-500/[0.03] transition-all cursor-pointer flex items-center justify-center gap-2 mt-1"
         >
           <Plus className="w-3.5 h-3.5" />
           add_department_requirement()
@@ -315,7 +319,7 @@ export default function VlsmPlanner() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-60" />
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-500 shadow-[0_2px_6px_rgba(20,184,166,0.4)] dark:shadow-[0_0_8px_rgba(20,184,166,0.6)]" />
                 </span>
-                <h3 className="text-xs font-bold font-mono uppercase tracking-[0.15em] text-zinc-550 dark:text-[var(--color-text-muted)]">
+                <h3 className="text-xs font-bold font-mono uppercase tracking-[0.15em] text-zinc-500 dark:text-[var(--color-text-muted)]">
                   Allocated Subnets
                   <span className="ml-2 font-mono text-[var(--color-text-muted)] dark:text-zinc-600 normal-case tracking-normal">({result.allocations.length})</span>
                 </h3>
@@ -393,9 +397,9 @@ export default function VlsmPlanner() {
                     key={i}
                     className="inline-flex items-center gap-1.5 font-mono text-xs px-3 py-1.5 rounded-lg bg-zinc-100/50 dark:bg-[var(--color-surface)] border border-zinc-200 dark:border-[var(--color-border)] text-zinc-600 dark:text-[var(--color-text-muted)]"
                   >
-                    <span className="text-zinc-550 dark:text-zinc-500">{frag.networkAddress}</span>
+                    <span className="text-zinc-500 dark:text-zinc-500">{frag.networkAddress}</span>
                     <span className="font-bold text-cyan-600 dark:text-cyan-500">/{frag.prefix}</span>
-                    <span className="text-zinc-450 dark:text-zinc-700 text-[10px]">({frag.size.toLocaleString('en-US')})</span>
+                    <span className="text-zinc-400 dark:text-zinc-700 text-[10px]">({frag.size.toLocaleString('en-US')})</span>
                   </span>
                 ))}
               </div>

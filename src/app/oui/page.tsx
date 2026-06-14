@@ -232,7 +232,7 @@ export default function MacLookup() {
           </div>
 
           <div className="col-span-1 md:col-span-2 text-[10px] font-mono text-zinc-500 dark:text-zinc-600 bg-zinc-100 dark:bg-[var(--color-surface)] rounded-lg px-3 py-2 border border-zinc-200 dark:border-[var(--color-border)]">
-            Accepted: <span className="text-zinc-450 dark:text-zinc-500">AA:BB:CC:DD:EE:FF</span> · <span className="text-zinc-450 dark:text-zinc-500">AA-BB-CC-DD-EE-FF</span> · <span className="text-zinc-450 dark:text-zinc-500">AABB.CCDD.EEFF</span> · <span className="text-zinc-450 dark:text-zinc-500">AABBCCDDEEFF</span>
+            Accepted: <span className="text-zinc-400 dark:text-zinc-500">AA:BB:CC:DD:EE:FF</span> · <span className="text-zinc-400 dark:text-zinc-500">AA-BB-CC-DD-EE-FF</span> · <span className="text-zinc-400 dark:text-zinc-500">AABB.CCDD.EEFF</span> · <span className="text-zinc-400 dark:text-zinc-500">AABBCCDDEEFF</span>
           </div>
         </div>
       )}
@@ -240,7 +240,7 @@ export default function MacLookup() {
       {status === 'idle' && !input && (
         <div className="border border-dashed border-zinc-200 dark:border-[var(--color-border)] rounded-xl p-8 flex flex-col items-center justify-center gap-3 text-center">
           <Wifi className="w-10 h-10 text-[var(--color-text-muted)] dark:text-zinc-700" />
-          <p className="text-sm text-zinc-500 dark:text-zinc-650 max-w-xs">
+          <p className="text-sm text-zinc-500 dark:text-zinc-600 max-w-xs">
             Type any MAC address above. Vendor identification is instant — no API calls required.
           </p>
           <div className="flex flex-wrap justify-center gap-2 mt-2">
@@ -248,7 +248,7 @@ export default function MacLookup() {
               <button
                 key={example}
                 onClick={() => handleChange(example)}
-                className="text-xs font-mono px-2.5 py-1 rounded-md bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700 text-zinc-550 dark:text-[var(--color-text-muted)] hover:text-cyan-600 dark:hover:text-cyan-400 hover:border-zinc-300 dark:hover:border-cyan-500/40 transition-all cursor-pointer"
+                className="text-xs font-mono px-2.5 py-1 rounded-md bg-zinc-100 dark:bg-zinc-800/60 border border-zinc-200 dark:border-zinc-700 text-zinc-500 dark:text-[var(--color-text-muted)] hover:text-cyan-600 dark:hover:text-cyan-400 hover:border-zinc-300 dark:hover:border-cyan-500/40 transition-all cursor-pointer"
               >
                 {example}
               </button>

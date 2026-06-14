@@ -64,32 +64,27 @@ export function FaqAccordion() {
     setOpenIndex(openIndex === index ? null : index);
   };
 
-  const containerClasses = "bg-white border-zinc-200/80 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] dark:bg-[#0d0e15]/80 dark:border-white/[0.04] dark:shadow-[inset_0_1px_2px_rgba(255,255,255,0.01)] rounded-2xl p-6 md:p-8 transition-all duration-300 hover:border-zinc-300 dark:hover:border-zinc-700/60 relative overflow-hidden";
-
   return (
-    <section aria-labelledby="faq-title" className={containerClasses}>
-      {/* Subtle Background Glow */}
-      <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-teal-500/10 dark:bg-teal-500/5 rounded-full blur-[80px] pointer-events-none" />
-
-      <div className="flex items-center gap-3 border-b border-zinc-100 dark:border-zinc-800/60 pb-4 mb-6">
+    <section aria-labelledby="faq-title" className="w-full">
+      <div className="flex items-center gap-3 pb-4 mb-2">
         <HelpCircle className="w-5 h-5 text-teal-600 dark:text-teal-400" />
         <h2 id="faq-title" className="text-xl font-bold text-zinc-900 dark:text-zinc-100 tracking-tight">
           Frequently Asked Questions (FAQ)
         </h2>
       </div>
 
-      <div className="space-y-4" data-testid="faq-accordion">
+      <div className="space-y-0" data-testid="faq-accordion">
         {faqs.map((faq, index) => {
           const isOpen = openIndex === index;
           return (
             <article 
               key={index}
-              className="border border-zinc-200 dark:border-zinc-800/50 rounded-xl bg-zinc-50 dark:bg-zinc-950/40 overflow-hidden transition-all duration-300 hover:border-teal-300 dark:hover:border-teal-500/20"
+              className="border-b border-slate-200/70 dark:border-zinc-800/80 py-4 last:border-0 bg-transparent overflow-hidden transition-all duration-300"
             >
               <button
                 onClick={() => toggleOpen(index)}
                 aria-expanded={isOpen}
-                className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 font-semibold text-zinc-800 dark:text-zinc-200 hover:text-zinc-900 dark:hover:text-zinc-100 transition-all cursor-pointer"
+                className="w-full text-left py-2 flex items-center justify-between gap-4 font-semibold text-zinc-800 dark:text-zinc-200 hover:text-zinc-900 dark:hover:text-zinc-100 transition-all cursor-pointer"
               >
                 <span className="text-sm md:text-base">{faq.question}</span>
                 <ChevronDown 
@@ -101,11 +96,11 @@ export function FaqAccordion() {
               <div 
                 className={`transition-[opacity,transform] duration-200 ease-out origin-top ${
                   isOpen 
-                    ? 'opacity-100 scale-y-100 translate-y-0 h-auto visible border-t border-zinc-200 dark:border-zinc-800/50' 
+                    ? 'opacity-100 scale-y-100 translate-y-0 h-auto visible mt-2' 
                     : 'opacity-0 scale-y-95 -translate-y-2 h-0 invisible overflow-hidden'
                 }`}
               >
-                <div className="p-5 bg-transparent">
+                <div className="py-2 bg-transparent">
                   {faq.answer}
                 </div>
               </div>

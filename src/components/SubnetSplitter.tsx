@@ -63,19 +63,19 @@ export const SubnetSplitter: FC<SubnetSplitterProps> = ({
     });
   }
 
-  const containerClasses = 'bento-card bento-card-hover p-4 md:p-5 flex flex-col gap-6';
+  const containerClasses = 'bento-card bento-card-hover p-4 md:p-5 flex flex-col gap-6 w-full max-w-full block';
 
   return (
     <div className={containerClasses}>
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-zinc-200 dark:border-[var(--color-border)] pb-4">
         <div className="flex items-center gap-3">
           <Columns className="w-4 h-4 text-cyan-400" />
-          <h2 className="text-sm font-bold text-zinc-900 dark:text-[var(--color-text-main)] tracking-tight font-mono uppercase tracking-widest">Subnet Splitter</h2>
+          <h2 className="text-sm font-bold text-zinc-900 dark:text-[var(--color-text-main)] font-mono uppercase tracking-widest">Subnet Splitter</h2>
         </div>
         
         {/* Split Target Controls */}
-        <div className="flex items-center gap-3 bg-zinc-100 dark:bg-[var(--color-surface)] border border-zinc-200 dark:border-[var(--color-border)] rounded-xl px-3 py-1.5 self-start md:self-auto hover:border-zinc-300 dark:hover:border-zinc-700 transition-colors">
-          <span className="text-[10px] font-semibold tracking-wider text-zinc-500 dark:text-[var(--color-text-muted)] uppercase">Split into</span>
+        <div className="flex items-center gap-3 bg-[var(--color-inner-surface)] border border-[var(--color-border)] rounded-xl px-3 py-1.5 self-start md:self-auto hover:border-[var(--color-accent)] transition-colors">
+          <span className="text-[10px] font-semibold tracking-wider text-[var(--color-text-muted)] uppercase">Split into</span>
           <select
             value={targetPrefix}
             onChange={(e) => setTargetPrefix(parseInt(e.target.value, 10))}
@@ -85,7 +85,7 @@ export const SubnetSplitter: FC<SubnetSplitterProps> = ({
               const prefixVal = currentPrefix + 1 + idx;
               const subCount = Math.pow(2, prefixVal - currentPrefix);
               return (
-                <option key={prefixVal} value={prefixVal} className="bg-white dark:bg-[var(--color-surface)] text-zinc-800 dark:text-zinc-300">
+                 <option key={prefixVal} value={prefixVal} className="bg-white dark:bg-[var(--color-surface)] text-zinc-800 dark:text-zinc-300">
                   /{prefixVal} ({subCount.toLocaleString('en-US')} subnets)
                 </option>
               );
@@ -96,8 +96,8 @@ export const SubnetSplitter: FC<SubnetSplitterProps> = ({
 
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-1">
-          <p className="text-sm text-zinc-600 dark:text-[var(--color-text-muted)] leading-relaxed">
-            Splitting <span className="font-mono text-zinc-900 dark:text-zinc-200 font-bold">{networkAddress}/{currentPrefix}</span> into <strong className="text-teal-600 dark:text-teal-400 font-semibold">{numSubnets.toLocaleString('en-US')}</strong> subnetworks of size <span className="font-mono text-zinc-900 dark:text-zinc-200">/{targetPrefix}</span>.
+          <p className="text-sm text-[var(--color-text-muted)] leading-relaxed">
+            Splitting <span className="font-mono text-[var(--color-text-main)] font-bold">{networkAddress}/{currentPrefix}</span> into <strong className="text-teal-600 dark:text-teal-400 font-semibold">{numSubnets.toLocaleString('en-US')}</strong> subnetworks of size <span className="font-mono text-[var(--color-text-main)]">/{targetPrefix}</span>.
           </p>
           <p className="text-xs text-zinc-500 dark:text-[var(--color-text-muted)] leading-relaxed">
             Each subnet provides <strong className="text-zinc-700 dark:text-zinc-300 font-semibold">{targetPrefix >= 31 ? stepSize : stepSize - 2}</strong> usable IP addresses.
@@ -105,7 +105,7 @@ export const SubnetSplitter: FC<SubnetSplitterProps> = ({
         </div>
 
         {/* Scrollable Subnets Table (No text truncation) */}
-        <div className="overflow-x-auto w-full max-w-full border border-zinc-250 dark:border-[var(--color-border)] rounded-xl bg-zinc-100/30 dark:bg-[var(--color-bg)]/30 scrollbar-none">
+        <div className="w-full overflow-x-auto bg-[var(--color-surface)] border border-zinc-200/60 dark:border-zinc-800/60 rounded-2xl p-6 shadow-sm">
           <table className="w-full text-left border-collapse font-mono text-xs">
             <thead>
               <tr className="bg-zinc-200/50 dark:bg-[var(--color-surface)] border-b border-zinc-200 dark:border-[var(--color-border)] text-zinc-500 dark:text-[var(--color-text-muted)] font-semibold tracking-wider text-[9px] uppercase font-mono">
@@ -119,8 +119,8 @@ export const SubnetSplitter: FC<SubnetSplitterProps> = ({
             </thead>
             <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800/40">
               {subnetsList.map((sub, idx) => (
-                <tr key={idx} className="hover:bg-zinc-200/30 dark:hover:bg-zinc-800/30 transition-colors text-zinc-700 dark:text-zinc-300 group">
-                  <td className="py-3 px-4 text-zinc-550 dark:text-zinc-600 text-center font-semibold">{idx + 1}</td>
+              <tr key={idx} className="hover:bg-[var(--color-inner-surface)] dark:hover:bg-zinc-800/30 transition-colors text-[var(--color-text-main)] dark:text-zinc-300 group">
+                  <td className="py-3 px-4 text-[var(--color-text-muted)] text-center font-semibold">{idx + 1}</td>
                   {/* Network Address - Cyan */}
                   <td className="py-3 px-4 text-cyan-600 dark:text-cyan-400 font-semibold">{sub.network}</td>
                   {/* Usable Range - Emerald */}
@@ -145,7 +145,7 @@ export const SubnetSplitter: FC<SubnetSplitterProps> = ({
         </div>
 
         {isCapped && (
-          <div className="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-450 bg-zinc-100/60 dark:bg-[var(--color-surface)] border border-zinc-200 dark:border-[var(--color-border)] rounded-xl p-3">
+          <div className="flex items-center gap-2 text-xs text-[var(--color-text-muted)] bg-[var(--color-inner-surface)] border border-[var(--color-border)] rounded-xl p-3">
             <CornerDownRight className="w-3.5 h-3.5 text-teal-500/60 shrink-0" />
             <span>
               Showing the first <strong>{displayLimit}</strong> subnets of <strong>{numSubnets.toLocaleString('en-US')}</strong>.

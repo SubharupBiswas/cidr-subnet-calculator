@@ -99,7 +99,7 @@ export default function WidgetGenerator() {
               className={`absolute top-3 right-3 p-2 rounded-lg border transition-all duration-200 cursor-pointer ${
                 copied
                   ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/30'
-                  : 'bg-zinc-100 dark:bg-zinc-800/80 border-zinc-200 dark:border-zinc-700 text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200 hover:border-zinc-350 dark:hover:border-zinc-600 hover:bg-zinc-200 dark:hover:bg-zinc-700/80'
+                  : 'bg-zinc-100 dark:bg-zinc-800/80 border-zinc-200 dark:border-zinc-700 text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200 hover:border-zinc-300 dark:hover:border-zinc-600 hover:bg-zinc-200 dark:hover:bg-zinc-700/80'
               }`}
               title="Copy snippet"
               aria-label="Copy widget embed iframe code"
@@ -118,7 +118,7 @@ export default function WidgetGenerator() {
               </span>
             </div>
             <div className="flex items-start gap-2">
-              <span className="text-xs px-2 py-0.5 bg-zinc-100 text-zinc-650 dark:bg-[var(--color-surface)] dark:text-[var(--color-text-muted)] rounded-md font-mono border border-zinc-200 dark:border-[var(--color-border)] shrink-0 mt-0.5">
+              <span className="text-xs px-2 py-0.5 bg-zinc-100 text-zinc-600 dark:bg-[var(--color-surface)] dark:text-[var(--color-text-muted)] rounded-md font-mono border border-zinc-200 dark:border-[var(--color-border)] shrink-0 mt-0.5">
                 height="800"
               </span>
               <span className="text-xs text-zinc-500 dark:text-[var(--color-text-muted)] leading-relaxed">

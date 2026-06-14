@@ -84,7 +84,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
     { path: '/guide',  mobileKey: 'Guide', label: 'Tech Guide',      icon: <BookOpen   className="w-3.5 h-3.5" /> },
   ];
 
-  const headerActionBtn = "p-2 rounded-lg border border-zinc-200 dark:border-[var(--color-border)] bg-zinc-100 dark:bg-[var(--color-surface)] text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200 hover:border-zinc-300 dark:hover:border-zinc-700 hover:bg-zinc-200 dark:hover:bg-zinc-800/80 transition-all duration-200 cursor-pointer";
+  const headerActionBtn = "p-2 rounded-lg border border-[var(--color-border)] bg-[var(--color-surface)] text-[var(--color-text-muted)] hover:text-[var(--color-text-main)] hover:border-blue-200 hover:bg-blue-50 dark:hover:bg-zinc-800/80 transition-all duration-200 cursor-pointer";
 
   /* ── EMBED MODE ── */
   if (isEmbedded) {
@@ -93,12 +93,12 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[250px] bg-gradient-to-b from-cyan-500/8 to-transparent blur-[100px] pointer-events-none z-0" />
         <div className="w-full flex flex-col gap-6 relative z-10 max-w-5xl mx-auto">
           {/* Embed mini-header */}
-          <div className="flex justify-between items-center bg-zinc-100/75 dark:bg-[var(--color-surface)] backdrop-blur-xl p-3 rounded-xl border border-zinc-200 dark:border-[var(--color-border)] shadow-md dark:shadow-lg shadow-zinc-200/50 dark:shadow-black/30">
+          <div className="flex justify-between items-center bg-[var(--color-surface)] backdrop-blur-xl p-3 rounded-xl border border-[var(--color-border)] shadow-sm transition-colors duration-300">
             <div className="flex items-center gap-2.5">
               <div className="h-6 w-6 rounded-md bg-gradient-to-tr from-cyan-500 to-emerald-400 flex items-center justify-center shadow-[0_4px_12px_rgba(34,211,238,0.15)] dark:shadow-[0_0_12px_rgba(34,211,238,0.35)]">
-                <Network className="w-3 h-3 text-zinc-950 stroke-[2.5]" />
+                <Network className="w-3 h-3 text-white stroke-[2.5]" />
               </div>
-              <span className="text-xs font-bold tracking-tight text-zinc-800 dark:text-zinc-200 font-mono">subnetmask.tech</span>
+              <span className="text-xs font-bold tracking-tight text-[var(--color-text-main)] font-mono">subnetmask.tech</span>
             </div>
             <button onClick={toggleTheme} className={headerActionBtn} aria-label="Toggle theme">
               {isDarkMode ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
@@ -116,22 +116,26 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
       {/* Top ambient glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[300px] bg-gradient-to-b from-cyan-500/6 to-transparent blur-[120px] pointer-events-none z-0" />
 
-      <div className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-5 pb-10 z-10 flex-grow relative">
+      <div className="max-w-4xl mx-auto w-full px-4 sm:px-6 pt-5 pb-10 z-10 flex-grow relative flex flex-col">
 
         {/* ── Floating Header ── */}
-        <header className="mb-6 flex items-center justify-between bg-zinc-100/75 dark:bg-[var(--color-surface)] backdrop-blur-xl border border-zinc-250 dark:border-[var(--color-border)] px-4 md:px-5 h-14 rounded-2xl shadow-md dark:shadow-lg shadow-zinc-200/50 dark:shadow-black/40 transition-colors duration-300">
-          {/* Logo */}
-          <div className="flex items-center gap-3">
-            <div className="h-8 w-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-emerald-400 flex items-center justify-center shadow-[0_4px_16px_rgba(34,211,238,0.15)] dark:shadow-[0_0_16px_rgba(34,211,238,0.3)]">
-              <Network className="w-4 h-4 text-zinc-950 stroke-[2.5]" />
+        <header className="mb-6 flex items-center justify-between bg-[var(--color-surface)] backdrop-blur-xl border border-[var(--color-border)] px-4 md:px-5 h-14 rounded-2xl shadow-sm transition-colors duration-300">
+          {/* Logo — routes to root without full reload */}
+          <Link
+            href="/"
+            className="flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 rounded-xl"
+            aria-label="subnetmask.tech — Go to homepage"
+          >
+            <div className="h-8 w-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-emerald-400 flex items-center justify-center shadow-[0_4px_16px_rgba(34,211,238,0.15)] dark:shadow-[0_0_16px_rgba(34,211,238,0.3)] group-hover:scale-105 transition-transform duration-200">
+              <Network className="w-4 h-4 text-white stroke-[2.5]" />
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-sm font-bold tracking-tight text-[var(--color-text-main)] font-mono">subnetmask.tech</span>
+              <span className="text-sm font-bold tracking-tight text-[var(--color-text-main)] font-mono group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-colors duration-200">subnetmask.tech</span>
               <span className="hidden sm:inline-flex text-[9px] uppercase font-bold tracking-widest text-cyan-600 dark:text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 px-2 py-0.5 rounded-md">
                 Static Edge
               </span>
             </div>
-          </div>
+          </Link>
 
           {/* Actions */}
           <div className="flex items-center gap-2">
@@ -147,7 +151,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 border transition-all duration-200 cursor-pointer font-mono ${
                 copiedLink
                   ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/30 shadow-[0_4px_12px_rgba(16,185,129,0.05)] dark:shadow-[0_0_12px_rgba(16,185,129,0.15)]'
-                  : 'bg-zinc-100 dark:bg-[var(--color-surface)] text-zinc-500 dark:text-[var(--color-text-muted)] border-zinc-200 dark:border-[var(--color-border)] hover:bg-zinc-200 dark:hover:bg-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 hover:text-zinc-800 dark:hover:text-zinc-200'
+                  : 'bg-[var(--color-inner-surface)] text-[var(--color-text-muted)] border-[var(--color-border)] hover:bg-[var(--color-inner-surface-hover)] hover:border-[var(--color-accent)] hover:text-[var(--color-text-main)] dark:hover:bg-zinc-800 dark:hover:border-zinc-700 dark:hover:text-zinc-200'
               }`}
             >
               {copiedLink ? <Check className="w-3 h-3" /> : <Share2 className="w-3 h-3" />}
@@ -161,17 +165,17 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
 
         {/* ── Navigation Tab Bar ── */}
         <nav className="flex items-center justify-center mb-8 px-2" aria-label="Main navigation">
-          <div className="inline-flex p-1 bg-zinc-200/40 dark:bg-[var(--color-surface)] border border-zinc-200 dark:border-[var(--color-border)] rounded-xl backdrop-blur-md overflow-x-auto whitespace-nowrap scrollbar-none touch-pan-x shadow-inner gap-0.5">
+          <div className="inline-flex p-1 bg-blue-50/80 dark:bg-[var(--color-surface)] border border-blue-100 dark:border-[var(--color-border)] rounded-xl backdrop-blur-md overflow-x-auto whitespace-nowrap scrollbar-none touch-pan-x shadow-inner gap-0.5">
             {navItems.map(tab => {
               const isActive = pathname === tab.path || (tab.path !== '/' && pathname.startsWith(tab.path));
               return (
                 <Link
                   key={tab.path}
                   href={`${tab.path}${searchParams.toString() ? `?${searchParams.toString()}` : ''}`}
-                  className={`relative px-4 py-2 text-xs font-mono tracking-tight rounded-xl flex items-center justify-center gap-1.5 whitespace-nowrap cursor-pointer transition-all duration-200 ${
+                  className={`relative px-4 py-2 text-xs font-sans tracking-tight rounded-xl flex items-center justify-center gap-1.5 whitespace-nowrap cursor-pointer transition-all duration-200 ${
                     isActive
-                      ? 'bg-zinc-800/80 text-[var(--color-accent)] border border-zinc-700/50'
-                      : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-main)] border border-transparent'
+                      ? 'bg-white dark:bg-zinc-800/80 text-blue-700 dark:text-[var(--color-accent)] border border-blue-200 dark:border-zinc-700/50 shadow-sm font-semibold'
+                      : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-main)] border border-transparent hover:bg-white/60 dark:hover:text-zinc-200'
                   }`}
                 >
                   {tab.icon}

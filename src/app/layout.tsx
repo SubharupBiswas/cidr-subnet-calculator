@@ -3,6 +3,20 @@ import type { ReactNode } from 'react';
 
 import '../index.css';
 import { ClientLayoutWrapper } from '../components/ClientLayoutWrapper';
+import Script from 'next/script';
+import { Inter, JetBrains_Mono } from 'next/font/google';
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-inter',
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-jetbrains-mono',
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://subnetmask.tech'),
@@ -63,8 +77,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           }}
         />
       </head>
-      <body className="antialiased subpixel-antialiased">
-        <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 md:py-12 z-10 flex-grow relative">
+      <body className={`${inter.variable} ${jetbrainsMono.variable} antialiased subpixel-antialiased`}>
+        <div className="min-h-screen">
         <script
           id="site-jsonld"
           type="application/ld+json"
@@ -110,9 +124,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         </ClientLayoutWrapper>
         </div>
       {/* impeccable-live-start */}
-<script src="http://localhost:8400/live.js"></script>
-{/* impeccable-live-end */}
-</body>
+        <Script src="http://localhost:8400/live.js" strategy="lazyOnload" />
+      {/* impeccable-live-end */}
+      </body>
     </html>
   );
 }

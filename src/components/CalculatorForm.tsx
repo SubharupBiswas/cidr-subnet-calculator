@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, KeyboardEvent, Fragment } from 'react';
+import { useState, useEffect, useRef, KeyboardEvent, Fragment } from 'react';
 import { isValidIp } from '../utils/ipv4Utils';
 
 interface CalculatorFormProps {
@@ -19,11 +19,59 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
     return parts.length === 4 ? parts : ['', '', '', ''];
   });
 
+  // Refs for wheel-event targets (passive: false required for preventDefault)
+  const octetRefs = [
+    useRef<HTMLInputElement>(null),
+    useRef<HTMLInputElement>(null),
+    useRef<HTMLInputElement>(null),
+    useRef<HTMLInputElement>(null),
+  ];
+  const prefixRef = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
     const parts = ip.split('.');
     if (parts.length === 4) setOctets(parts);
     else if (ip === '') setOctets(['', '', '', '']);
   }, [ip]);
+
+  // Attach non-passive wheel listeners so we can preventDefault
+  useEffect(() => {
+    const handlers: (() => void)[] = [];
+
+    octetRefs.forEach((ref, index) => {
+      const el = ref.current;
+      if (!el) return;
+
+      const onWheel = (e: WheelEvent) => {
+        e.preventDefault();
+        const current = parseInt(octets[index] || '0', 10);
+        const delta = e.deltaY < 0 ? 1 : -1;
+        const next = Math.min(255, Math.max(0, current + delta));
+        const newOctets = [...octets];
+        newOctets[index] = String(next);
+        setOctets(newOctets);
+        setIp(newOctets.join('.'));
+      };
+
+      el.addEventListener('wheel', onWheel, { passive: false });
+      handlers.push(() => el.removeEventListener('wheel', onWheel));
+    });
+
+    // Wheel listener for CIDR prefix input
+    const prefixEl = prefixRef.current;
+    if (prefixEl) {
+      const onPrefixWheel = (e: WheelEvent) => {
+        e.preventDefault();
+        const delta = e.deltaY < 0 ? 1 : -1;
+        setPrefix(Math.min(32, Math.max(1, prefix + delta)));
+      };
+      prefixEl.addEventListener('wheel', onPrefixWheel, { passive: false });
+      handlers.push(() => prefixEl.removeEventListener('wheel', onPrefixWheel));
+    }
+
+    return () => handlers.forEach(cleanup => cleanup());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [octets, prefix]);
 
   const handlePrefixChange = (val: number) => {
     if (val >= 1 && val <= 32) setPrefix(val);
@@ -49,30 +97,54 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
       (document.getElementById(`octet-${index - 1}`) as HTMLInputElement | null)?.focus();
     } else if (e.key === 'ArrowLeft' && e.currentTarget.selectionStart === 0) {
       (document.getElementById(`octet-${index - 1}`) as HTMLInputElement | null)?.focus();
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      const current = parseInt(octets[index] || '0', 10);
+      const next = Math.min(255, current + 1);
+      handleOctetChange(index, String(next));
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      const current = parseInt(octets[index] || '0', 10);
+      const next = Math.max(0, current - 1);
+      handleOctetChange(index, String(next));
+    }
+  };
+
+  const handlePrefixKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setPrefix(Math.min(32, prefix + 1));
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setPrefix(Math.max(1, prefix - 1));
     }
   };
 
   // Compute slider fill percentage for CSS custom property
   const sliderPct = Math.round(((prefix - 1) / 31) * 100);
 
+  const octetColors = ['bg-[#f87171]', 'bg-[#34d399]', 'bg-[#fbbf24]', 'bg-[#a78bfa]'];
+
   return (
-    <div className="flex flex-col space-y-8 border-b border-zinc-200 dark:border-zinc-800 pb-6 w-full">
+    <div className="flex flex-col space-y-8 border-b border-[var(--color-border)] pb-6 w-full">
       
       {/* IP + CIDR Input Row */}
-      <div className={`flex items-center justify-start gap-1 font-mono transition-colors duration-300 w-fit px-4 py-2 border border-zinc-200 dark:border-zinc-800/60 rounded-xl bg-zinc-50 dark:bg-zinc-950/20 ${!isIpValid && ip !== '' ? 'text-rose-500' : 'text-zinc-900 dark:text-zinc-100'}`}>
+      <div className={`flex items-center justify-start gap-1 font-mono transition-colors duration-300 w-fit px-4 py-2.5 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl shadow-sm ${!isIpValid && ip !== '' ? 'text-rose-500' : 'text-zinc-900 dark:text-zinc-100'}`}>
         {[0, 1, 2, 3].map((index) => (
           <Fragment key={`octet-wrapper-${index}`}>
             <input
+              ref={octetRefs[index]}
               id={`octet-${index}`}
               type="text"
               inputMode="numeric"
               value={octets[index]}
               onChange={(e) => handleOctetChange(index, e.target.value)}
               onKeyDown={(e) => handleKeyDown(index, e)}
-              className="text-xl font-bold p-1 bg-transparent w-12 text-center focus:outline-none focus:ring-1 focus:ring-[var(--color-accent)] focus:bg-white dark:focus:bg-[var(--color-surface)] rounded-md transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              className={`text-zinc-900 font-bold text-xl text-center p-2 rounded-xl shadow-sm w-14 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${octetColors[index]}`}
               placeholder={['192', '168', '1', '1'][index]}
               maxLength={3}
               aria-label={`IP Address Octet ${index + 1}`}
+              title="Scroll to adjust value"
             />
             {index < 3 && (
               <span className="text-zinc-300 dark:text-zinc-700 text-xl font-bold">.</span>
@@ -81,16 +153,19 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
         ))}
 
         {/* CIDR */}
-        <div className="flex items-center pl-2 md:pl-4 border-l border-zinc-200 dark:border-zinc-800 ml-2 md:ml-4">
-          <span className="text-zinc-300 dark:text-zinc-700 text-xl font-bold">/</span>
+        <div className="flex items-center pl-2 md:pl-4 border-l border-[var(--color-border)] ml-2 md:ml-4">
+          <span className="text-[var(--color-text-muted)] text-xl font-bold">/</span>
           <input
+            ref={prefixRef}
             type="number"
             min="1"
             max="32"
             value={prefix}
             onChange={(e) => handlePrefixChange(parseInt(e.target.value, 10) || 1)}
-            className="text-xl font-bold p-1 bg-transparent w-12 text-center focus:outline-none focus:ring-1 focus:ring-[var(--color-accent)] focus:bg-white dark:focus:bg-[var(--color-surface)] rounded-md transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+            onKeyDown={handlePrefixKeyDown}
+            className="text-[var(--color-text-main)] font-bold text-xl text-center p-2 rounded-xl shadow-sm w-14 bg-[var(--color-inner-surface)] dark:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             aria-label="CIDR Prefix Length"
+            title="Scroll to adjust prefix"
           />
         </div>
       </div>
@@ -108,11 +183,12 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
           {commonPrefixes.map((p) => (
             <button
               key={p}
+              type="button"
               onClick={() => handlePrefixChange(p)}
               className={`px-2 py-1 text-[11px] font-mono transition-colors duration-150 cursor-pointer ${
                 prefix === p
-                  ? 'text-zinc-900 dark:text-zinc-100 font-bold'
-                  : 'text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-300'
+                  ? 'text-[var(--color-text-main)] font-bold'
+                  : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-main)]'
               }`}
             >
               /{p}
@@ -129,7 +205,9 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
             value={prefix}
             onChange={(e) => handlePrefixChange(parseInt(e.target.value, 10))}
             className="w-full max-w-sm"
-            style={{ '--slider-pct': `${sliderPct}%` } as React.CSSProperties}
+            style={{
+              background: `linear-gradient(to right, var(--color-accent) ${sliderPct}%, var(--color-border) ${sliderPct}%)`,
+            }}
             aria-label="CIDR Prefix Slider"
           />
         </div>

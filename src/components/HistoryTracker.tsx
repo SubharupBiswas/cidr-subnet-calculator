@@ -52,13 +52,13 @@ export const HistoryTracker: FC<HistoryTrackerProps> = ({
           {history.map((item) => (
             <div
               key={item.id}
-              className="flex items-center justify-between py-2 px-2 rounded-lg border border-zinc-200 dark:border-[var(--color-border)] hover:bg-zinc-200/40 dark:hover:bg-zinc-800/40 hover:border-zinc-300 dark:hover:border-zinc-700/60 transition-all group"
+              className="flex items-center justify-between py-2 px-2 rounded-lg border border-[var(--color-border)] hover:bg-[var(--color-inner-surface-hover)] hover:border-[var(--color-accent)] transition-all group"
             >
               <button
                 onClick={() => onLoadHistory(item.ip, item.prefix)}
                 className="flex-1 flex flex-col text-left cursor-pointer"
               >
-                <span className="font-mono text-sm font-bold text-zinc-700 dark:text-zinc-300 group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition-colors flex items-center gap-2">
+                <span className="font-mono text-sm font-bold text-[var(--color-text-main)] dark:text-zinc-300 group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-colors flex items-center gap-2">
                   <span className="text-[var(--color-text-muted)] dark:text-zinc-700 font-normal select-none text-xs">$_</span>
                   {item.ip}/{item.prefix}
                 </span>
@@ -70,14 +70,14 @@ export const HistoryTracker: FC<HistoryTrackerProps> = ({
               <div className="flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
                 <button
                   onClick={() => onLoadHistory(item.ip, item.prefix)}
-                  className="p-1.5 rounded-md bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-550 dark:text-zinc-500 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-zinc-200 dark:hover:bg-zinc-700 hover:border-zinc-350 dark:hover:border-cyan-500/30 transition-all"
+                  className="p-1.5 rounded-md bg-[var(--color-inner-surface)] border border-[var(--color-border)] text-[var(--color-text-muted)] hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-[var(--color-inner-surface-hover)] hover:border-[var(--color-accent)] dark:bg-zinc-800 dark:border-zinc-700 dark:hover:bg-zinc-700 dark:hover:border-cyan-500/30 transition-all"
                   title="Reload" aria-label={`Reload ${item.ip}/${item.prefix}`}
                 >
                   <ArrowRight className="w-3 h-3" />
                 </button>
                 <button
                   onClick={() => onDeleteHistoryItem(item.id)}
-                  className="p-1.5 rounded-md bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-550 dark:text-zinc-500 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-zinc-200 dark:hover:bg-zinc-700 hover:border-zinc-350 dark:hover:border-rose-500/30 transition-all"
+                  className="p-1.5 rounded-md bg-[var(--color-inner-surface)] border border-[var(--color-border)] text-[var(--color-text-muted)] hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-500/10 hover:border-rose-500/30 dark:bg-zinc-800 dark:border-zinc-700 dark:hover:bg-zinc-700 dark:hover:border-rose-500/30 transition-all"
                   title="Delete" aria-label={`Delete ${item.ip}/${item.prefix}`}
                 >
                   <Trash2 className="w-3 h-3" />

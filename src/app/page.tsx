@@ -225,26 +225,41 @@ function SubnetCalculatorContent() {
 
   return (
     <>
-      <section aria-label="Utility Description" className="mb-10 max-w-3xl">
-        <div className="flex items-center gap-2 text-cyan-600 dark:text-cyan-400 text-xs font-mono font-bold uppercase tracking-[0.15em] mb-2.5">
+      {/* ── Hero Header ── */}
+      <section aria-label="Utility Description" className="w-full text-center mb-10">
+        <div className="flex items-center justify-center gap-2 text-blue-600 dark:text-cyan-400 text-xs font-mono font-bold uppercase tracking-[0.15em] mb-3">
           <Terminal className="w-3.5 h-3.5 stroke-[2.5]" />
           &gt;_ Subnetwork Engineering
         </div>
-        <h1 className="text-3xl font-extrabold tracking-tight leading-tight sm:text-4xl text-zinc-900 dark:text-[var(--color-text-main)]">
+        <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight text-[var(--color-text-main)] text-center max-w-3xl mx-auto font-sans">
           Free IPv4 CIDR Subnet Calculator &amp; Network Mask Tool
         </h1>
-        <p className="mt-2 text-sm text-zinc-500 dark:text-[var(--color-text-muted)] leading-relaxed">
+        <p className="max-w-2xl mx-auto text-base leading-relaxed text-[var(--color-text-muted)] mb-8 mt-3">
           Configure IP parameters client-side to instantly visualize boundaries, masks, binary structures, and subnet splits. Ideal for network architects, systems engineers, and DevOps.
         </p>
       </section>
 
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-start w-full">
-        <div className="lg:col-span-2 flex flex-col gap-4 md:gap-6 w-full">
+      {/* ── Primary Calculator Stream ── */}
+      <div className="w-full flex flex-col items-center gap-8">
+        {/* Calculator Input Board */}
+        <div className="w-full">
           <CalculatorForm ip={ip} setIp={setIp} prefix={prefix} setPrefix={setPrefix} />
-          <Suspense fallback={<div className="animate-pulse h-[200px] bg-zinc-100 dark:bg-[var(--color-surface)] border border-zinc-200 dark:border-[var(--color-border)] rounded-2xl w-full" />}>
+        </div>
+
+        {/* Live Metric Grid */}
+        <div className="w-full">
+          <LiveMatrix result={result} />
+        </div>
+
+        {/* Sub-Tools Stack */}
+        <div className="w-full flex flex-col gap-10">
+          <Suspense fallback={<div className="animate-pulse h-[200px] bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl w-full" />}>
             <BinaryVisualizer result={result} ip={ip} setIp={setIp} />
           </Suspense>
-          <Suspense fallback={<div className="animate-pulse h-[140px] bg-zinc-100 dark:bg-[var(--color-surface)] border border-zinc-200 dark:border-[var(--color-border)] rounded-2xl w-full" />}>
+          <Suspense fallback={<div className="animate-pulse h-[260px] bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl w-full" />}>
+            <SubnetSplitter result={result} onLoadSubnet={handleLoadSubnet} />
+          </Suspense>
+          <Suspense fallback={<div className="animate-pulse h-[140px] bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl w-full" />}>
             <HistoryTracker
               history={history}
               onLoadHistory={handleLoadHistory}
@@ -252,15 +267,8 @@ function SubnetCalculatorContent() {
               onClearHistory={handleClearHistory}
             />
           </Suspense>
-          <Suspense fallback={<div className="animate-pulse h-[100px] bg-zinc-100 dark:bg-[var(--color-surface)] border border-zinc-200 dark:border-[var(--color-border)] rounded-2xl w-full" />}>
+          <Suspense fallback={<div className="animate-pulse h-[100px] bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl w-full" />}>
             <CheatSheet currentPrefix={prefix} onSelectPrefix={setPrefix} />
-          </Suspense>
-        </div>
-
-        <div className="lg:col-span-3 flex flex-col gap-4 md:gap-6 w-full">
-          <LiveMatrix result={result} />
-          <Suspense fallback={<div className="animate-pulse h-[260px] bg-zinc-100 dark:bg-[var(--color-surface)] border border-zinc-200 dark:border-[var(--color-border)] rounded-2xl w-full" />}>
-            <SubnetSplitter result={result} onLoadSubnet={handleLoadSubnet} />
           </Suspense>
           <AdSlot type="rectangle" />
         </div>

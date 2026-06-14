@@ -36,18 +36,19 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
 
   const formatHosts = (num: number) => num.toLocaleString('en-US');
 
-  // Standard metric row
   const MetricRow = ({
     label, value, id
   }: { label: string; value: string; id: string }) => (
-    <div className="flex flex-col xl:flex-row xl:items-baseline xl:gap-2 flex-wrap break-all w-full border-b border-zinc-200 dark:border-zinc-800/60 pb-5 mb-5 last:border-0 last:pb-0 last:mb-0">
-      <div className="flex items-center gap-3 mb-1 xl:mb-0 xl:w-48 shrink-0">
-        <span className="text-[11px] font-bold tracking-widest uppercase text-zinc-600 dark:text-zinc-400">
+    <div className="flex flex-col gap-1 w-full text-left">
+      <div className="flex items-center gap-3">
+        <span className="whitespace-nowrap uppercase tracking-wider text-xs font-bold text-slate-500 dark:text-zinc-500">
           {label}
         </span>
         <CopyBtn text={value} id={id} />
       </div>
-      <span className="text-xl sm:text-2xl font-mono font-semibold tracking-tight text-[var(--color-accent)]">{value}</span>
+      <span className="font-mono text-lg md:text-xl font-bold tracking-tight text-slate-900 dark:text-zinc-100 break-all w-full">
+        {value}
+      </span>
     </div>
   );
 
@@ -55,19 +56,19 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
   const HeroRow = ({
     label, value, id, sublabel
   }: { label: string; value: string; id: string; sublabel?: string }) => (
-    <div className="flex flex-col xl:flex-row xl:items-baseline xl:gap-2 flex-wrap break-all w-full border-b border-zinc-200 dark:border-zinc-800/60 pb-5 mb-5 last:border-0 last:pb-0 last:mb-0">
-      <div className="flex items-center gap-3 mb-1 xl:mb-0 xl:w-48 shrink-0">
-        <span className="text-[11px] font-bold tracking-widest uppercase text-zinc-600 dark:text-zinc-400">
+    <div className="flex flex-col gap-1 w-full text-left">
+      <div className="flex items-center gap-3">
+        <span className="whitespace-nowrap uppercase tracking-wider text-xs font-bold text-slate-500 dark:text-zinc-500">
           {label}
         </span>
         <CopyBtn text={value} id={id} />
       </div>
-      <div className="flex flex-col xl:flex-row xl:items-baseline xl:gap-4">
-        <span className="text-xl sm:text-2xl font-mono font-semibold tracking-tight text-[var(--color-accent)] break-all">
+      <div className="flex flex-col">
+        <span className="font-mono text-lg md:text-xl font-bold tracking-tight text-slate-900 dark:text-zinc-100 break-all w-full">
           {value}
         </span>
         {sublabel && (
-          <span className="text-sm font-mono text-[var(--color-text-muted)] mt-1 xl:mt-0">{sublabel}</span>
+          <span className="text-sm font-mono text-[var(--color-text-muted)] mt-1">{sublabel}</span>
         )}
       </div>
     </div>
@@ -78,9 +79,9 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
     : '0xC0A80101';
 
   return (
-    <div className="flex flex-col gap-6 py-4 w-full">
+    <div className="flex flex-col gap-4 py-2 w-full">
       {/* Primary Network Info Surface */}
-      <div className="bg-zinc-100/50 dark:bg-[var(--color-surface)] rounded-2xl p-5 md:p-6 w-full">
+      <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl p-5 md:p-6 w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         <HeroRow
           label="Usable Host Range"
           value={result?.usableHostRange || '192.168.1.1 – 192.168.1.254'}
@@ -105,7 +106,7 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
       </div>
 
       {/* Technical Data Surface */}
-      <div className="bg-zinc-100/50 dark:bg-[var(--color-surface)] rounded-2xl p-5 md:p-6 w-full">
+      <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl p-5 md:p-6 w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         <MetricRow
           label="Subnet Mask"
           value={result?.subnetMask || '255.255.255.0'}
@@ -130,10 +131,10 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
 
       {/* ── Address Scope Badge ── */}
       {result && (
-        <div className="bg-zinc-100/50 dark:bg-[var(--color-surface)] rounded-2xl p-5 md:p-6 w-full flex flex-col gap-2">
-          <span className="text-[11px] font-bold tracking-widest uppercase text-zinc-600 dark:text-zinc-400 mb-1">Address Scope</span>
+        <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl p-5 md:p-6 w-full flex flex-col gap-2 text-left">
+          <span className="whitespace-nowrap uppercase tracking-wider text-xs font-bold text-[var(--color-text-muted)] mb-1">Address Scope</span>
           <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-4">
-            <span className="text-xl sm:text-2xl font-mono font-semibold tracking-tight text-[var(--color-accent)] uppercase">
+            <span className="font-mono text-lg md:text-xl font-bold tracking-tight text-[var(--color-text-main)] uppercase break-all">
               {result.ipType.type}
             </span>
             <span className="font-sans text-sm text-[var(--color-text-muted)]">{result.ipType.description}</span>
