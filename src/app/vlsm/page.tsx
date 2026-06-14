@@ -163,9 +163,9 @@ export default function VlsmPlanner() {
             <Network className="w-4 h-4 text-cyan-400" />
           </div>
           <div>
-            <h2 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-[var(--color-text-main)] tracking-tight leading-none">
-              VLSM Topology Architect
-            </h2>
+            <h1 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-[var(--color-text-main)] tracking-tight leading-none">
+              VLSM Calculator — Variable Length Subnet Mask Planner
+            </h1>
             <p className="text-[11px] font-mono text-zinc-550 dark:text-[var(--color-text-main)]0 mt-0.5 tracking-wide">
               Variable Length Subnet Masking Engine
             </p>

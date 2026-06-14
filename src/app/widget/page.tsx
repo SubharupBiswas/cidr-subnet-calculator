@@ -42,9 +42,9 @@ export default function WidgetGenerator() {
       <div className="flex flex-col gap-2 border-b border-zinc-200 dark:border-[var(--color-border)] pb-5">
         <div className="flex items-center gap-3">
           <Layout className="w-5 h-5 text-cyan-400" />
-          <h2 className="text-2xl font-bold text-zinc-900 dark:text-[var(--color-text-main)] tracking-tight">
-            Embeddable Widget Generator
-          </h2>
+          <h1 className="text-2xl font-bold text-zinc-900 dark:text-[var(--color-text-main)] tracking-tight">
+            Embeddable Subnet Calculator Widget
+          </h1>
         </div>
         <p className="text-sm text-[var(--color-text-main)]0 dark:text-[var(--color-text-muted)] leading-relaxed">
           Integrate our advanced IPv4 subnet calculator directly into your internal dashboard, documentation portal, or developer hub. Fully responsive, client-side, and zero-latency.

@@ -162,9 +162,9 @@ export default function MacLookup() {
       <div className="flex flex-col gap-2 border-b border-zinc-200 dark:border-[var(--color-border)] pb-5">
         <div className="flex items-center gap-3">
           <Wifi className="w-5 h-5 text-cyan-400 shrink-0" />
-          <h2 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-[var(--color-text-main)] tracking-tight">
-            MAC / OUI Vendor Analyzer
-          </h2>
+          <h1 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-[var(--color-text-main)] tracking-tight">
+            MAC Address OUI Vendor Lookup — Offline
+          </h1>
         </div>
         <p className="text-sm text-[var(--color-text-main)]0 dark:text-[var(--color-text-muted)] leading-relaxed">
           Enter a MAC address in any delimiter format (colon, dash, or dot). The OUI prefix is instantly matched against a hardcoded hardware vendor dictionary — completely offline.

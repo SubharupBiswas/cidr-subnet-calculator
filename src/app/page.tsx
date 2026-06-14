@@ -184,9 +184,9 @@ function SubnetCalculatorContent() {
           <Terminal className="w-3.5 h-3.5 stroke-[2.5]" />
           &gt;_ Subnetwork Engineering
         </div>
-        <h2 className="text-3xl font-extrabold tracking-tight leading-tight sm:text-4xl text-zinc-900 dark:text-[var(--color-text-main)]">
-          Advanced IPv4 Subnet Calculator
-        </h2>
+        <h1 className="text-3xl font-extrabold tracking-tight leading-tight sm:text-4xl text-zinc-900 dark:text-[var(--color-text-main)]">
+          Free IPv4 CIDR Subnet Calculator &amp; Network Mask Tool
+        </h1>
         <p className="mt-2 text-sm text-[var(--color-text-main)]0 dark:text-[var(--color-text-muted)] leading-relaxed">
           Configure IP parameters client-side to instantly visualize boundaries, masks, binary structures, and subnet splits. Ideal for network architects, systems engineers, and DevOps.
         </p>

@@ -46,9 +46,9 @@ export default function SubnetGuide() {
       <div className="flex flex-col gap-3 border-b border-zinc-200 dark:border-[var(--color-border)] pb-6">
         <div className="flex items-center gap-3">
           <BookOpen className="w-5 h-5 text-cyan-400" />
-          <h2 className="text-2xl font-bold text-zinc-900 dark:text-[var(--color-text-main)] tracking-tight">
-            IPv4 Subnetting Guide
-          </h2>
+          <h1 className="text-2xl font-bold text-zinc-900 dark:text-[var(--color-text-main)] tracking-tight">
+            IPv4 Subnetting Tutorial &amp; CIDR Notation Reference Guide
+          </h1>
         </div>
         <p className={prose}>
           A complete technical knowledge base covering IP address architecture, bitwise subnet mathematics, step-by-step subnetting procedures, and modern IPv6 allocation standards.

@@ -1,23 +1,49 @@
 import type { Metadata } from 'next';
+import type { ReactNode } from 'react';
+import Script from 'next/script';
 import '../index.css';
 import { ClientLayoutWrapper } from '../components/ClientLayoutWrapper';
 
 export const metadata: Metadata = {
-  title: 'Advanced IPv4 CIDR Calculator & Subnet Splitter | Subnetmask.tech',
-  description: 'An enterprise-grade client-side IPv4 CIDR calculator and subnetwork engine. Features interactive 32-bit bit-toggling matrices, live visual splits, wildcard mask resolution, hex conversions, and responsive light/dark design sheets.',
+  metadataBase: new URL('https://subnetmask.tech'),
+  title: {
+    template: '%s | Subnetmask.tech',
+    default: 'Advanced IPv4 CIDR Calculator & Subnet Splitter | Subnetmask.tech',
+  },
+  description: 'Free online IPv4 subnet calculator and CIDR tool. Instantly compute network addresses, broadcast addresses, subnet masks, wildcard masks, usable host ranges, and binary breakdowns. Trusted by network architects and CCNA engineers.',
+  keywords: ['CIDR calculator', 'IPv4 subnet calculator', 'online network calculator', 'subnet mask tool', 'subnetting online'],
+  alternates: {
+    canonical: 'https://subnetmask.tech',
+  },
   openGraph: {
     title: 'Advanced IPv4 CIDR Calculator & Subnet Splitter | Subnetmask.tech',
-    description: 'An enterprise-grade client-side IPv4 CIDR calculator and subnetwork engine. Features interactive 32-bit bit-toggling matrices, live visual splits, wildcard mask resolution, hex conversions, and responsive light/dark design sheets.',
+    description: 'Free online IPv4 subnet calculator and CIDR tool. Compute network addresses, subnet masks, wildcard masks, and usable host ranges instantly.',
     url: 'https://subnetmask.tech',
+    siteName: 'Subnetmask.tech',
     type: 'website',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Subnetmask.tech — Advanced IPv4 CIDR Calculator and Subnet Engineering Tool',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Advanced IPv4 CIDR Calculator & Subnet Splitter | Subnetmask.tech',
+    description: 'Free online IPv4 subnet calculator and CIDR tool. Compute network addresses, subnet masks, and usable host ranges instantly.',
+    images: ['/og-image.png'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -38,6 +64,47 @@ export default function RootLayout({
         />
       </head>
       <body>
+        <Script
+          id="site-jsonld"
+          type="application/ld+json"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@graph': [
+                {
+                  '@type': 'WebSite',
+                  '@id': 'https://subnetmask.tech/#website',
+                  url: 'https://subnetmask.tech',
+                  name: 'Subnetmask.tech',
+                  description: 'Free online IPv4 CIDR subnet calculator, VLSM planner, MAC OUI lookup, and subnetting reference guide.',
+                  potentialAction: {
+                    '@type': 'SearchAction',
+                    target: { '@type': 'EntryPoint', urlTemplate: 'https://subnetmask.tech/?ip={search_term_string}&prefix=24' },
+                    'query-input': 'required name=search_term_string',
+                  },
+                },
+                {
+                  '@type': 'SoftwareApplication',
+                  name: 'IPv4 CIDR Subnet Calculator',
+                  url: 'https://subnetmask.tech',
+                  description: 'Free online IPv4 subnet calculator. Compute network addresses, broadcast addresses, subnet masks, wildcard masks, usable host ranges, and binary representations instantly.',
+                  applicationCategory: 'DeveloperApplication',
+                  operatingSystem: 'All',
+                  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+                  featureList: [
+                    'Real-time CIDR subnet calculation',
+                    'Interactive 32-bit binary visualizer',
+                    'Subnet splitter with prefix selection',
+                    'Calculation history tracker',
+                    'Hex IP conversion',
+                    'IP class and address type detection',
+                  ],
+                },
+              ],
+            }),
+          }}
+        />
         <ClientLayoutWrapper>
           {children}
         </ClientLayoutWrapper>
