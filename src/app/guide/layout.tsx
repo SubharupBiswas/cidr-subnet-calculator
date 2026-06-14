@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import Script from 'next/script';
+import { AdSlot } from '../../components/ClientLayoutWrapper';
 
 export const metadata: Metadata = {
   title: 'IPv4 Subnetting Tutorial & CIDR Notation Reference Guide',
@@ -56,6 +57,7 @@ export default function GuideLayout({ children }: { children: ReactNode }) {
         strategy="beforeInteractive"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <AdSlot type="banner" className="mb-6" />
       {children}
     </>
   );

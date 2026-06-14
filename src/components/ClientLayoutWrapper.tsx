@@ -10,21 +10,9 @@ import { FaqAccordion } from './FaqAccordion';
 export function AdSlot({ className, type }: { className?: string; type: 'banner' | 'rectangle' }) {
   return (
     <div
-      className={`relative w-full overflow-hidden select-none rounded-xl border border-zinc-200 dark:border-[var(--color-border)] bg-zinc-100/40 dark:bg-[var(--color-surface)] backdrop-blur-md flex flex-col items-center justify-center gap-1.5 ${className ?? ''} ${type === 'banner' ? 'min-h-[90px]' : 'min-h-[250px]'}`}
+      className={`w-full border border-dashed border-zinc-700/40 rounded-xl bg-zinc-900/10 dark:bg-zinc-950/20 flex items-center justify-center text-xs tracking-wider text-[var(--color-text-muted)] ${className ?? ''} ${type === 'banner' ? 'min-h-[90px]' : 'min-h-[250px]'}`}
     >
-      {/* Fine dot grid texture inside ad frame */}
-      <div className="absolute inset-0 opacity-40"
-        style={{
-          backgroundImage: 'radial-gradient(circle at 1px 1px, var(--color-mesh) 1px, transparent 0)',
-          backgroundSize: '16px 16px'
-        }}
-      />
-      <span className="text-[9px] tracking-[0.22em] uppercase font-mono font-bold text-[var(--color-text-main)]0 dark:text-zinc-600 bg-zinc-200 dark:bg-[var(--color-bg)]/80 border border-zinc-300 dark:border-[var(--color-border)] px-2.5 py-1 rounded-md z-10">
-        Advertisement
-      </span>
-      <span className="text-[10px] font-mono text-[var(--color-text-muted)] dark:text-zinc-700 z-10">
-        {type === 'banner' ? '728×90 / 970×90 Leaderboard' : '300×250 / 336×280 Rectangle'}
-      </span>
+      ADVERTISEMENT SPACE
     </div>
   );
 }
@@ -165,10 +153,10 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
                 <Link
                   key={tab.path}
                   href={`${tab.path}${searchParams.toString() ? `?${searchParams.toString()}` : ''}`}
-                  className={`relative px-3 sm:px-4 py-2 text-xs font-mono tracking-tight rounded-lg flex items-center gap-1.5 whitespace-nowrap cursor-pointer transition-all duration-200 ${
+                  className={`relative px-4 py-2 text-xs font-mono tracking-tight rounded-xl flex items-center justify-center gap-1.5 whitespace-nowrap cursor-pointer transition-all duration-200 ${
                     isActive
-                      ? 'tab-active-indicator bg-white dark:bg-zinc-800 text-cyan-600 dark:text-cyan-400 border border-zinc-200 dark:border-zinc-700/60 shadow-sm font-semibold'
-                      : 'text-[var(--color-text-main)]0 hover:text-zinc-800 dark:hover:text-zinc-300 hover:bg-zinc-200/40 dark:hover:bg-zinc-800/50'
+                      ? 'bg-zinc-800/80 text-[var(--color-accent)] border border-zinc-700/50'
+                      : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-main)] border border-transparent'
                   }`}
                 >
                   {tab.icon}

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import Script from 'next/script';
+import { AdSlot } from '../../components/ClientLayoutWrapper';
 
 export const metadata: Metadata = {
   title: 'Embeddable Subnet Calculator Widget — Free iframe Builder',
@@ -50,6 +51,7 @@ export default function WidgetLayout({ children }: { children: ReactNode }) {
         strategy="beforeInteractive"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <AdSlot type="banner" className="mb-6" />
       {children}
     </>
   );
