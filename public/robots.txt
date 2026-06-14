@@ -8,4 +8,4 @@ Allow: /
 Disallow: /?embed=true
 
 # Sitemap discovery
-Sitemap: https://subnetmask.tech/sitemap.xml
+Sitemap: https://subnetmask.tech/sitemap

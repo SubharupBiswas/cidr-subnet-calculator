@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, Suspense, lazy } from 'react';
+import { useState, useEffect, useRef, Suspense, lazy } from 'react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { Terminal } from 'lucide-react';
 import { CalculatorForm } from '../components/CalculatorForm';
@@ -22,10 +22,10 @@ function AdSlot({ className, type }: { className?: string; type: 'banner' | 'rec
           }`}
       >
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.03)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none" />
-        <span className="text-[9px] tracking-[0.2em] uppercase font-mono font-bold text-[var(--color-text-main)]0 bg-zinc-100 dark:bg-[var(--color-surface)] border border-zinc-300 dark:border-[var(--color-border)] px-2 py-0.5 rounded-md z-10 shadow-sm">
+        <span className="text-[9px] tracking-[0.2em] uppercase font-mono font-bold text-zinc-500 bg-zinc-100 dark:bg-[var(--color-surface)] border border-zinc-300 dark:border-[var(--color-border)] px-2 py-0.5 rounded-md z-10 shadow-sm">
           Ad Placement Space
         </span>
-        <span className="text-[10px] font-mono text-[var(--color-text-main)]0 dark:text-zinc-600 mt-1 z-10">
+        <span className="text-[10px] font-mono text-zinc-500 dark:text-zinc-600 mt-1 z-10">
           {type === 'banner' ? 'Supports 728x90 / 970x90 Leaderboards' : 'Supports 300x250 / 336x280 Rectangles'}
         </span>
       </div>
@@ -60,30 +60,67 @@ function SubnetCalculatorContent() {
   const [result, setResult] = useState<SubnetResult | null>(null);
   const [history, setHistory] = useState<HistoryItem[]>([]);
 
+  // Track whether the current state update came from the URL so we don't
+  // push back to the router and create a circular update loop.
+  const isUpdatingFromUrl = useRef(false);
+
+  // Effect 1: Sync URL → state (only runs when searchParams changes from outside)
   useEffect(() => {
     const queryIp = searchParams.get('ip');
     const queryPrefix = searchParams.get('prefix');
 
-    if (queryIp !== null) {
-      if ((isValidIp(queryIp) || queryIp === '') && queryIp !== ip) {
-        setIpState(queryIp);
-      }
-    } else if (ip !== '192.168.1.1') {
+    let needsUpdate = false;
+
+    if (queryIp !== null && (isValidIp(queryIp) || queryIp === '') && queryIp !== ip) {
+      needsUpdate = true;
+    } else if (queryIp === null && ip !== '192.168.1.1') {
+      needsUpdate = true;
+    }
+
+    if (queryPrefix !== null) {
+      const p = parseInt(queryPrefix, 10);
+      if (p >= 1 && p <= 32 && p !== prefix) needsUpdate = true;
+    } else if (prefix !== 24) {
+      needsUpdate = true;
+    }
+
+    if (!needsUpdate) return;
+
+    isUpdatingFromUrl.current = true;
+
+    if (queryIp !== null && (isValidIp(queryIp) || queryIp === '')) {
+      setIpState(queryIp);
+    } else if (queryIp === null) {
       setIpState('192.168.1.1');
     }
 
     if (queryPrefix !== null) {
       const p = parseInt(queryPrefix, 10);
-      if (p >= 1 && p <= 32 && p !== prefix) {
-        setPrefixState(p);
-      }
-    } else if (prefix !== 24) {
+      if (p >= 1 && p <= 32) setPrefixState(p);
+    } else {
       setPrefixState(24);
     }
-  }, [searchParams, ip, prefix]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 
+  // Effect 2: Sync state → URL + recalculate (only when ip/prefix change from user input)
   useEffect(() => {
     const isIpValid = isValidIp(ip);
+
+    // Always recalculate
+    if (isIpValid) {
+      const calcResult = calculateSubnet(ip, prefix);
+      setResult(calcResult);
+    } else {
+      setResult(null);
+    }
+
+    // Only push to URL if this change came from user input, not from a URL sync
+    if (isUpdatingFromUrl.current) {
+      isUpdatingFromUrl.current = false;
+      return;
+    }
+
     const currentQueryIp = searchParams.get('ip');
     const currentQueryPrefix = searchParams.get('prefix');
 
@@ -100,14 +137,8 @@ function SubnetCalculatorContent() {
       nextParams.set('prefix', prefix.toString());
       router.replace(`${pathname}?${nextParams.toString()}`);
     }
-
-    if (isIpValid) {
-      const calcResult = calculateSubnet(ip, prefix);
-      setResult(calcResult);
-    } else {
-      setResult(null);
-    }
-  }, [ip, prefix, searchParams, router, pathname]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ip, prefix]);
 
   useEffect(() => {
     try {
@@ -202,13 +233,13 @@ function SubnetCalculatorContent() {
         <h1 className="text-3xl font-extrabold tracking-tight leading-tight sm:text-4xl text-zinc-900 dark:text-[var(--color-text-main)]">
           Free IPv4 CIDR Subnet Calculator &amp; Network Mask Tool
         </h1>
-        <p className="mt-2 text-sm text-[var(--color-text-main)]0 dark:text-[var(--color-text-muted)] leading-relaxed">
+        <p className="mt-2 text-sm text-zinc-500 dark:text-[var(--color-text-muted)] leading-relaxed">
           Configure IP parameters client-side to instantly visualize boundaries, masks, binary structures, and subnet splits. Ideal for network architects, systems engineers, and DevOps.
         </p>
       </section>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 md:gap-6 lg:gap-8 items-start w-full">
-        <div className="md:col-span-1 lg:col-span-5 flex flex-col gap-4 md:gap-6 w-full">
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-start w-full">
+        <div className="lg:col-span-2 flex flex-col gap-4 md:gap-6 w-full">
           <CalculatorForm ip={ip} setIp={setIp} prefix={prefix} setPrefix={setPrefix} />
           <Suspense fallback={<div className="animate-pulse h-[200px] bg-zinc-100 dark:bg-[var(--color-surface)] border border-zinc-200 dark:border-[var(--color-border)] rounded-2xl w-full" />}>
             <BinaryVisualizer result={result} ip={ip} setIp={setIp} />
@@ -226,7 +257,7 @@ function SubnetCalculatorContent() {
           </Suspense>
         </div>
 
-        <div className="md:col-span-1 lg:col-span-7 flex flex-col gap-4 md:gap-6 w-full">
+        <div className="lg:col-span-3 flex flex-col gap-4 md:gap-6 w-full">
           <LiveMatrix result={result} />
           <Suspense fallback={<div className="animate-pulse h-[260px] bg-zinc-100 dark:bg-[var(--color-surface)] border border-zinc-200 dark:border-[var(--color-border)] rounded-2xl w-full" />}>
             <SubnetSplitter result={result} onLoadSubnet={handleLoadSubnet} />

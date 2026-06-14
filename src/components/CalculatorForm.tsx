@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, KeyboardEvent, Fragment } from 'react';
-import { Globe, Sliders } from 'lucide-react';
 import { isValidIp } from '../utils/ipv4Utils';
 
 interface CalculatorFormProps {
@@ -53,116 +52,86 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
     }
   };
 
-  // Per-octet accent colors
-  const octetColors = [
-    { text: 'text-emerald-600 dark:text-emerald-400', ring: 'focus:shadow-[0_0_0_2px_rgba(52,211,153,0.25)]', placeholder: '#88' },
-    { text: 'text-amber-600 dark:text-amber-400',   ring: 'focus:shadow-[0_0_0_2px_rgba(251,191,36,0.25)]',  placeholder: '168' },
-    { text: 'text-sky-600 dark:text-sky-400',     ring: 'focus:shadow-[0_0_0_2px_rgba(56,189,248,0.25)]',  placeholder: '1' },
-    { text: 'text-fuchsia-600 dark:text-fuchsia-400', ring: 'focus:shadow-[0_0_0_2px_rgba(232,121,249,0.25)]', placeholder: '1' },
-  ];
-
   // Compute slider fill percentage for CSS custom property
   const sliderPct = Math.round(((prefix - 1) / 31) * 100);
 
   return (
-    <div className="flex flex-col gap-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <h2 className="text-sm font-extrabold text-zinc-900 dark:text-[var(--color-text-main)] tracking-tight font-mono uppercase tracking-widest">Configuration</h2>
-        {!isIpValid && ip !== '' && (
-          <span className="text-[10px] text-rose-400 font-mono animate-pulse flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-rose-400 inline-block" />
-            Invalid Format
-          </span>
-        )}
-      </div>
-
-      {/* IP Input Group */}
-      <div className="flex flex-col gap-2">
-        <label className="text-[10px] uppercase font-bold tracking-widest text-zinc-500 dark:text-zinc-400 font-mono">
-          IPv4 Address / CIDR
-        </label>
-
-        {/* Unified minimal input row */}
-        <div className={`flex flex-wrap items-center gap-2 border-b-2 py-2 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${!isIpValid && ip !== '' ? 'border-rose-500/40' : 'border-zinc-200/50 dark:border-zinc-800/60 focus-within:border-cyan-500/50'}`}>
-          {/* Octets */}
-          <div className="flex items-center gap-0.5 flex-1">
-            {[0, 1, 2, 3].map((index) => (
-              <Fragment key={`octet-wrapper-${index}`}>
-                <input
-                  id={`octet-${index}`}
-                  type="text"
-                  inputMode="numeric"
-                  value={octets[index]}
-                  onChange={(e) => handleOctetChange(index, e.target.value)}
-                  onKeyDown={(e) => handleKeyDown(index, e)}
-                  className={`w-full min-w-0 flex-1 max-w-[4rem] bg-transparent text-center font-mono text-base font-bold rounded-lg py-0.5 focus:outline-none transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${octetColors[index].text} ${octetColors[index].ring}`}
-                  placeholder={['192', '168', '1', '1'][index]}
-                  maxLength={3}
-                  aria-label={`IP Address Octet ${index + 1}`}
-                />
-                {index < 3 && (
-                  <span className="text-zinc-600 font-mono font-bold text-sm select-none">.</span>
-                )}
-              </Fragment>
-            ))}
-          </div>
-
-          {/* CIDR divider + prefix */}
-          <div className="flex items-center gap-1.5 pl-2 border-l border-zinc-200/50 dark:border-zinc-800/60 shrink-0">
-            <span className="text-zinc-500 font-mono text-base font-bold">/</span>
+    <div className="flex flex-col space-y-8 border-b border-zinc-200 dark:border-zinc-800 pb-6 w-full">
+      
+      {/* IP + CIDR Input Row */}
+      <div className={`flex items-center justify-start gap-1 font-mono transition-colors duration-300 w-fit px-4 py-2 border border-zinc-200 dark:border-zinc-800/60 rounded-xl bg-zinc-50 dark:bg-zinc-950/20 ${!isIpValid && ip !== '' ? 'text-rose-500' : 'text-zinc-900 dark:text-zinc-100'}`}>
+        {[0, 1, 2, 3].map((index) => (
+          <Fragment key={`octet-wrapper-${index}`}>
             <input
-              type="number"
-              min="1"
-              max="32"
-              value={prefix}
-              onChange={(e) => handlePrefixChange(parseInt(e.target.value, 10) || 1)}
-              className="w-8 bg-transparent text-center font-mono text-base font-bold text-cyan-400 focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-              aria-label="CIDR Prefix Length"
+              id={`octet-${index}`}
+              type="text"
+              inputMode="numeric"
+              value={octets[index]}
+              onChange={(e) => handleOctetChange(index, e.target.value)}
+              onKeyDown={(e) => handleKeyDown(index, e)}
+              className="text-xl font-bold p-1 bg-transparent w-12 text-center focus:outline-none focus:ring-1 focus:ring-[var(--color-accent)] focus:bg-white dark:focus:bg-[var(--color-surface)] rounded-md transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+              placeholder={['192', '168', '1', '1'][index]}
+              maxLength={3}
+              aria-label={`IP Address Octet ${index + 1}`}
             />
-          </div>
+            {index < 3 && (
+              <span className="text-zinc-300 dark:text-zinc-700 text-xl font-bold">.</span>
+            )}
+          </Fragment>
+        ))}
+
+        {/* CIDR */}
+        <div className="flex items-center pl-2 md:pl-4 border-l border-zinc-200 dark:border-zinc-800 ml-2 md:ml-4">
+          <span className="text-zinc-300 dark:text-zinc-700 text-xl font-bold">/</span>
+          <input
+            type="number"
+            min="1"
+            max="32"
+            value={prefix}
+            onChange={(e) => handlePrefixChange(parseInt(e.target.value, 10) || 1)}
+            className="text-xl font-bold p-1 bg-transparent w-12 text-center focus:outline-none focus:ring-1 focus:ring-[var(--color-accent)] focus:bg-white dark:focus:bg-[var(--color-surface)] rounded-md transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+            aria-label="CIDR Prefix Length"
+          />
         </div>
       </div>
 
-      {/* Prefix Slider */}
-      <div className="flex flex-col gap-3">
-        <div className="flex items-center justify-between">
-          <span className="text-[10px] uppercase font-bold tracking-widest text-zinc-500 dark:text-zinc-400 font-mono">Prefix Length</span>
-          <span className="text-xs font-mono font-bold text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 px-2 py-0.5 rounded-md">/{prefix}</span>
+      {/* Invalid Message */}
+      {!isIpValid && ip !== '' && (
+        <span className="text-xs text-rose-500 font-mono">Invalid IPv4 format</span>
+      )}
+
+      {/* Slider & Presets Row */}
+      <div className="flex flex-col md:flex-row md:items-center justify-start gap-6 md:gap-12">
+        
+        {/* Quick Presets */}
+        <div className="flex items-center gap-1.5 shrink-0">
+          {commonPrefixes.map((p) => (
+            <button
+              key={p}
+              onClick={() => handlePrefixChange(p)}
+              className={`px-2 py-1 text-[11px] font-mono transition-colors duration-150 cursor-pointer ${
+                prefix === p
+                  ? 'text-zinc-900 dark:text-zinc-100 font-bold'
+                  : 'text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-300'
+              }`}
+            >
+              /{p}
+            </button>
+          ))}
         </div>
-        <div className="flex items-center gap-3">
-          <span className="text-[10px] text-zinc-600 font-mono">/1</span>
+
+        {/* Slider */}
+        <div className="flex-1 w-full flex items-center gap-3">
           <input
             type="range"
             min="1"
             max="32"
             value={prefix}
             onChange={(e) => handlePrefixChange(parseInt(e.target.value, 10))}
-            className="flex-1"
+            className="w-full max-w-sm"
             style={{ '--slider-pct': `${sliderPct}%` } as React.CSSProperties}
             aria-label="CIDR Prefix Slider"
           />
-          <span className="text-[10px] text-zinc-600 font-mono">/32</span>
-        </div>
-      </div>
-
-      {/* Quick Presets */}
-      <div className="flex flex-col gap-2">
-        <span className="text-[10px] uppercase font-bold tracking-widest text-zinc-500 dark:text-zinc-400 font-mono">Quick Presets</span>
-        <div className="flex flex-wrap gap-2">
-          {commonPrefixes.map((p) => (
-            <button
-              key={p}
-              onClick={() => handlePrefixChange(p)}
-              className={`px-2.5 py-1 rounded-md text-xs font-mono border transition-all duration-150 cursor-pointer ${
-                prefix === p
-                  ? 'bg-cyan-500/10 border-cyan-500/30 text-cyan-600 dark:text-cyan-400 shadow-[0_4px_12px_rgba(34,211,238,0.08)] dark:shadow-[0_0_12px_rgba(34,211,238,0.12)]'
-                  : 'bg-transparent border-zinc-200/50 dark:border-zinc-800/60 text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-300 hover:border-zinc-300 dark:hover:border-zinc-700'
-              }`}
-            >
-              /{p}
-            </button>
-          ))}
         </div>
       </div>
     </div>

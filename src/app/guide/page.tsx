@@ -1,29 +1,17 @@
 "use client";
 
 import { FC, ReactNode } from 'react';
-import { BookOpen, Server } from 'lucide-react';
 import { getMaskLong, longToIp } from '../../utils/ipv4Utils';
 
 const SectionCard: FC<{ children: ReactNode }> = ({ children }) => (
-  <section className="flex flex-col gap-4">
+  <section className="flex flex-col gap-6 pt-4 pb-8 border-b border-zinc-200 dark:border-[var(--color-border)] last:border-0">
     {children}
   </section>
 );
 
-const CodeBadge: FC<{ children: ReactNode; color?: 'teal' | 'cyan' | 'amber' | 'purple' | 'rose' | 'zinc' }> = ({
-  children,
-  color = 'teal',
-}) => {
-  const palette: Record<string, string> = {
-    teal:   'bg-teal-500/10  text-teal-700 dark:text-teal-400  border-teal-500/20',
-    cyan:   'bg-cyan-500/10  text-cyan-700 dark:text-cyan-400  border-cyan-500/20',
-    amber:  'bg-amber-500/10 text-amber-700 dark:text-amber-400 border-amber-500/20',
-    purple: 'bg-purple-500/10 text-purple-700 dark:text-purple-400 border-purple-500/20',
-    rose:   'bg-rose-500/10  text-rose-700 dark:text-rose-400  border-rose-500/20',
-    zinc:   'bg-zinc-150 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 border-zinc-250 dark:border-zinc-700',
-  };
+const CodeBadge: FC<{ children: ReactNode }> = ({ children }) => {
   return (
-    <code className={`inline-block font-mono text-xs px-2 py-0.5 rounded border ${palette[color]}`}>
+    <code className="inline-block font-mono text-xs px-1.5 py-0.5 font-semibold text-zinc-800 dark:text-zinc-200 bg-zinc-200/50 dark:bg-zinc-800/50">
       {children}
     </code>
   );
@@ -37,27 +25,24 @@ export default function SubnetGuide() {
     matrixRows.push({ prefix: p, mask: longToIp(maskLong), hosts: hostsCount });
   }
 
-  const prose = 'text-sm text-zinc-600 dark:text-[var(--color-text-muted)] leading-relaxed tracking-wide';
-  const heading = 'text-lg font-extrabold text-zinc-900 dark:text-[var(--color-text-main)] flex items-center gap-0 tracking-tight';
-  const strong  = 'font-semibold text-zinc-800 dark:text-zinc-200';
+  const prose = 'text-sm text-zinc-600 dark:text-[var(--color-text-muted)] leading-relaxed tracking-wide max-w-2xl';
+  const heading = 'text-xl font-light text-zinc-900 dark:text-[var(--color-text-main)] tracking-tight mb-2';
+  const strong  = 'font-medium text-zinc-800 dark:text-zinc-200';
 
   return (
-    <div className="w-full flex flex-col gap-10">
-      <div className="flex flex-col gap-3 border-b border-zinc-200 dark:border-[var(--color-border)] pb-6">
-        <div className="flex items-center gap-3">
-          <BookOpen className="w-5 h-5 text-cyan-400" />
-          <h1 className="text-2xl font-bold text-zinc-900 dark:text-[var(--color-text-main)] tracking-tight">
+    <div className="w-full flex flex-col gap-12 lg:gap-24 lg:flex-row">
+      <div className="flex-1 flex flex-col">
+        <div className="flex flex-col gap-4 border-b border-zinc-200 dark:border-[var(--color-border)] pb-8 mb-8">
+          <h1 className="text-3xl font-light text-zinc-900 dark:text-[var(--color-text-main)] tracking-tight">
             IPv4 Subnetting Tutorial &amp; CIDR Notation Reference Guide
           </h1>
+          <p className={prose}>
+            A complete technical knowledge base covering IP address architecture, bitwise subnet mathematics, step-by-step subnetting procedures, and modern IPv6 allocation standards.
+            Designed for network architects, systems engineers, and DevOps practitioners.
+          </p>
         </div>
-        <p className={prose}>
-          A complete technical knowledge base covering IP address architecture, bitwise subnet mathematics, step-by-step subnetting procedures, and modern IPv6 allocation standards.
-          Designed for network architects, systems engineers, and DevOps practitioners.
-        </p>
-      </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 md:gap-10">
-        <div className="md:col-span-1 lg:col-span-4 flex flex-col gap-6 sticky top-24 h-max">
+        <div className="flex flex-col">
           <SectionCard>
             <h3 className={heading}>
               Understanding Classless Inter-Domain Routing (CIDR)
@@ -73,22 +58,15 @@ export default function SubnetGuide() {
               A CIDR address combines an IP with a <span className={strong}>prefix-length</span> suffix that
               dictates exactly how many leading bits belong to the network identifier:
             </p>
-            <div className="bg-zinc-100 dark:bg-[var(--color-bg)]/80 border border-zinc-200 dark:border-[var(--color-border)] rounded-lg p-4 font-mono text-sm flex flex-col gap-2">
-              <span className="text-[var(--color-text-main)]0 dark:text-[var(--color-text-main)]0 text-[11px] uppercase tracking-widest">syntax</span>
-              <span className="text-teal-700 dark:text-teal-300">address/prefix-length</span>
-              <span className="text-[var(--color-text-muted)] dark:text-[var(--color-text-main)]0">──────────────────────</span>
-              <span className="text-zinc-800 dark:text-zinc-200">10.0.0.0<span className="text-cyan-600 dark:text-cyan-400">/24</span>
-                <span className="ml-4 text-[var(--color-text-main)]0 dark:text-[var(--color-text-main)]0"># 254 usable hosts — Class C equivalent</span>
-              </span>
-              <span className="text-zinc-800 dark:text-zinc-200">172.16.0.0<span className="text-cyan-600 dark:text-cyan-400">/20</span>
-                <span className="ml-4 text-[var(--color-text-main)]0 dark:text-[var(--color-text-main)]0"># 4,094 usable hosts — mid-size segment</span>
-              </span>
-              <span className="text-zinc-800 dark:text-zinc-200">192.168.1.128<span className="text-cyan-600 dark:text-cyan-400">/26</span>
-                <span className="ml-4 text-[var(--color-text-main)]0 dark:text-[var(--color-text-main)]0"># 62 usable hosts — fine-grained split</span>
-              </span>
+            <div className="font-mono text-sm flex flex-col gap-2 mt-4 pl-4 border-l-2 border-zinc-300 dark:border-zinc-700">
+              <span className="text-zinc-500 text-[10px] uppercase tracking-widest mb-1">syntax</span>
+              <span className="text-zinc-800 dark:text-zinc-200 mb-2">address/prefix-length</span>
+              <span className="text-zinc-800 dark:text-zinc-200">10.0.0.0/24<span className="ml-4 text-zinc-500"># 254 usable hosts — Class C equivalent</span></span>
+              <span className="text-zinc-800 dark:text-zinc-200">172.16.0.0/20<span className="ml-4 text-zinc-500"># 4,094 usable hosts — mid-size segment</span></span>
+              <span className="text-zinc-800 dark:text-zinc-200">192.168.1.128/26<span className="ml-4 text-zinc-500"># 62 usable hosts — fine-grained split</span></span>
             </div>
-            <p className={prose}>
-              The <CodeBadge color="cyan">/24</CodeBadge> suffix means the first 24 bits are fixed network bits,
+            <p className={prose + " mt-4"}>
+              The <CodeBadge>/24</CodeBadge> suffix means the first 24 bits are fixed network bits,
               leaving the remaining 8 bits to address <span className={strong}>256 total endpoints</span> (254 usable — the network and broadcast addresses are reserved).
             </p>
           </SectionCard>
@@ -100,44 +78,35 @@ export default function SubnetGuide() {
             <p className={prose}>
               All subnet calculations are pure binary arithmetic. Three operations cover every boundary derivation in the IPv4 space:
             </p>
-            <div className="flex flex-col gap-4">
-              <div className="flex gap-3">
-                <span className="mt-0.5 w-6 h-6 shrink-0 rounded-md bg-cyan-100 dark:bg-cyan-500/10 border border-cyan-200 dark:border-cyan-500/20 flex items-center justify-center text-[10px] font-bold text-cyan-700 dark:text-cyan-400">1</span>
-                <div className="flex flex-col gap-1">
-                  <span className={strong + ' text-sm'}>Network Address — Bitwise AND</span>
-                  <p className={prose}>
-                    Perform a bitwise <CodeBadge color="cyan">AND</CodeBadge> between the host IP and the Subnet Mask.
-                    Every bit position where <em>both</em> the IP and the Mask are <CodeBadge color="zinc">1</CodeBadge> stays
-                    as <CodeBadge color="zinc">1</CodeBadge>; all host bits are forced to <CodeBadge color="zinc">0</CodeBadge>,
-                    revealing the base Network Address.
-                  </p>
-                </div>
+            <div className="flex flex-col gap-8 mt-4">
+              <div className="flex flex-col gap-1">
+                <span className={strong + ' font-mono text-sm'}>[1] Network Address — Bitwise AND</span>
+                <p className={prose}>
+                  Perform a bitwise <CodeBadge>AND</CodeBadge> between the host IP and the Subnet Mask.
+                  Every bit position where <em>both</em> the IP and the Mask are <CodeBadge>1</CodeBadge> stays
+                  as <CodeBadge>1</CodeBadge>; all host bits are forced to <CodeBadge>0</CodeBadge>,
+                  revealing the base Network Address.
+                </p>
               </div>
-              <div className="flex gap-3">
-                <span className="mt-0.5 w-6 h-6 shrink-0 rounded-md bg-amber-100 dark:bg-amber-50/10 border border-amber-200 dark:border-amber-500/20 flex items-center justify-center text-[10px] font-bold text-amber-700 dark:text-amber-400">2</span>
-                <div className="flex flex-col gap-1">
-                  <span className={strong + ' text-sm'}>Broadcast Address — Bitwise NOT + OR</span>
-                  <p className={prose}>
-                    First invert the Subnet Mask using a bitwise <CodeBadge color="amber">NOT</CodeBadge> to produce the
-                    Wildcard Mask (all host bits become <CodeBadge color="zinc">1</CodeBadge>). Then apply a bitwise{' '}
-                    <CodeBadge color="amber">OR</CodeBadge> between the Network Address and the Wildcard Mask.
-                    The result forces all host bits high, producing the Broadcast boundary.
-                  </p>
-                </div>
+              <div className="flex flex-col gap-1">
+                <span className={strong + ' font-mono text-sm'}>[2] Broadcast Address — Bitwise NOT + OR</span>
+                <p className={prose}>
+                  First invert the Subnet Mask using a bitwise <CodeBadge>NOT</CodeBadge> to produce the
+                  Wildcard Mask (all host bits become <CodeBadge>1</CodeBadge>). Then apply a bitwise{' '}
+                  <CodeBadge>OR</CodeBadge> between the Network Address and the Wildcard Mask.
+                  The result forces all host bits high, producing the Broadcast boundary.
+                </p>
               </div>
-              <div className="flex gap-3">
-                <span className="mt-0.5 w-6 h-6 shrink-0 rounded-md bg-emerald-100 dark:bg-emerald-50/10 border border-emerald-200 dark:border-emerald-500/20 flex items-center justify-center text-[10px] font-bold text-emerald-700 dark:text-emerald-400">3</span>
-                <div className="flex flex-col gap-1">
-                  <span className={strong + ' text-sm'}>Usable Host Capacity</span>
-                  <p className={prose}>
-                    Total addressable IPs in any subnet follow the power sequence{' '}
-                    <CodeBadge color="teal">2^(32 − n)</CodeBadge>, where <em>n</em> is the prefix length.
-                    Subtracting 2 (for the reserved Network and Broadcast addresses) yields usable endpoint capacity:{' '}
-                    <CodeBadge color="teal">2^(32 − n) − 2</CodeBadge>.
-                    A <CodeBadge color="cyan">/24</CodeBadge> therefore provides{' '}
-                    <CodeBadge color="zinc">2^8 − 2 = 254</CodeBadge> usable host IPs.
-                  </p>
-                </div>
+              <div className="flex flex-col gap-1">
+                <span className={strong + ' font-mono text-sm'}>[3] Usable Host Capacity</span>
+                <p className={prose}>
+                  Total addressable IPs in any subnet follow the power sequence{' '}
+                  <CodeBadge>2^(32 − n)</CodeBadge>, where <em>n</em> is the prefix length.
+                  Subtracting 2 (for the reserved Network and Broadcast addresses) yields usable endpoint capacity:{' '}
+                  <CodeBadge>2^(32 − n) − 2</CodeBadge>.
+                  A <CodeBadge>/24</CodeBadge> therefore provides{' '}
+                  <CodeBadge>2^8 − 2 = 254</CodeBadge> usable host IPs.
+                </p>
               </div>
             </div>
           </SectionCard>
@@ -151,25 +120,25 @@ export default function SubnetGuide() {
               The following worked example demonstrates splitting a large block into equal partitions:
             </p>
 
-            <div className="bg-purple-500/[0.03] dark:bg-purple-500/5 border border-purple-500/20 rounded-xl p-5 flex flex-col gap-4">
-              <p className="text-sm font-semibold text-purple-800 dark:text-purple-300">
-                Goal: Split <CodeBadge color="purple">172.16.0.0/16</CodeBadge> into at least <strong>10 equal subnets</strong>.
+            <div className="pl-4 border-l-2 border-zinc-300 dark:border-zinc-700 py-2 my-4 flex flex-col gap-4">
+              <p className="text-sm font-mono font-semibold text-zinc-800 dark:text-zinc-200">
+                Goal: Split <CodeBadge>172.16.0.0/16</CodeBadge> into at least 10 equal subnets.
               </p>
-              <ol className="list-none flex flex-col gap-3 text-sm text-zinc-650 dark:text-[var(--color-text-muted)]">
-                <li className="flex gap-3">
-                  <span className="shrink-0 font-bold text-purple-700 dark:text-purple-400 w-5">①</span>
-                  <span><span className={strong}>Determine the minimum number of subnet bits needed.</span> We require at least 10 subnets. Evaluate the power-of-two sequence: 2¹=2, 2²=4, 2³=8, 2⁴=<span className="font-bold text-purple-700 dark:text-purple-400">16 ✓</span>. We need to borrow <strong>4 bits</strong>.</span>
+              <ol className="list-none flex flex-col gap-4 text-sm text-zinc-600 dark:text-[var(--color-text-muted)]">
+                <li className="flex gap-4">
+                  <span className="shrink-0 font-mono text-zinc-400">Step 1</span>
+                  <span><span className={strong}>Determine the minimum number of subnet bits needed.</span> We require at least 10 subnets. Evaluate the power-of-two sequence: 2¹=2, 2²=4, 2³=8, 2⁴=<span className="font-bold text-zinc-900 dark:text-zinc-100">16 ✓</span>. We need to borrow <strong>4 bits</strong>.</span>
                 </li>
-                <li className="flex gap-3">
-                  <span className="shrink-0 font-bold text-purple-700 dark:text-purple-400 w-5">②</span>
-                  <span><span className={strong}>Calculate the new prefix length.</span> Original prefix was <CodeBadge color="purple">/16</CodeBadge>. Add the 4 borrowed bits → new working prefix is <CodeBadge color="purple">/20</CodeBadge>.</span>
+                <li className="flex gap-4">
+                  <span className="shrink-0 font-mono text-zinc-400">Step 2</span>
+                  <span><span className={strong}>Calculate the new prefix length.</span> Original prefix was <CodeBadge>/16</CodeBadge>. Add the 4 borrowed bits → new working prefix is <CodeBadge>/20</CodeBadge>.</span>
                 </li>
-                <li className="flex gap-3">
-                  <span className="shrink-0 font-bold text-purple-700 dark:text-purple-400 w-5">③</span>
-                  <span><span className={strong}>Confirm usable host capacity per subnet.</span> Each <CodeBadge color="purple">/20</CodeBadge> block provides 2^(32−20)−2 = <strong>4,094 usable endpoint host nodes</strong>.</span>
+                <li className="flex gap-4">
+                  <span className="shrink-0 font-mono text-zinc-400">Step 3</span>
+                  <span><span className={strong}>Confirm usable host capacity per subnet.</span> Each <CodeBadge>/20</CodeBadge> block provides 2^(32−20)−2 = <strong>4,094 usable endpoint host nodes</strong>.</span>
                 </li>
-                <li className="flex gap-3">
-                  <span className="shrink-0 font-bold text-purple-700 dark:text-purple-400 w-5">④</span>
+                <li className="flex gap-4">
+                  <span className="shrink-0 font-mono text-zinc-400">Step 4</span>
                   <span><span className={strong}>Map subnet block boundaries.</span> The block size is 2^12 = 4096 addresses. The 16 subnets begin at: 172.16.0.0, 172.16.16.0, 172.16.32.0 … 172.16.240.0, each separated by a 4096-address increment in the third octet.</span>
                 </li>
               </ol>
@@ -189,75 +158,75 @@ export default function SubnetGuide() {
               While this tool focuses on IPv4, understanding IPv6 allocation tiers is critical for modern dual-stack infrastructure planning.
             </p>
 
-            <div className="flex flex-col gap-3">
-              <div className="flex items-start gap-4 py-4 border-b border-zinc-200/40 dark:border-zinc-800/40">
-                <CodeBadge color="teal">/64</CodeBadge>
-                <div className="flex flex-col gap-1">
-                  <span className="text-sm font-semibold text-zinc-800 dark:text-zinc-200">Standard LAN Segment</span>
-                  <p className="text-xs text-zinc-550 dark:text-[var(--color-text-muted)] leading-relaxed">
-                    The canonical size for a single IPv6 subnet. Provides <span className={strong}>18.4 quintillion (2⁶⁴) addresses</span> per segment.
-                    You should never subnet below a /64 on a single segment — doing so breaks SLAAC (Stateless Address Autoconfiguration) and NDP (Neighbour Discovery Protocol), which require a full 64-bit host interface identifier field.
-                  </p>
+            <div className="flex flex-col gap-6 mt-6">
+              <div className="flex flex-col gap-1">
+                <div className="flex items-center gap-3">
+                  <CodeBadge>/64</CodeBadge>
+                  <span className="text-sm font-medium text-zinc-800 dark:text-zinc-200">Standard LAN Segment</span>
                 </div>
+                <p className="text-sm text-zinc-600 dark:text-[var(--color-text-muted)] leading-relaxed mt-2">
+                  The canonical size for a single IPv6 subnet. Provides <span className={strong}>18.4 quintillion (2⁶⁴) addresses</span> per segment.
+                  You should never subnet below a /64 on a single segment — doing so breaks SLAAC (Stateless Address Autoconfiguration) and NDP (Neighbour Discovery Protocol), which require a full 64-bit host interface identifier field.
+                </p>
               </div>
-              <div className="flex items-start gap-4 py-4 border-b border-zinc-200/40 dark:border-zinc-800/40">
-                <CodeBadge color="amber">/56</CodeBadge>
-                <div className="flex flex-col gap-1">
-                  <span className="text-sm font-semibold text-zinc-800 dark:text-zinc-200">Consumer / Home Route Delegation</span>
-                  <p className="text-xs text-zinc-550 dark:text-[var(--color-text-muted)] leading-relaxed">
-                    The typical ISP delegation for residential and small-office endpoints via DHCPv6-PD (Prefix Delegation).
-                    A /56 grants the subscriber <span className={strong}>256 independent /64 subnets</span> to route across local VLAN segments, IoT networks, or guest SSIDs.
-                  </p>
+              <div className="flex flex-col gap-1">
+                <div className="flex items-center gap-3">
+                  <CodeBadge>/56</CodeBadge>
+                  <span className="text-sm font-medium text-zinc-800 dark:text-zinc-200">Consumer / Home Route Delegation</span>
                 </div>
+                <p className="text-sm text-zinc-600 dark:text-[var(--color-text-muted)] leading-relaxed mt-2">
+                  The typical ISP delegation for residential and small-office endpoints via DHCPv6-PD (Prefix Delegation).
+                  A /56 grants the subscriber <span className={strong}>256 independent /64 subnets</span> to route across local VLAN segments, IoT networks, or guest SSIDs.
+                </p>
               </div>
-              <div className="flex items-start gap-4 py-4">
-                <CodeBadge color="purple">/48</CodeBadge>
-                <div className="flex flex-col gap-1">
-                  <span className="text-sm font-semibold text-zinc-800 dark:text-zinc-200">Enterprise Site Allocation</span>
-                  <p className="text-xs text-zinc-550 dark:text-[var(--color-text-muted)] leading-relaxed">
-                    The recommended allocation for a single enterprise campus or data centre site, typically announced via BGP.
-                    A /48 provides <span className={strong}>65,536 /64 subnets</span> — sufficient to address every VLAN, server rack, DMZ, and management plane of any large organisation with room for decades of growth.
-                  </p>
+              <div className="flex flex-col gap-1">
+                <div className="flex items-center gap-3">
+                  <CodeBadge>/48</CodeBadge>
+                  <span className="text-sm font-medium text-zinc-800 dark:text-zinc-200">Enterprise Site Allocation</span>
                 </div>
+                <p className="text-sm text-zinc-600 dark:text-[var(--color-text-muted)] leading-relaxed mt-2">
+                  The recommended allocation for a single enterprise campus or data centre site, typically announced via BGP.
+                  A /48 provides <span className={strong}>65,536 /64 subnets</span> — sufficient to address every VLAN, server rack, DMZ, and management plane of any large organisation with room for decades of growth.
+                </p>
               </div>
             </div>
           </SectionCard>
         </div>
+      </div>
 
-        <div className="lg:col-span-5">
-          <div className="border border-zinc-200/50 dark:border-[var(--color-border)]/50 rounded-xl overflow-hidden flex flex-col sticky top-8">
-            <div className="border-b border-zinc-200/50 dark:border-[var(--color-border)]/50 px-4 py-3 flex items-center justify-between">
-              <h4 className="font-bold text-xs font-mono uppercase tracking-widest text-zinc-600 dark:text-[var(--color-text-muted)]">
-                Prefix Scaling Matrix
-              </h4>
-              <span className="text-[10px] font-mono text-[var(--color-text-main)]0 dark:text-[var(--color-text-main)]0">/8 → /32</span>
-            </div>
-            <div className="overflow-y-auto custom-scrollbar" style={{ maxHeight: '680px' }}>
-              <table className="w-full text-left border-collapse font-mono text-xs">
-                <thead className="sticky top-0 backdrop-blur-sm z-10 border-b border-zinc-200/50 dark:border-[var(--color-border)]/50">
-                  <tr className="text-zinc-550 dark:text-[var(--color-text-muted)] font-semibold tracking-wider text-[10px] uppercase">
-                    <th className="py-2.5 px-4 text-center">CIDR</th>
-                    <th className="py-2.5 px-4">Subnet Mask</th>
-                    <th className="py-2.5 px-4 text-right">Usable Hosts</th>
+      <div className="lg:w-[480px] shrink-0">
+        <div className="flex flex-col sticky top-8">
+          <div className="border-b-2 border-zinc-800 dark:border-zinc-200 pb-2 mb-4 flex items-center justify-between">
+            <h4 className="font-bold text-xs font-mono uppercase tracking-widest text-zinc-900 dark:text-zinc-100">
+              Prefix Scaling Matrix
+            </h4>
+            <span className="text-[10px] font-mono text-zinc-500">/8 → /32</span>
+          </div>
+          <div className="overflow-y-auto custom-scrollbar" style={{ maxHeight: 'calc(100vh - 120px)' }}>
+            <table className="table-auto w-full text-left font-mono text-sm tracking-tight">
+              <thead className="sticky top-0 bg-[var(--color-bg)] z-10 border-b border-zinc-200 dark:border-[var(--color-border)]">
+                <tr className="text-zinc-500 text-[10px] uppercase tracking-widest">
+                  <th className="py-2 px-2 font-normal">CIDR</th>
+                  <th className="py-2 px-2 font-normal">Subnet Mask</th>
+                  <th className="py-2 px-2 text-right font-normal">Usable Hosts</th>
+                </tr>
+              </thead>
+              <tbody>
+                {matrixRows.map((row) => (
+                  <tr key={row.prefix} className="border-b border-zinc-100 dark:border-zinc-800/50 hover:bg-zinc-50 dark:hover:bg-zinc-800/30 transition-colors">
+                    <td className="py-2 px-2 text-zinc-900 dark:text-zinc-100 font-medium">
+                      /{row.prefix}
+                    </td>
+                    <td className="py-2 px-2 text-zinc-500">
+                      {row.mask}
+                    </td>
+                    <td className="py-2 px-2 text-right text-zinc-500 tabular-nums">
+                      {row.hosts.toLocaleString('en-US')}
+                    </td>
                   </tr>
-                </thead>
-                <tbody className="">
-                  {matrixRows.map((row) => (
-                    <tr key={row.prefix} className="border-b border-zinc-200/40 dark:border-zinc-800/40 transition-opacity duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:opacity-70">
-                      <td className="py-2.5 px-4 text-center font-bold text-zinc-800 dark:text-zinc-200">
-                        /{row.prefix}
-                      </td>
-                      <td className="py-2.5 px-4 text-zinc-600 dark:text-zinc-400 font-medium tracking-widest tabular-nums">
-                        {row.mask}
-                      </td>
-                      <td className="py-2.5 px-4 text-right font-mono text-zinc-600 dark:text-zinc-500 tabular-nums">
-                        {row.hosts.toLocaleString('en-US')}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

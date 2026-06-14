@@ -1,6 +1,6 @@
 "use client";
 
-import { FC } from 'react';
+import { FC, Fragment } from 'react';
 import { Activity } from 'lucide-react';
 import { SubnetResult } from '../utils/ipv4Utils';
 
@@ -57,62 +57,66 @@ export const BinaryVisualizer: FC<BinaryVisualizerProps> = ({ result, ip, setIp 
         </div>
       </div>
 
-      {/* Bit Stream */}
-      <div className="flex items-center overflow-x-auto whitespace-nowrap scrollbar-none touch-pan-x pb-2 select-none" role="group" aria-label="32-bit binary representation">
-        {stream.map((item) => {
-          if (item.type === 'sep') {
-            return (
-              <div key={item.id} className="w-px h-6 bg-zinc-300 dark:bg-zinc-700/60 mx-1.5 self-center rounded-full shrink-0" aria-hidden />
-            );
-          }
-
-          const { index, value } = item;
-          const isNetBit = index < prefix;
-          const isOne = value === '1';
-
-          let bitClass = '';
-          if (isOne && isNetBit) {
-            bitClass = 'bg-emerald-500/15 dark:bg-emerald-500/25 border-emerald-500/30 dark:border-emerald-500/50 text-emerald-700 dark:text-emerald-300 shadow-sm dark:shadow-[0_0_8px_rgba(16,185,129,0.2)]';
-          } else if (isOne && !isNetBit) {
-            bitClass = 'bg-amber-500/10 dark:bg-amber-500/20 border-amber-500/30 dark:border-amber-500/40 text-amber-700 dark:text-amber-300 shadow-sm dark:shadow-[0_0_8px_rgba(245,158,11,0.15)]';
-          } else if (!isOne && isNetBit) {
-            bitClass = 'bg-emerald-100/50 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800/30 text-emerald-500 dark:text-emerald-700 hover:bg-emerald-200/50 dark:hover:bg-emerald-950/60 hover:border-emerald-300 dark:hover:border-emerald-700/40 hover:text-emerald-650 dark:hover:text-emerald-500';
-          } else {
-            bitClass = 'bg-zinc-100/60 dark:bg-[var(--color-surface)] border-zinc-200 dark:border-[var(--color-border)] text-[var(--color-text-muted)] dark:text-zinc-600 hover:bg-zinc-200/80 dark:hover:bg-zinc-800/80 hover:border-zinc-350 dark:hover:border-zinc-700 hover:text-zinc-700 dark:hover:text-[var(--color-text-muted)]';
-          }
-
-          const bitWeight = Math.pow(2, 7 - (index % 8));
+      {/* Bit Stream & Labels */}
+      <div className="flex items-center overflow-x-auto whitespace-nowrap scrollbar-none touch-pan-x pb-2 select-none gap-2" role="group" aria-label="32-bit binary representation">
+        {[0, 1, 2, 3].map((octetIndex) => {
+          const octetValue = parseInt(rawBinary.substring(octetIndex * 8, octetIndex * 8 + 8), 2);
+          const label = ip.split('.')[octetIndex] || String(octetValue);
 
           return (
-            <button
-              key={index}
-              onClick={() => handleBitToggle(index)}
-              title={`Bit ${index} | Weight: ${bitWeight} | ${isNetBit ? 'Network' : 'Host'} bit`}
-              aria-label={`Bit ${index}, value ${value}, ${isNetBit ? 'network' : 'host'} bit`}
-              className={`w-7 h-8 sm:w-6 sm:h-7 rounded-sm border font-mono text-xs font-bold transition-all duration-100 cursor-pointer active:scale-90 flex items-center justify-center shrink-0 ${bitClass}`}
-            >
-              {value}
-            </button>
-          );
-        })}
-      </div>
+            <Fragment key={octetIndex}>
+              {octetIndex > 0 && (
+                <div className="w-px h-12 bg-zinc-300 dark:bg-zinc-700/60 self-center rounded-full shrink-0 mx-1" aria-hidden />
+              )}
+              <div className="flex flex-col items-center gap-3 shrink-0">
+                {/* 8 Bits */}
+                <div className="flex items-center gap-0.5">
+                  {Array.from({ length: 8 }).map((_, bitOffset) => {
+                    const index = octetIndex * 8 + bitOffset;
+                    const value = bits[index] || '0';
+                    const isNetBit = index < prefix;
+                    const isOne = value === '1';
 
-      {/* Octet labels */}
-      <div className="flex flex-col md:flex-row md:justify-between gap-3 md:gap-1">
-        {[0, 1, 2, 3].map(i => {
-          const octetValue = parseInt(rawBinary.substring(i * 8, i * 8 + 8), 2);
-          const label = ip.split('.')[i] || String(octetValue);
-          return (
-            <div key={i} className="flex flex-row md:flex-col items-center md:items-center justify-between md:justify-start gap-1 md:gap-0.5 border-b border-zinc-200 dark:border-zinc-800 md:border-transparent pb-1 md:pb-0">
-              <span className="text-[9px] font-mono text-[var(--color-text-main)]0 dark:text-zinc-600 uppercase tracking-widest">oct {i + 1}</span>
-              <span className="text-xs font-mono font-bold text-zinc-700 dark:text-[var(--color-text-muted)]">{label}</span>
-            </div>
+                    let bitClass = '';
+                    if (isOne && isNetBit) {
+                      bitClass = 'bg-emerald-500/15 dark:bg-emerald-500/25 border-emerald-500/30 dark:border-emerald-500/50 text-emerald-700 dark:text-emerald-300 shadow-sm dark:shadow-[0_0_8px_rgba(16,185,129,0.2)]';
+                    } else if (isOne && !isNetBit) {
+                      bitClass = 'bg-amber-500/10 dark:bg-amber-500/20 border-amber-500/30 dark:border-amber-500/40 text-amber-700 dark:text-amber-300 shadow-sm dark:shadow-[0_0_8px_rgba(245,158,11,0.15)]';
+                    } else if (!isOne && isNetBit) {
+                      bitClass = 'bg-emerald-100/50 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800/30 text-emerald-500 dark:text-emerald-750 hover:bg-emerald-200/50 dark:hover:bg-emerald-950/60 hover:border-emerald-300 dark:hover:border-emerald-700/40 hover:text-emerald-500';
+                    } else {
+                      bitClass = 'bg-zinc-100/60 dark:bg-[var(--color-surface)] border-zinc-200 dark:border-[var(--color-border)] text-[var(--color-text-muted)] dark:text-zinc-650 hover:bg-zinc-200/80 dark:hover:bg-zinc-800/80 hover:border-zinc-350 dark:hover:border-zinc-700 hover:text-zinc-700 dark:hover:text-[var(--color-text-muted)]';
+                    }
+
+                    const bitWeight = Math.pow(2, 7 - bitOffset);
+
+                    return (
+                      <button
+                        key={index}
+                        onClick={() => handleBitToggle(index)}
+                        title={`Bit ${index} | Weight: ${bitWeight} | ${isNetBit ? 'Network' : 'Host'} bit`}
+                        aria-label={`Bit ${index}, value ${value}, ${isNetBit ? 'network' : 'host'} bit`}
+                        className={`w-7 h-8 sm:w-6 sm:h-7 rounded-sm border font-mono text-xs font-bold transition-all duration-100 cursor-pointer active:scale-90 flex items-center justify-center shrink-0 ${bitClass}`}
+                      >
+                        {value}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Octet Label */}
+                <div className="flex flex-col items-center gap-0.5">
+                  <span className="text-[9px] font-mono text-zinc-500 dark:text-zinc-600 uppercase tracking-widest">oct {octetIndex + 1}</span>
+                  <span className="text-xs font-mono font-bold text-zinc-700 dark:text-[var(--color-text-muted)]">{label}</span>
+                </div>
+              </div>
+            </Fragment>
           );
         })}
       </div>
 
       {/* Info note */}
-      <p className="text-[10px] font-mono text-[var(--color-text-main)]0 dark:text-zinc-600 leading-relaxed border-t border-zinc-200 dark:border-[var(--color-border)] pt-3">
+      <p className="text-[10px] font-mono text-zinc-500 dark:text-zinc-600 leading-relaxed border-t border-zinc-200 dark:border-[var(--color-border)] pt-3">
         Click any bit to toggle. <span className="text-emerald-650 dark:text-emerald-500">Network bits</span> define the boundary — <span className="text-amber-650 dark:text-amber-500">Host bits</span> address endpoints.
       </p>
     </div>

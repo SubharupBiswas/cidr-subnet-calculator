@@ -44,8 +44,8 @@ export const HistoryTracker: FC<HistoryTrackerProps> = ({
       {history.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-8 text-center">
           <History className="w-7 h-7 text-[var(--color-text-muted)] dark:text-zinc-700 mb-2" />
-          <p className="text-xs text-[var(--color-text-main)]0 dark:text-[var(--color-text-muted)] font-mono">No history yet</p>
-          <p className="text-[10px] text-[var(--color-text-main)]0 dark:text-zinc-600 font-mono mt-1">Valid calculations appear here automatically.</p>
+          <p className="text-xs text-zinc-500 dark:text-[var(--color-text-muted)] font-mono">No history yet</p>
+          <p className="text-[10px] text-zinc-500 dark:text-zinc-600 font-mono mt-1">Valid calculations appear here automatically.</p>
         </div>
       ) : (
         <div className="flex flex-col gap-1.5 max-h-[280px] overflow-y-auto scrollbar-none">
@@ -62,7 +62,7 @@ export const HistoryTracker: FC<HistoryTrackerProps> = ({
                   <span className="text-[var(--color-text-muted)] dark:text-zinc-700 font-normal select-none text-xs">$_</span>
                   {item.ip}/{item.prefix}
                 </span>
-                <span className="text-[10px] text-[var(--color-text-main)]0 dark:text-zinc-600 font-mono mt-0.5 ml-5 flex items-center gap-1">
+                <span className="text-[10px] text-zinc-500 dark:text-zinc-600 font-mono mt-0.5 ml-5 flex items-center gap-1">
                   <CornerDownRight className="w-2.5 h-2.5 text-[var(--color-text-muted)] dark:text-zinc-700" />
                   Net: {item.network}
                 </span>
@@ -70,14 +70,14 @@ export const HistoryTracker: FC<HistoryTrackerProps> = ({
               <div className="flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
                 <button
                   onClick={() => onLoadHistory(item.ip, item.prefix)}
-                  className="p-1.5 rounded-md bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-550 dark:text-[var(--color-text-main)]0 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-zinc-200 dark:hover:bg-zinc-700 hover:border-zinc-350 dark:hover:border-cyan-500/30 transition-all"
+                  className="p-1.5 rounded-md bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-550 dark:text-zinc-500 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-zinc-200 dark:hover:bg-zinc-700 hover:border-zinc-350 dark:hover:border-cyan-500/30 transition-all"
                   title="Reload" aria-label={`Reload ${item.ip}/${item.prefix}`}
                 >
                   <ArrowRight className="w-3 h-3" />
                 </button>
                 <button
                   onClick={() => onDeleteHistoryItem(item.id)}
-                  className="p-1.5 rounded-md bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-550 dark:text-[var(--color-text-main)]0 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-zinc-200 dark:hover:bg-zinc-700 hover:border-zinc-350 dark:hover:border-rose-500/30 transition-all"
+                  className="p-1.5 rounded-md bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-550 dark:text-zinc-500 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-zinc-200 dark:hover:bg-zinc-700 hover:border-zinc-350 dark:hover:border-rose-500/30 transition-all"
                   title="Delete" aria-label={`Delete ${item.ip}/${item.prefix}`}
                 >
                   <Trash2 className="w-3 h-3" />

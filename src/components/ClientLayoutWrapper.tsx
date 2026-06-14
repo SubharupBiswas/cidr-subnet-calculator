@@ -84,7 +84,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
     { path: '/guide',  mobileKey: 'Guide', label: 'Tech Guide',      icon: <BookOpen   className="w-3.5 h-3.5" /> },
   ];
 
-  const headerActionBtn = "p-2 rounded-lg border border-zinc-200 dark:border-[var(--color-border)] bg-zinc-100 dark:bg-[var(--color-surface)] text-[var(--color-text-main)]0 hover:text-zinc-800 dark:hover:text-zinc-200 hover:border-zinc-300 dark:hover:border-zinc-700 hover:bg-zinc-200 dark:hover:bg-zinc-800/80 transition-all duration-200 cursor-pointer";
+  const headerActionBtn = "p-2 rounded-lg border border-zinc-200 dark:border-[var(--color-border)] bg-zinc-100 dark:bg-[var(--color-surface)] text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200 hover:border-zinc-300 dark:hover:border-zinc-700 hover:bg-zinc-200 dark:hover:bg-zinc-800/80 transition-all duration-200 cursor-pointer";
 
   /* ── EMBED MODE ── */
   if (isEmbedded) {
@@ -116,7 +116,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
       {/* Top ambient glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[300px] bg-gradient-to-b from-cyan-500/6 to-transparent blur-[120px] pointer-events-none z-0" />
 
-      <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-5 pb-10 z-10 flex-grow relative">
+      <div className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-5 pb-10 z-10 flex-grow relative">
 
         {/* ── Floating Header ── */}
         <header className="mb-6 flex items-center justify-between bg-zinc-100/75 dark:bg-[var(--color-surface)] backdrop-blur-xl border border-zinc-250 dark:border-[var(--color-border)] px-4 md:px-5 h-14 rounded-2xl shadow-md dark:shadow-lg shadow-zinc-200/50 dark:shadow-black/40 transition-colors duration-300">
@@ -147,7 +147,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 border transition-all duration-200 cursor-pointer font-mono ${
                 copiedLink
                   ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/30 shadow-[0_4px_12px_rgba(16,185,129,0.05)] dark:shadow-[0_0_12px_rgba(16,185,129,0.15)]'
-                  : 'bg-zinc-100 dark:bg-[var(--color-surface)] text-[var(--color-text-main)]0 dark:text-[var(--color-text-muted)] border-zinc-200 dark:border-[var(--color-border)] hover:bg-zinc-200 dark:hover:bg-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 hover:text-zinc-800 dark:hover:text-zinc-200'
+                  : 'bg-zinc-100 dark:bg-[var(--color-surface)] text-zinc-500 dark:text-[var(--color-text-muted)] border-zinc-200 dark:border-[var(--color-border)] hover:bg-zinc-200 dark:hover:bg-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 hover:text-zinc-800 dark:hover:text-zinc-200'
               }`}
             >
               {copiedLink ? <Check className="w-3 h-3" /> : <Share2 className="w-3 h-3" />}

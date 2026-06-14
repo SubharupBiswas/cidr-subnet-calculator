@@ -4,36 +4,37 @@
 
 /* ─── Design Tokens ─── */
 :root {
-  --font-sans: 'Geist', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Geist', 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono: 'Geist Mono', 'JetBrains Mono', monospace;
   --radius-card: 12px;
-  --color-accent: #22d3ee;
+  --color-accent: #1c1917;
 
   /* Light Theme Tokens */
-  --color-bg: #f4f4f5;          /* zinc-100 base background */
-  --color-surface: rgba(255, 255, 255, 0.75); /* Clean crisp light bento card */
-  --color-border: #e4e4e7;      /* zinc-200 border lines */
-  --color-text-main: #09090b;   /* zinc-950 primary text */
-  --color-text-muted: #71717a;  /* zinc-500 secondary text */
-  --color-inner-surface: #ffffff;
-  --color-inner-surface-hover: rgba(255, 255, 255, 0.95);
-  --color-mesh: rgba(9, 9, 11, 0.035);
-  --shadow-card: 0 4px 20px -2px rgba(9, 9, 11, 0.05), 0 2px 8px -1px rgba(9, 9, 11, 0.03);
-  --shadow-card-hover: 0 12px 30px -4px rgba(9, 9, 11, 0.08), 0 4px 12px -2px rgba(9, 9, 11, 0.04);
+  --color-bg: #fcfbf9;
+  --color-surface: transparent; 
+  --color-border: #e6e4df;
+  --color-text-main: #1c1917;
+  --color-text-muted: #78716c;
+  --color-inner-surface: transparent;
+  --color-inner-surface-hover: rgba(28, 25, 23, 0.02);
+  --color-mesh: rgba(28, 25, 23, 0.03);
+  --shadow-card: none;
+  --shadow-card-hover: none;
 }
 
 .dark {
-  /* Premium Dark Theme Tokens (Preserve previous bento values exactly) */
-  --color-bg: #09090b;          /* zinc-950 base background */
-  --color-surface: rgba(24, 24, 27, 0.72); 
-  --color-border: #27272a;      /* zinc-800 border lines */
-  --color-text-main: #fafafa;   /* zinc-50 primary text */
-  --color-text-muted: #a1a1aa;  /* zinc-400 secondary text */
-  --color-inner-surface: #18181b; /* zinc-900 */
-  --color-inner-surface-hover: rgba(24, 24, 27, 0.8);
-  --color-mesh: rgba(255, 255, 255, 0.035);
-  --shadow-card: 0 8px 32px -8px rgba(0, 0, 0, 0.5);
-  --shadow-card-hover: 0 0 0 1px rgba(34, 211, 238, 0.08), 0 8px 32px -8px rgba(0, 0, 0, 0.5), 0 0 60px -20px rgba(34, 211, 238, 0.06);
+  /* Rich, warm-tinted neutrals */
+  --color-bg: oklch(18% 0.012 285);
+  --color-surface: oklch(22% 0.012 285); 
+  --color-border: oklch(28% 0.012 285);
+  --color-text-main: oklch(95% 0.01 285);
+  --color-text-muted: oklch(70% 0.01 285);
+  --color-inner-surface: oklch(24% 0.012 285);
+  --color-inner-surface-hover: rgba(255, 255, 255, 0.04);
+  --color-mesh: rgba(255, 255, 255, 0.02);
+  --shadow-card: none;
+  --shadow-card-hover: none;
+  --color-accent: #22d3ee;
 }
 
 /* ─── Base Typography ─── */
@@ -88,53 +89,58 @@ html {
 input[type="range"] {
   appearance: none;
   -webkit-appearance: none;
-  height: 4px;
+  height: 2px;
   border-radius: 9999px;
   outline: none;
   cursor: pointer;
+  background: var(--color-border);
 }
 
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
-  background: #22d3ee;
-  box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.15), 0 0 16px rgba(34, 211, 238, 0.35);
+  background: var(--color-text-main);
+  box-shadow: 0 0 0 2px var(--color-bg), 0 0 0 3px var(--color-border);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
   cursor: pointer;
 }
 
 input[type="range"]::-webkit-slider-thumb:hover {
-  transform: scale(1.2);
-  box-shadow: 0 0 0 4px rgba(34, 211, 238, 0.2), 0 0 24px rgba(34, 211, 238, 0.5);
+  transform: scale(1.1);
+  box-shadow: 0 0 0 2px var(--color-bg), 0 0 0 4px var(--color-text-muted);
 }
 
 input[type="range"]::-moz-range-thumb {
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
-  background: #22d3ee;
-  box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.15), 0 0 16px rgba(34, 211, 238, 0.35);
+  background: var(--color-text-main);
+  box-shadow: 0 0 0 2px var(--color-bg), 0 0 0 3px var(--color-border);
   border: none;
   cursor: pointer;
 }
 
 /* Light mode slider track */
 input[type="range"] {
-  background: linear-gradient(to right, #22d3ee var(--slider-pct, 70%), #27272a var(--slider-pct, 70%));
+  background: linear-gradient(to right, var(--color-text-main) var(--slider-pct, 70%), var(--color-border) var(--slider-pct, 70%));
 }
 
 /* ─── Glow text utilities ─── */
-.glow-text-cyan {
-  text-shadow: 0 0 20px rgba(34, 211, 238, 0.4);
-}
+  .glow-text-cyan {
+    text-shadow: none;
+  }
+  .focus-glow-cyan {
+    box-shadow: none;
+    border-color: var(--color-text-main) !important;
+  }
 .glow-text-emerald {
-  text-shadow: 0 0 16px rgba(16, 185, 129, 0.35);
+  text-shadow: none;
 }
 .glow-text-amber {
-  text-shadow: 0 0 16px rgba(245, 158, 11, 0.35);
+  text-shadow: none;
 }
 
 /* ─── Glassmorphism helpers ─── */

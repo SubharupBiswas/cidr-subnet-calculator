@@ -63,7 +63,7 @@ export const SubnetSplitter: FC<SubnetSplitterProps> = ({
     });
   }
 
-  const containerClasses = 'bento-card bento-card-hover p-4 md:p-5 flex flex-col gap-6 h-full';
+  const containerClasses = 'bento-card bento-card-hover p-4 md:p-5 flex flex-col gap-6';
 
   return (
     <div className={containerClasses}>
@@ -75,7 +75,7 @@ export const SubnetSplitter: FC<SubnetSplitterProps> = ({
         
         {/* Split Target Controls */}
         <div className="flex items-center gap-3 bg-zinc-100 dark:bg-[var(--color-surface)] border border-zinc-200 dark:border-[var(--color-border)] rounded-xl px-3 py-1.5 self-start md:self-auto hover:border-zinc-300 dark:hover:border-zinc-700 transition-colors">
-          <span className="text-[10px] font-semibold tracking-wider text-[var(--color-text-main)]0 dark:text-[var(--color-text-muted)] uppercase">Split into</span>
+          <span className="text-[10px] font-semibold tracking-wider text-zinc-500 dark:text-[var(--color-text-muted)] uppercase">Split into</span>
           <select
             value={targetPrefix}
             onChange={(e) => setTargetPrefix(parseInt(e.target.value, 10))}
@@ -96,10 +96,10 @@ export const SubnetSplitter: FC<SubnetSplitterProps> = ({
 
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-1">
-          <p className="text-sm text-zinc-600 dark:text-[var(--color-text-muted)]">
+          <p className="text-sm text-zinc-600 dark:text-[var(--color-text-muted)] leading-relaxed">
             Splitting <span className="font-mono text-zinc-900 dark:text-zinc-200 font-bold">{networkAddress}/{currentPrefix}</span> into <strong className="text-teal-600 dark:text-teal-400 font-semibold">{numSubnets.toLocaleString('en-US')}</strong> subnetworks of size <span className="font-mono text-zinc-900 dark:text-zinc-200">/{targetPrefix}</span>.
           </p>
-          <p className="text-xs text-[var(--color-text-main)]0 dark:text-[var(--color-text-muted)]">
+          <p className="text-xs text-zinc-500 dark:text-[var(--color-text-muted)] leading-relaxed">
             Each subnet provides <strong className="text-zinc-700 dark:text-zinc-300 font-semibold">{targetPrefix >= 31 ? stepSize : stepSize - 2}</strong> usable IP addresses.
           </p>
         </div>
@@ -108,7 +108,7 @@ export const SubnetSplitter: FC<SubnetSplitterProps> = ({
         <div className="overflow-x-auto w-full max-w-full border border-zinc-250 dark:border-[var(--color-border)] rounded-xl bg-zinc-100/30 dark:bg-[var(--color-bg)]/30 scrollbar-none">
           <table className="w-full text-left border-collapse font-mono text-xs">
             <thead>
-              <tr className="bg-zinc-200/50 dark:bg-[var(--color-surface)] border-b border-zinc-200 dark:border-[var(--color-border)] text-[var(--color-text-main)]0 dark:text-[var(--color-text-muted)] font-semibold tracking-wider text-[9px] uppercase font-mono">
+              <tr className="bg-zinc-200/50 dark:bg-[var(--color-surface)] border-b border-zinc-200 dark:border-[var(--color-border)] text-zinc-500 dark:text-[var(--color-text-muted)] font-semibold tracking-wider text-[9px] uppercase font-mono">
                 <th className="py-3 px-4 w-12 text-center">No.</th>
                 <th className="py-3 px-4">Network Address</th>
                 <th className="py-3 px-4">Usable Host Range</th>
@@ -132,7 +132,7 @@ export const SubnetSplitter: FC<SubnetSplitterProps> = ({
                   <td className="py-3 px-4 text-center">
                     <button
                       onClick={() => onLoadSubnet(sub.networkIp, targetPrefix)}
-                      className="p-1.5 text-[var(--color-text-muted)] dark:text-[var(--color-text-main)]0 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-cyan-500/10 rounded-md transition-colors inline-flex items-center justify-center cursor-pointer"
+                      className="p-1.5 text-[var(--color-text-muted)] dark:text-zinc-500 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-cyan-500/10 rounded-md transition-colors inline-flex items-center justify-center cursor-pointer"
                       title="Load Subnet"
                     >
                       <ArrowRight className="w-4 h-4" />
@@ -145,7 +145,7 @@ export const SubnetSplitter: FC<SubnetSplitterProps> = ({
         </div>
 
         {isCapped && (
-          <div className="flex items-center gap-2 text-xs text-[var(--color-text-main)]0 dark:text-zinc-450 bg-zinc-100/60 dark:bg-[var(--color-surface)] border border-zinc-200 dark:border-[var(--color-border)] rounded-xl p-3">
+          <div className="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-450 bg-zinc-100/60 dark:bg-[var(--color-surface)] border border-zinc-200 dark:border-[var(--color-border)] rounded-xl p-3">
             <CornerDownRight className="w-3.5 h-3.5 text-teal-500/60 shrink-0" />
             <span>
               Showing the first <strong>{displayLimit}</strong> subnets of <strong>{numSubnets.toLocaleString('en-US')}</strong>.

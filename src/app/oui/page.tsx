@@ -149,7 +149,7 @@ export default function MacLookup() {
   };
 
   const statusConfig = {
-    idle:    { icon: <Wifi className="w-5 h-5 text-[var(--color-text-muted)] dark:text-[var(--color-text-main)]0" />,          chipIcon: <Wifi className="w-3.5 h-3.5" />,          label: 'Awaiting Input',          badge: 'bg-zinc-100 text-[var(--color-text-main)]0 border-zinc-200 dark:bg-zinc-800/60 dark:text-[var(--color-text-muted)] dark:border-zinc-700/40' },
+    idle:    { icon: <Wifi className="w-5 h-5 text-[var(--color-text-muted)] dark:text-zinc-500" />,          chipIcon: <Wifi className="w-3.5 h-3.5" />,          label: 'Awaiting Input',          badge: 'bg-zinc-100 text-zinc-500 border-zinc-200 dark:bg-zinc-800/60 dark:text-[var(--color-text-muted)] dark:border-zinc-700/40' },
     known:   { icon: <ShieldCheck className="w-5 h-5 text-emerald-500 dark:text-emerald-400" />, chipIcon: <ShieldCheck className="w-3.5 h-3.5" />, label: 'Vendor Identified',     badge: 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-500/10 dark:text-emerald-400 dark:border-emerald-500/20' },
     unknown: { icon: <ShieldAlert className="w-5 h-5 text-amber-500 dark:text-amber-400" />,   chipIcon: <ShieldAlert className="w-3.5 h-3.5" />,   label: 'OUI Not in Dictionary', badge: 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-500/10 dark:text-amber-400 dark:border-amber-500/20' },
     invalid: { icon: <ShieldX className="w-5 h-5 text-rose-500 dark:text-rose-400" />,         chipIcon: <ShieldX className="w-3.5 h-3.5" />,         label: 'Invalid MAC Format',    badge: 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-500/10 dark:text-rose-400 dark:border-rose-500/20' },
@@ -166,14 +166,14 @@ export default function MacLookup() {
             MAC Address OUI Vendor Lookup — Offline
           </h1>
         </div>
-        <p className="text-sm text-[var(--color-text-main)]0 dark:text-[var(--color-text-muted)] leading-relaxed">
+        <p className="text-sm text-zinc-500 dark:text-[var(--color-text-muted)] leading-relaxed">
           Enter a MAC address in any delimiter format (colon, dash, or dot). The OUI prefix is instantly matched against a hardcoded hardware vendor dictionary — completely offline.
         </p>
       </div>
 
       <div className="relative">
         <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none">
-          <Search className="w-4 h-4 text-[var(--color-text-muted)] dark:text-[var(--color-text-main)]0" />
+          <Search className="w-4 h-4 text-[var(--color-text-muted)] dark:text-zinc-500" />
         </div>
         <input
           ref={inputRef}
@@ -212,27 +212,27 @@ export default function MacLookup() {
           <div className="col-span-1 md:col-span-2 grid grid-cols-2 md:grid-cols-4 gap-6 pt-2">
             {[
               { label: 'Formatted MAC', value: lookupResult.formatted, color: 'text-zinc-800 dark:text-[var(--color-text-main)]' },
-            { label: 'MAC Type', value: lookupResult.macType, color: 'text-zinc-700 dark:text-zinc-300' },
-            {
-              label: 'Multicast Bit',
-              value: lookupResult.isMulticast ? 'Set (Bit 0 = 1)' : 'Clear (Bit 0 = 0)',
-              color: lookupResult.isMulticast ? 'text-rose-600 dark:text-rose-400' : 'text-emerald-600 dark:text-emerald-400',
-            },
-            {
-              label: 'Local/Universal',
-              value: lookupResult.isLocal ? 'Locally Administered' : 'Globally Unique',
-              color: lookupResult.isLocal ? 'text-amber-600 dark:text-amber-400' : 'text-cyan-600 dark:text-cyan-400',
-            },
-          ].map(item => (
-            <div key={item.label} className="flex flex-col gap-1.5">
-              <p className="text-[9px] font-bold uppercase tracking-widest text-zinc-500">{item.label}</p>
-              <p className={`font-mono text-xs font-bold break-all ${item.color}`}>{item.value}</p>
-            </div>
-          ))}
+              { label: 'MAC Type', value: lookupResult.macType, color: 'text-zinc-700 dark:text-zinc-300' },
+              {
+                label: 'Multicast Bit',
+                value: lookupResult.isMulticast ? 'Set (Bit 0 = 1)' : 'Clear (Bit 0 = 0)',
+                color: lookupResult.isMulticast ? 'text-rose-600 dark:text-rose-400' : 'text-emerald-600 dark:text-emerald-400',
+              },
+              {
+                label: 'Local/Universal',
+                value: lookupResult.isLocal ? 'Locally Administered' : 'Globally Unique',
+                color: lookupResult.isLocal ? 'text-amber-600 dark:text-amber-400' : 'text-cyan-600 dark:text-cyan-400',
+              },
+            ].map(item => (
+              <div key={item.label} className="flex flex-col gap-1.5">
+                <p className="text-[9px] font-bold uppercase tracking-widest text-zinc-500">{item.label}</p>
+                <p className={`font-mono text-xs font-bold break-all ${item.color}`}>{item.value}</p>
+              </div>
+            ))}
           </div>
 
-          <div className="col-span-1 md:col-span-2 text-[10px] font-mono text-[var(--color-text-main)]0 dark:text-zinc-600 bg-zinc-100 dark:bg-[var(--color-surface)] rounded-lg px-3 py-2 border border-zinc-200 dark:border-[var(--color-border)]">
-            Accepted: <span className="text-zinc-450 dark:text-[var(--color-text-main)]0">AA:BB:CC:DD:EE:FF</span> · <span className="text-zinc-450 dark:text-[var(--color-text-main)]0">AA-BB-CC-DD-EE-FF</span> · <span className="text-zinc-450 dark:text-[var(--color-text-main)]0">AABB.CCDD.EEFF</span> · <span className="text-zinc-450 dark:text-[var(--color-text-main)]0">AABBCCDDEEFF</span>
+          <div className="col-span-1 md:col-span-2 text-[10px] font-mono text-zinc-500 dark:text-zinc-600 bg-zinc-100 dark:bg-[var(--color-surface)] rounded-lg px-3 py-2 border border-zinc-200 dark:border-[var(--color-border)]">
+            Accepted: <span className="text-zinc-450 dark:text-zinc-500">AA:BB:CC:DD:EE:FF</span> · <span className="text-zinc-450 dark:text-zinc-500">AA-BB-CC-DD-EE-FF</span> · <span className="text-zinc-450 dark:text-zinc-500">AABB.CCDD.EEFF</span> · <span className="text-zinc-450 dark:text-zinc-500">AABBCCDDEEFF</span>
           </div>
         </div>
       )}
@@ -240,7 +240,7 @@ export default function MacLookup() {
       {status === 'idle' && !input && (
         <div className="border border-dashed border-zinc-200 dark:border-[var(--color-border)] rounded-xl p-8 flex flex-col items-center justify-center gap-3 text-center">
           <Wifi className="w-10 h-10 text-[var(--color-text-muted)] dark:text-zinc-700" />
-          <p className="text-sm text-[var(--color-text-main)]0 dark:text-zinc-650 max-w-xs">
+          <p className="text-sm text-zinc-500 dark:text-zinc-650 max-w-xs">
             Type any MAC address above. Vendor identification is instant — no API calls required.
           </p>
           <div className="flex flex-wrap justify-center gap-2 mt-2">

@@ -67,21 +67,21 @@ export const CheatSheet: FC<CheatSheetProps> = ({
           <BookOpen className="w-4 h-4 text-cyan-400" />
           <h2 className="text-sm font-bold text-zinc-900 dark:text-[var(--color-text-main)] tracking-tight font-mono uppercase tracking-widest">CIDR Cheat Sheet</h2>
         </div>
-        <div className="p-1 rounded-md border border-zinc-200 dark:border-[var(--color-border)] bg-zinc-100 dark:bg-[var(--color-surface)] text-[var(--color-text-main)]0 group-hover:text-zinc-800 dark:group-hover:text-zinc-300 group-hover:border-zinc-350 dark:group-hover:border-zinc-700 transition-all">
+        <div className="p-1 rounded-md border border-zinc-200 dark:border-[var(--color-border)] bg-zinc-100 dark:bg-[var(--color-surface)] text-zinc-500 group-hover:text-zinc-800 dark:group-hover:text-zinc-300 group-hover:border-zinc-350 dark:group-hover:border-zinc-700 transition-all">
           <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isOpen ? 'rotate-180 text-teal-600 dark:text-teal-400' : ''}`} />
         </div>
       </button>
 
       {isOpen && (
         <div className="flex flex-col gap-4 mt-2 animate-fade-in">
-          <p className="text-[10px] text-[var(--color-text-main)]0 dark:text-zinc-650 font-mono">
+          <p className="text-[10px] text-zinc-500 dark:text-zinc-650 font-mono">
             Click any row to load that prefix into the calculator.
           </p>
 
           <div className="overflow-y-auto border border-zinc-200 dark:border-[var(--color-border)] rounded-xl bg-zinc-100/30 dark:bg-[var(--color-bg)]/40 max-h-[380px] scrollbar-none">
             <table className="w-full text-left border-collapse font-mono text-xs">
               <thead className="sticky top-0 bg-zinc-200/95 dark:bg-[var(--color-surface)] backdrop-blur-sm z-10 border-b border-zinc-200 dark:border-[var(--color-border)]">
-                <tr className="text-zinc-550 dark:text-[var(--color-text-main)]0 font-semibold tracking-wider text-[9px] uppercase font-mono">
+                <tr className="text-zinc-550 dark:text-zinc-500 font-semibold tracking-wider text-[9px] uppercase font-mono">
                   <th className="py-2.5 px-4 w-16 text-center">CIDR</th>
                   <th className="py-2.5 px-4">Subnet Mask</th>
                   <th className="py-2.5 px-4">Wildcard Mask</th>
@@ -106,7 +106,7 @@ export const CheatSheet: FC<CheatSheetProps> = ({
                         /{row.prefix}
                       </td>
                       <td className="py-2.5 px-4 font-medium">{row.mask}</td>
-                      <td className="py-2.5 px-4 text-[var(--color-text-main)]0 dark:text-[var(--color-text-main)]0">{row.wildcard}</td>
+                      <td className="py-2.5 px-4 text-zinc-500 dark:text-zinc-500">{row.wildcard}</td>
                       <td className="py-2.5 px-4 text-right font-bold pr-5">
                         {row.hosts.toLocaleString('en-US')}
                       </td>

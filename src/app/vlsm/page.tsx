@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from 'react';
-import { Plus, Trash2, Zap, AlertTriangle, ChevronDown, ChevronUp, Network, Terminal } from 'lucide-react';
+import { Plus, Trash2, Zap, AlertTriangle, Network, Terminal } from 'lucide-react';
 import { ipToLong, longToIp, getMaskLong, isValidIp } from '../../utils/ipv4Utils';
 
 interface Department {
@@ -118,7 +118,6 @@ export default function VlsmPlanner() {
     { id: '3', name: 'HR', hosts: '10' },
   ]);
   const [result, setResult] = useState<{ allocations: VlsmAllocation[]; slack: SlackFragment[]; error: string | null } | null>(null);
-  const [expandedRow, setExpandedRow] = useState<string | null>(null);
 
   const addDept = () => {
     setDepartments(prev => [...prev, { id: crypto.randomUUID(), name: '', hosts: '' }]);
@@ -139,7 +138,6 @@ export default function VlsmPlanner() {
 
     const r = runVlsm(parentBlock, parentPrefix, depts);
     setResult(r);
-    setExpandedRow(null);
   }, [parentBlock, parentPrefix, departments]);
 
   const fieldInput = [
@@ -166,12 +164,12 @@ export default function VlsmPlanner() {
             <h1 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-[var(--color-text-main)] tracking-tight leading-none">
               VLSM Calculator — Variable Length Subnet Mask Planner
             </h1>
-            <p className="text-[11px] font-mono text-zinc-550 dark:text-[var(--color-text-main)]0 mt-0.5 tracking-wide">
+            <p className="text-[11px] font-mono text-zinc-550 dark:text-zinc-500 mt-0.5 tracking-wide">
               Variable Length Subnet Masking Engine
             </p>
           </div>
         </div>
-        <p className="text-sm text-[var(--color-text-main)]0 dark:text-[var(--color-text-muted)] leading-relaxed mt-1">
+        <p className="text-sm text-zinc-500 dark:text-[var(--color-text-muted)] leading-relaxed mt-1">
           Input a parent CIDR block and department host requirements. The engine sorts requirements
           largest-first, then allocates optimally-sized subnets to prevent address starvation.
         </p>
@@ -179,7 +177,7 @@ export default function VlsmPlanner() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 mb-7">
         <div className="flex flex-col gap-2">
-          <label htmlFor="vlsm-parent-net" className="text-[10px] font-bold uppercase tracking-[0.15em] text-[var(--color-text-main)]0 dark:text-[var(--color-text-main)]0 flex items-center gap-1.5">
+          <label htmlFor="vlsm-parent-net" className="text-[10px] font-bold uppercase tracking-[0.15em] text-zinc-500 dark:text-zinc-500 flex items-center gap-1.5">
             <Terminal className="w-3 h-3" />
             Parent Network
           </label>
@@ -196,7 +194,7 @@ export default function VlsmPlanner() {
         </div>
 
         <div className="flex flex-col gap-2">
-          <label htmlFor="vlsm-parent-prefix" className="text-[10px] font-bold uppercase tracking-[0.15em] text-[var(--color-text-main)]0 dark:text-[var(--color-text-main)]0 flex items-center gap-2">
+          <label htmlFor="vlsm-parent-prefix" className="text-[10px] font-bold uppercase tracking-[0.15em] text-zinc-500 dark:text-zinc-500 flex items-center gap-2">
             <Terminal className="w-3 h-3" />
             Prefix Length
             <span className="font-mono text-sm font-bold text-cyan-600 dark:text-cyan-400 ml-auto normal-case tracking-normal">
@@ -225,7 +223,7 @@ export default function VlsmPlanner() {
                 '[&::-moz-range-thumb]:bg-cyan-400',
               ].join(' ')}
             />
-            <div className="flex justify-between text-[9px] font-mono text-[var(--color-text-main)]0 dark:text-zinc-600 select-none">
+            <div className="flex justify-between text-[9px] font-mono text-zinc-500 dark:text-zinc-600 select-none">
               <span>/1</span>
               <span>/8</span>
               <span>/16</span>
@@ -238,10 +236,10 @@ export default function VlsmPlanner() {
 
       <div className="flex flex-col gap-2 mb-5">
         <div className="flex items-center justify-between mb-1">
-          <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-[var(--color-text-main)]0 dark:text-[var(--color-text-main)]0">
+          <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-zinc-500 dark:text-zinc-500">
             Department Requirements
           </span>
-          <span className="text-[10px] font-mono text-[var(--color-text-main)]0 dark:text-[var(--color-text-main)]0 bg-zinc-150 dark:bg-[var(--color-surface)] border border-zinc-250 dark:border-[var(--color-border)] px-2 py-0.5 rounded-md">
+          <span className="text-[10px] font-mono text-zinc-500 dark:text-zinc-500 bg-zinc-150 dark:bg-[var(--color-surface)] border border-zinc-250 dark:border-[var(--color-border)] px-2 py-0.5 rounded-md">
             {departments.length} dept{departments.length !== 1 ? 's' : ''}
           </span>
         </div>
@@ -271,7 +269,7 @@ export default function VlsmPlanner() {
               className="w-20 shrink-0 bg-transparent font-mono text-sm text-zinc-800 dark:text-zinc-200 placeholder:text-[var(--color-text-muted)] dark:placeholder:text-zinc-700 focus:outline-none text-right [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
               aria-label={`Department ${idx + 1} Required Hosts`}
             />
-            <span className="text-[10px] font-mono text-[var(--color-text-main)]0 dark:text-zinc-600 shrink-0">hosts</span>
+            <span className="text-[10px] font-mono text-zinc-500 dark:text-zinc-600 shrink-0">hosts</span>
             <button
               onClick={() => removeDept(dept.id)}
               className="text-zinc-450 dark:text-[var(--color-text-muted)] hover:text-rose-600 dark:hover:text-rose-500 hover:bg-rose-500/10 dark:hover:bg-rose-500/10 p-1.5 rounded-lg transition-all shrink-0 cursor-pointer opacity-0 group-hover:opacity-100 focus:opacity-100 ml-1"
@@ -286,7 +284,7 @@ export default function VlsmPlanner() {
 
         <button
           onClick={addDept}
-          className="w-full border border-dashed border-zinc-250 dark:border-[var(--color-border)] hover:border-cyan-500/40 dark:hover:border-cyan-500/30 rounded-xl p-3 text-xs font-mono font-medium text-[var(--color-text-main)]0 dark:text-[var(--color-text-main)]0 hover:text-cyan-600 dark:hover:text-cyan-400 bg-transparent hover:bg-cyan-500/[0.03] transition-all cursor-pointer flex items-center justify-center gap-2 mt-1"
+          className="w-full border border-dashed border-zinc-250 dark:border-[var(--color-border)] hover:border-cyan-500/40 dark:hover:border-cyan-500/30 rounded-xl p-3 text-xs font-mono font-medium text-zinc-500 dark:text-zinc-500 hover:text-cyan-600 dark:hover:text-cyan-400 bg-transparent hover:bg-cyan-500/[0.03] transition-all cursor-pointer flex items-center justify-center gap-2 mt-1"
         >
           <Plus className="w-3.5 h-3.5" />
           add_department_requirement()
@@ -384,7 +382,7 @@ export default function VlsmPlanner() {
             <div className="flex flex-col gap-2">
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-zinc-300 dark:bg-zinc-600 shrink-0" />
-                <h3 className="text-xs font-bold font-mono uppercase tracking-[0.15em] text-[var(--color-text-main)]0 dark:text-[var(--color-text-main)]0">
+                <h3 className="text-xs font-bold font-mono uppercase tracking-[0.15em] text-zinc-500 dark:text-zinc-500">
                   Unallocated Slack
                   <span className="ml-2 font-mono text-[var(--color-text-muted)] dark:text-zinc-700 normal-case tracking-normal">({result.slack.length} fragment{result.slack.length !== 1 ? 's' : ''})</span>
                 </h3>
@@ -395,7 +393,7 @@ export default function VlsmPlanner() {
                     key={i}
                     className="inline-flex items-center gap-1.5 font-mono text-xs px-3 py-1.5 rounded-lg bg-zinc-100/50 dark:bg-[var(--color-surface)] border border-zinc-200 dark:border-[var(--color-border)] text-zinc-600 dark:text-[var(--color-text-muted)]"
                   >
-                    <span className="text-zinc-550 dark:text-[var(--color-text-main)]0">{frag.networkAddress}</span>
+                    <span className="text-zinc-550 dark:text-zinc-500">{frag.networkAddress}</span>
                     <span className="font-bold text-cyan-600 dark:text-cyan-500">/{frag.prefix}</span>
                     <span className="text-zinc-450 dark:text-zinc-700 text-[10px]">({frag.size.toLocaleString('en-US')})</span>
                   </span>

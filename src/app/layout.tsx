@@ -64,6 +64,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         />
       </head>
       <body className="antialiased subpixel-antialiased">
+        <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 md:py-12 z-10 flex-grow relative">
         <script
           id="site-jsonld"
           type="application/ld+json"
@@ -107,7 +108,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <ClientLayoutWrapper>
           {children}
         </ClientLayoutWrapper>
-      </body>
+        </div>
+      {/* impeccable-live-start */}
+<script src="http://localhost:8400/live.js"></script>
+{/* impeccable-live-end */}
+</body>
     </html>
   );
 }
