@@ -37,7 +37,7 @@ export const BinaryVisualizer: FC<BinaryVisualizerProps> = ({ result, ip, setIp 
   }
 
   return (
-    <div className="bento-card bento-card-hover p-5 flex flex-col gap-5">
+    <div className="bento-card bento-card-hover p-4 md:p-5 flex flex-col gap-5">
       {/* Header */}
       <div className="flex items-center justify-between border-b border-zinc-200 dark:border-[var(--color-border)] pb-4">
         <div className="flex items-center gap-2.5">
@@ -58,7 +58,7 @@ export const BinaryVisualizer: FC<BinaryVisualizerProps> = ({ result, ip, setIp 
       </div>
 
       {/* Bit Stream */}
-      <div className="flex items-center flex-wrap gap-y-2 gap-x-0 select-none" role="group" aria-label="32-bit binary representation">
+      <div className="flex items-center overflow-x-auto whitespace-nowrap scrollbar-none touch-pan-x pb-2 select-none" role="group" aria-label="32-bit binary representation">
         {stream.map((item) => {
           if (item.type === 'sep') {
             return (
@@ -98,12 +98,12 @@ export const BinaryVisualizer: FC<BinaryVisualizerProps> = ({ result, ip, setIp 
       </div>
 
       {/* Octet labels */}
-      <div className="grid grid-cols-4 gap-1">
+      <div className="flex flex-col md:flex-row md:justify-between gap-3 md:gap-1">
         {[0, 1, 2, 3].map(i => {
           const octetValue = parseInt(rawBinary.substring(i * 8, i * 8 + 8), 2);
           const label = ip.split('.')[i] || String(octetValue);
           return (
-            <div key={i} className="flex flex-col items-center gap-0.5">
+            <div key={i} className="flex flex-row md:flex-col items-center md:items-center justify-between md:justify-start gap-1 md:gap-0.5 border-b border-zinc-200 dark:border-zinc-800 md:border-transparent pb-1 md:pb-0">
               <span className="text-[9px] font-mono text-[var(--color-text-main)]0 dark:text-zinc-600 uppercase tracking-widest">oct {i + 1}</span>
               <span className="text-xs font-mono font-bold text-zinc-700 dark:text-[var(--color-text-muted)]">{label}</span>
             </div>

@@ -24,7 +24,7 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
       disabled={!text || text.includes('—')}
       title="Copy to clipboard"
       aria-label={`Copy ${id}`}
-      className={`shrink-0 p-1.5 rounded-md border transition-all duration-150 ${
+      className={`shrink-0 flex items-center justify-center min-w-[40px] min-h-[40px] rounded-md border transition-all duration-150 ${
         copiedKey === id
           ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/25'
           : 'bg-zinc-100 dark:bg-zinc-800/80 border-zinc-200 dark:border-zinc-700/60 text-[var(--color-text-main)]0 hover:text-zinc-700 dark:hover:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-700/80 hover:border-zinc-300 dark:hover:border-zinc-600'
@@ -36,14 +36,13 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
 
   const formatHosts = (num: number) => num.toLocaleString('en-US');
 
-  // Standard metric card
-  const MetricCard = ({
-    label, value, color, icon, id
-  }: { label: string; value: string; color: string; icon: React.ReactNode; id: string }) => (
-    <div className="bento-inner-card p-4 flex flex-col gap-2">
+  // Standard metric row
+  const MetricRow = ({
+    label, value, color, id
+  }: { label: string; value: string; color: string; id: string }) => (
+    <div className="py-3 flex flex-col gap-1.5 border-b border-zinc-200/50 dark:border-zinc-800/60">
       <div className="flex items-center justify-between">
-        <span className="flex items-center gap-1.5 font-mono text-[9px] font-bold tracking-[0.2em] text-[var(--color-text-main)]0 uppercase">
-          {icon}
+        <span className="font-mono text-[9px] font-bold tracking-[0.2em] text-zinc-500 dark:text-zinc-400 uppercase">
           {label}
         </span>
         <CopyBtn text={value} id={id} />
@@ -52,16 +51,15 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
     </div>
   );
 
-  // Hero-sized metric card (2× emphasis)
-  const HeroCard = ({
-    label, value, color, accentColor, icon, id, sublabel
-  }: { label: string; value: string; color: string; accentColor: string; icon: React.ReactNode; id: string; sublabel?: string }) => (
-    <div className={`bento-inner-card p-5 flex flex-col gap-3 col-span-2 border-l-2 ${accentColor}`}>
+  // Hero-sized metric row (2× emphasis)
+  const HeroRow = ({
+    label, value, color, id, sublabel
+  }: { label: string; value: string; color: string; id: string; sublabel?: string }) => (
+    <div className={`py-4 flex flex-col gap-2 border-b border-zinc-200/50 dark:border-zinc-800/60 col-span-2`}>
       <div className="flex items-start justify-between gap-2">
-        <div className="flex items-center gap-1.5 font-mono text-[9px] font-bold tracking-[0.2em] text-[var(--color-text-main)]0 uppercase">
-          {icon}
+        <span className="font-mono text-[10px] font-bold tracking-[0.2em] text-zinc-500 dark:text-zinc-400 uppercase">
           {label}
-        </div>
+        </span>
         <CopyBtn text={value} id={id} />
       </div>
       <span className={`font-mono text-2xl sm:text-3xl font-bold tracking-tight tabular-nums break-all ${color}`}>
@@ -78,7 +76,7 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
     : '0xC0A80101';
 
   return (
-    <div className="bento-card p-5 flex flex-col gap-5 h-full">
+    <div className="bento-card p-4 md:p-5 flex flex-col gap-5 h-full">
       {/* Header */}
       <div className="flex items-center gap-2.5 border-b border-zinc-200 dark:border-[var(--color-border)] pb-4">
         <Server className="w-4 h-4 text-cyan-400" />
@@ -86,86 +84,67 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
       </div>
 
       {/* Bento Grid */}
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 gap-x-6 gap-y-0">
         {/* ── HERO CARDS ── */}
-        <HeroCard
+        <HeroRow
           label="Usable Host Range"
           value={result?.usableHostRange || '192.168.1.1 – 192.168.1.254'}
           color="text-emerald-600 dark:text-emerald-400 dark:glow-text-emerald"
-          accentColor="border-l-emerald-500/60"
-          icon={<Users className="w-3 h-3" />}
           id="range"
         />
-        <HeroCard
+        <HeroRow
           label="Total Usable Hosts"
           value={result ? formatHosts(result.totalUsableHosts) : '254'}
           color="text-cyan-600 dark:text-cyan-300 dark:glow-text-cyan"
-          accentColor="border-l-cyan-500/60"
-          icon={<Users className="w-3 h-3" />}
           id="hosts"
           sublabel={result ? `2^${32 - result.prefix} − 2 endpoints` : '2^8 − 2 endpoints'}
         />
 
         {/* ── STANDARD METRIC CARDS ── */}
-        <MetricCard
+        <MetricRow
           label="Network Address"
           value={result?.networkAddress || '192.168.1.0'}
           color="text-cyan-600 dark:text-cyan-400"
-          icon={<Server className="w-3 h-3" />}
           id="network"
         />
-        <MetricCard
+        <MetricRow
           label="Broadcast Address"
           value={result?.broadcastAddress || '192.168.1.255'}
           color="text-amber-600 dark:text-amber-400"
-          icon={<Radio className="w-3 h-3" />}
           id="broadcast"
         />
-        <MetricCard
+        <MetricRow
           label="Subnet Mask"
           value={result?.subnetMask || '255.255.255.0'}
           color="text-purple-600 dark:text-purple-400"
-          icon={<Network className="w-3 h-3" />}
           id="mask"
         />
-        <MetricCard
+        <MetricRow
           label="Wildcard Mask"
           value={result?.wildcardMask || '0.0.0.255'}
           color="text-rose-600 dark:text-rose-400"
-          icon={<Network className="w-3 h-3" />}
           id="wildcard"
         />
-        <MetricCard
+        <MetricRow
           label="Hex IP Value"
           value={hexIp}
-          color="text-[var(--color-text-main)]0 dark:text-[var(--color-text-muted)]"
-          icon={<Server className="w-3 h-3" />}
+          color="text-zinc-600 dark:text-zinc-400"
           id="hexip"
         />
-        <MetricCard
+        <MetricRow
           label="IP Class"
           value={result?.ipClass || 'Class C'}
           color="text-zinc-700 dark:text-zinc-200"
-          icon={<Award className="w-3 h-3" />}
           id="class"
         />
       </div>
 
       {/* ── Address Scope Badge ── */}
       {result && (
-        <div className="bento-inner-card p-4 flex items-center justify-between mt-auto">
-          <div className="flex items-center gap-3">
-            {result.ipType.type === 'Private' || result.ipType.type === 'Loopback' ? (
-              <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-            ) : result.ipType.type === 'Public' ? (
-              <Globe2 className="w-4 h-4 text-[var(--color-text-muted)] shrink-0" />
-            ) : (
-              <ShieldAlert className="w-4 h-4 text-amber-400 shrink-0" />
-            )}
-            <div className="flex flex-col">
-              <span className="font-mono text-[9px] font-bold tracking-[0.2em] text-[var(--color-text-main)]0 dark:text-zinc-650 uppercase">Address Scope</span>
-              <span className="font-mono text-sm font-bold text-zinc-700 dark:text-zinc-300 mt-0.5">{result.ipType.description}</span>
-            </div>
+        <div className="pt-3 flex flex-col md:flex-row md:items-center justify-between mt-auto gap-4">
+          <div className="flex flex-col">
+            <span className="font-mono text-[9px] font-bold tracking-[0.2em] text-zinc-500 dark:text-zinc-400 uppercase">Address Scope</span>
+            <span className="font-mono text-sm font-bold text-zinc-700 dark:text-zinc-300 mt-0.5">{result.ipType.description}</span>
           </div>
           <div className="flex items-center gap-2.5">
             {(result.ipType.type === 'Private' || result.ipType.type === 'Loopback') && (

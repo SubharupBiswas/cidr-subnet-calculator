@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
-import Script from 'next/script';
+
 import '../index.css';
 import { ClientLayoutWrapper } from '../components/ClientLayoutWrapper';
 
@@ -63,11 +63,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           }}
         />
       </head>
-      <body>
-        <Script
+      <body className="antialiased subpixel-antialiased">
+        <script
           id="site-jsonld"
           type="application/ld+json"
-          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               '@context': 'https://schema.org',

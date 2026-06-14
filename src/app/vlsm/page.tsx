@@ -156,7 +156,7 @@ export default function VlsmPlanner() {
   ].join(' ');
 
   return (
-    <div className="bento-card p-5 sm:p-7 flex flex-col gap-0">
+    <div className="w-full flex flex-col gap-0">
       <div className="flex flex-col gap-2 border-b border-zinc-200 dark:border-[var(--color-border)] pb-6 mb-7">
         <div className="flex items-center gap-3">
           <div className="h-9 w-9 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center shrink-0">
@@ -177,7 +177,7 @@ export default function VlsmPlanner() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-7">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 mb-7">
         <div className="flex flex-col gap-2">
           <label htmlFor="vlsm-parent-net" className="text-[10px] font-bold uppercase tracking-[0.15em] text-[var(--color-text-main)]0 dark:text-[var(--color-text-main)]0 flex items-center gap-1.5">
             <Terminal className="w-3 h-3" />
@@ -323,104 +323,60 @@ export default function VlsmPlanner() {
                 </h3>
               </div>
 
-              <div className="hidden md:grid grid-cols-[minmax(0,1fr)_60px_minmax(120px,auto)_minmax(120px,auto)_72px_72px] gap-x-4 px-4 py-1.5 text-[9px] font-bold uppercase tracking-[0.18em] text-[var(--color-text-main)]0 dark:text-zinc-600 border-b border-zinc-200 dark:border-[var(--color-border)]">
-                <span>Department</span>
-                <span className="text-center">Prefix</span>
-                <span>Network</span>
-                <span>Broadcast</span>
-                <span className="text-right">Capacity</span>
-                <span className="text-right">Wasted</span>
+              <div className="relative border-l-2 border-zinc-200/50 dark:border-zinc-800/60 ml-3 pl-6 py-2 flex flex-col gap-8 mt-4">
+                {result.allocations.map((alloc, i) => (
+                  <div key={i} className="relative group">
+                    {/* Node Dot */}
+                    <span className="absolute -left-[31px] top-1.5 flex h-2.5 w-2.5 rounded-full bg-cyan-500 ring-4 ring-[var(--color-bg)] transition-transform duration-300 group-hover:scale-125" />
+                    
+                    <div className="flex flex-col gap-3">
+                      {/* Title and Address block */}
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="flex flex-col">
+                          <h4 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2.5">
+                            <span className="font-mono text-[10px] text-zinc-500">$_{i + 1}</span>
+                            {alloc.department}
+                            <span className="text-[10px] font-mono font-medium text-zinc-500">({alloc.requiredHosts} req)</span>
+                          </h4>
+                          <div className="flex items-center gap-2 mt-1">
+                            <span className="font-mono text-sm font-extrabold text-cyan-600 dark:text-cyan-400">
+                              {alloc.networkAddress}/{alloc.allocatedPrefix}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="flex flex-col items-end">
+                          <span className="font-mono text-xs font-bold text-emerald-600 dark:text-emerald-400 tabular-nums">
+                            {alloc.actualCapacity.toLocaleString('en-US')} hosts
+                          </span>
+                          <span className="font-mono text-[10px] text-zinc-500 mt-0.5 tabular-nums">
+                            {alloc.wastedHosts.toLocaleString('en-US')} wasted
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Detail Metrics Matrix */}
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-3 border-t border-zinc-200/50 dark:border-zinc-800/60">
+                        <div className="flex flex-col gap-1">
+                          <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-500">Subnet Mask</span>
+                          <span className="font-mono text-xs text-purple-600 dark:text-purple-400">{alloc.subnetMask}</span>
+                        </div>
+                        <div className="flex flex-col gap-1">
+                          <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-500">First Usable</span>
+                          <span className="font-mono text-xs text-emerald-600 dark:text-emerald-400">{alloc.firstUsable}</span>
+                        </div>
+                        <div className="flex flex-col gap-1">
+                          <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-500">Last Usable</span>
+                          <span className="font-mono text-xs text-emerald-600 dark:text-emerald-400">{alloc.lastUsable}</span>
+                        </div>
+                        <div className="flex flex-col gap-1">
+                          <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-500">Broadcast</span>
+                          <span className="font-mono text-xs text-amber-600 dark:text-amber-400">{alloc.broadcastAddress}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
-
-              {result.allocations.map((alloc, i) => (
-                <div key={i}>
-                  <button
-                    onClick={() => setExpandedRow(expandedRow === `${i}` ? null : `${i}`)}
-                    className={[
-                      'w-full text-left rounded-xl border transition-all duration-200 cursor-pointer',
-                      'px-4 py-3',
-                      expandedRow === `${i}`
-                        ? 'bg-zinc-200/50 dark:bg-zinc-800/50 border-zinc-300 dark:border-zinc-700/60'
-                        : 'bg-zinc-100/50 dark:bg-[var(--color-surface)] border-zinc-200 dark:border-[var(--color-border)] hover:bg-zinc-200 dark:hover:bg-zinc-800/40 hover:border-zinc-250 dark:hover:border-zinc-700/50',
-                      'shadow-sm dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.01)]',
-                    ].join(' ')}
-                  >
-                    <div className="flex items-center justify-between md:hidden">
-                      <div className="flex items-center gap-3 min-w-0">
-                        <span className="font-mono text-[10px] font-bold text-[var(--color-text-muted)] dark:text-zinc-700 shrink-0">
-                          $_{i + 1}
-                        </span>
-                        <div className="min-w-0">
-                          <p className="text-sm font-semibold text-zinc-800 dark:text-[var(--color-text-main)] truncate">{alloc.department}</p>
-                          <p className="text-[10px] font-mono text-[var(--color-text-main)]0 dark:text-[var(--color-text-muted)] mt-0.5">
-                            {alloc.networkAddress}<span className="text-cyan-600 dark:text-cyan-400 font-bold">/{alloc.allocatedPrefix}</span>
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2 shrink-0 ml-3">
-                        <span className="text-xs font-mono font-bold text-emerald-600 dark:text-emerald-400">
-                          {alloc.actualCapacity.toLocaleString('en-US')} hosts
-                        </span>
-                        {expandedRow === `${i}`
-                          ? <ChevronUp className="w-3.5 h-3.5 text-[var(--color-text-muted)]" />
-                          : <ChevronDown className="w-3.5 h-3.5 text-[var(--color-text-muted)]" />
-                        }
-                      </div>
-                    </div>
-
-                    <div className="hidden md:grid grid-cols-[minmax(0,1fr)_60px_minmax(120px,auto)_minmax(120px,auto)_72px_72px] gap-x-4 items-center">
-                      <div className="flex items-center gap-2.5 min-w-0">
-                        <span className="font-mono text-[10px] font-bold text-[var(--color-text-muted)] dark:text-zinc-700 shrink-0 select-none">
-                          $_{i + 1}
-                        </span>
-                        <span className="text-sm font-semibold text-zinc-800 dark:text-[var(--color-text-main)] truncate">
-                          {alloc.department}
-                        </span>
-                        <span className="text-[10px] font-mono text-[var(--color-text-main)]0 dark:text-[var(--color-text-main)]0 shrink-0">
-                          ({alloc.requiredHosts} req)
-                        </span>
-                      </div>
-                      <span className="text-center font-mono text-sm font-bold text-cyan-600 dark:text-cyan-400">
-                        /{alloc.allocatedPrefix}
-                      </span>
-                      <span className="font-mono text-xs text-zinc-700 dark:text-zinc-300 tabular-nums">
-                        {alloc.networkAddress}
-                      </span>
-                      <span className="font-mono text-xs text-amber-600 dark:text-amber-400 tabular-nums">
-                        {alloc.broadcastAddress}
-                      </span>
-                      <span className="text-right font-mono text-xs font-bold text-emerald-600 dark:text-emerald-400 tabular-nums">
-                        {alloc.actualCapacity.toLocaleString('en-US')}
-                      </span>
-                      <span className="text-right font-mono text-xs text-[var(--color-text-main)]0 dark:text-zinc-550 tabular-nums">
-                        {alloc.wastedHosts.toLocaleString('en-US')}
-                      </span>
-                    </div>
-                  </button>
-
-                  {expandedRow === `${i}` && (
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-1.5 mx-0.5 px-4 py-4 bg-zinc-100/60 dark:bg-[var(--color-surface)] border border-zinc-200 dark:border-[var(--color-border)] rounded-xl">
-                      {[
-                        { label: 'Subnet Mask',  value: alloc.subnetMask,                                color: 'text-purple-600 dark:text-purple-400' },
-                        { label: 'First Usable', value: alloc.firstUsable,                               color: 'text-emerald-600 dark:text-emerald-400' },
-                        { label: 'Last Usable',  value: alloc.lastUsable,                                color: 'text-emerald-600 dark:text-emerald-400' },
-                        { label: 'Capacity',     value: `${alloc.actualCapacity.toLocaleString('en-US')} hosts`,color: 'text-teal-600 dark:text-teal-400' },
-                        { label: 'Required',     value: `${alloc.requiredHosts.toLocaleString('en-US')} hosts`, color: 'text-zinc-700 dark:text-zinc-300' },
-                        { label: 'Wasted',       value: `${alloc.wastedHosts.toLocaleString('en-US')} addrs`,   color: 'text-[var(--color-text-main)]0 dark:text-[var(--color-text-main)]0' },
-                      ].map(item => (
-                        <div key={item.label} className="flex flex-col gap-0.5">
-                          <p className="text-[9px] font-bold uppercase tracking-[0.18em] text-[var(--color-text-main)]0 dark:text-zinc-650">
-                            {item.label}
-                          </p>
-                          <p className={`font-mono text-sm font-bold ${item.color} break-all`}>
-                            {item.value}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
             </div>
           )}
 

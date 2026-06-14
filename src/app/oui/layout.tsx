@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
-import Script from 'next/script';
+
 import { AdSlot } from '../../components/ClientLayoutWrapper';
 
 export const metadata: Metadata = {
@@ -45,10 +45,9 @@ const jsonLd = {
 export default function OuiLayout({ children }: { children: ReactNode }) {
   return (
     <>
-      <Script
+      <script
         id="oui-jsonld"
         type="application/ld+json"
-        strategy="beforeInteractive"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <AdSlot type="banner" className="mb-6" />

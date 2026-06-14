@@ -68,32 +68,12 @@ html {
 
 /* ─── Bento Card System ─── */
 .bento-card {
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-card);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  box-shadow: var(--shadow-card);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   color: var(--color-text-main);
 }
 
 .bento-card-hover:hover {
-  border-color: rgba(34, 211, 238, 0.25);
-  box-shadow: var(--shadow-card-hover);
-  transform: translateY(-1px);
-}
-
-.bento-inner-card {
-  background: var(--color-inner-surface);
-  border: 1px solid var(--color-border);
-  border-radius: 10px;
-  transition: border-color 0.15s ease, background 0.15s ease;
-}
-
-.bento-inner-card:hover {
-  background: var(--color-inner-surface-hover);
-  border-color: var(--color-border);
+  transform: scale(1.005);
 }
 
 /* ─── Mesh Background Texture ─── */

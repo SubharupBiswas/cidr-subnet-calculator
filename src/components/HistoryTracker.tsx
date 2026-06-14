@@ -24,7 +24,7 @@ export const HistoryTracker: FC<HistoryTrackerProps> = ({
 }) => {
 
   return (
-    <div className="bento-card bento-card-hover p-5 flex flex-col gap-5">
+    <div className="bento-card bento-card-hover p-4 md:p-5 flex flex-col gap-5">
       <div className="flex items-center justify-between border-b border-zinc-200 dark:border-[var(--color-border)] pb-4">
         <div className="flex items-center gap-2.5">
           <History className="w-4 h-4 text-cyan-400" />

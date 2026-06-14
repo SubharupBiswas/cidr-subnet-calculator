@@ -158,7 +158,7 @@ export default function MacLookup() {
   const sc = statusConfig[status];
 
   return (
-    <div className="bento-card p-5 sm:p-7 flex flex-col gap-6">
+    <div className="w-full flex flex-col gap-6">
       <div className="flex flex-col gap-2 border-b border-zinc-200 dark:border-[var(--color-border)] pb-5">
         <div className="flex items-center gap-3">
           <Wifi className="w-5 h-5 text-cyan-400 shrink-0" />
@@ -198,23 +198,20 @@ export default function MacLookup() {
       </div>
 
       {lookupResult && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div className={`col-span-1 sm:col-span-2 flex items-center gap-4 p-4 rounded-xl border ${
-            status === 'known'
-              ? 'bg-emerald-50 dark:bg-emerald-500/10 border-emerald-250 dark:border-emerald-500/20'
-              : 'bg-amber-50 dark:bg-amber-500/10 border-amber-250 dark:border-amber-500/20'
-          }`}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className={`col-span-1 md:col-span-2 flex items-start gap-4 py-4 border-b border-zinc-200/40 dark:border-zinc-800/40`}>
             {sc.icon}
-            <div>
-              <p className={`text-lg sm:text-xl font-bold break-all ${status === 'known' ? 'text-emerald-800 dark:text-emerald-300' : 'text-amber-800 dark:text-amber-300'}`}>
+            <div className="flex flex-col">
+              <p className={`text-lg sm:text-xl font-bold break-all ${status === 'known' ? 'text-emerald-700 dark:text-emerald-400' : 'text-amber-700 dark:text-amber-400'}`}>
                 {lookupResult.vendor}
               </p>
-              <p className="text-xs font-mono text-[var(--color-text-main)]0 dark:text-[var(--color-text-muted)] mt-0.5">OUI Prefix: {lookupResult.oui}</p>
+              <p className="text-xs font-mono text-zinc-500 mt-1">OUI Prefix: <span className="font-bold">{lookupResult.oui}</span></p>
             </div>
           </div>
 
-          {[
-            { label: 'Formatted MAC', value: lookupResult.formatted, color: 'text-zinc-800 dark:text-[var(--color-text-main)]' },
+          <div className="col-span-1 md:col-span-2 grid grid-cols-2 md:grid-cols-4 gap-6 pt-2">
+            {[
+              { label: 'Formatted MAC', value: lookupResult.formatted, color: 'text-zinc-800 dark:text-[var(--color-text-main)]' },
             { label: 'MAC Type', value: lookupResult.macType, color: 'text-zinc-700 dark:text-zinc-300' },
             {
               label: 'Multicast Bit',
@@ -227,13 +224,14 @@ export default function MacLookup() {
               color: lookupResult.isLocal ? 'text-amber-600 dark:text-amber-400' : 'text-cyan-600 dark:text-cyan-400',
             },
           ].map(item => (
-            <div key={item.label} className="bento-inner-card p-4">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-[var(--color-text-muted)] dark:text-[var(--color-text-main)]0 mb-1">{item.label}</p>
-              <p className={`font-mono text-sm font-bold break-all ${item.color}`}>{item.value}</p>
+            <div key={item.label} className="flex flex-col gap-1.5">
+              <p className="text-[9px] font-bold uppercase tracking-widest text-zinc-500">{item.label}</p>
+              <p className={`font-mono text-xs font-bold break-all ${item.color}`}>{item.value}</p>
             </div>
           ))}
+          </div>
 
-          <div className="col-span-1 sm:col-span-2 text-[10px] font-mono text-[var(--color-text-main)]0 dark:text-zinc-600 bg-zinc-100 dark:bg-[var(--color-surface)] rounded-lg px-3 py-2 border border-zinc-200 dark:border-[var(--color-border)]">
+          <div className="col-span-1 md:col-span-2 text-[10px] font-mono text-[var(--color-text-main)]0 dark:text-zinc-600 bg-zinc-100 dark:bg-[var(--color-surface)] rounded-lg px-3 py-2 border border-zinc-200 dark:border-[var(--color-border)]">
             Accepted: <span className="text-zinc-450 dark:text-[var(--color-text-main)]0">AA:BB:CC:DD:EE:FF</span> · <span className="text-zinc-450 dark:text-[var(--color-text-main)]0">AA-BB-CC-DD-EE-FF</span> · <span className="text-zinc-450 dark:text-[var(--color-text-main)]0">AABB.CCDD.EEFF</span> · <span className="text-zinc-450 dark:text-[var(--color-text-main)]0">AABBCCDDEEFF</span>
           </div>
         </div>

@@ -55,7 +55,7 @@ export const CheatSheet: FC<CheatSheetProps> = ({
     };
   }, [isOpen, currentPrefix]);
 
-  const containerClasses = 'bento-card bento-card-hover p-5 flex flex-col gap-4';
+  const containerClasses = 'bento-card bento-card-hover p-4 md:p-5 flex flex-col gap-4';
 
   return (
     <div className={containerClasses}>

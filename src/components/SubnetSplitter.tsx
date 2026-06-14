@@ -63,7 +63,7 @@ export const SubnetSplitter: FC<SubnetSplitterProps> = ({
     });
   }
 
-  const containerClasses = 'bento-card bento-card-hover p-5 sm:p-6 flex flex-col gap-6 h-full';
+  const containerClasses = 'bento-card bento-card-hover p-4 md:p-5 flex flex-col gap-6 h-full';
 
   return (
     <div className={containerClasses}>

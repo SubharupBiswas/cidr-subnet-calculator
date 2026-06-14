@@ -15,18 +15,33 @@ const HistoryTracker = lazy(() => import('../components/HistoryTracker').then(m 
 import type { HistoryItem } from '../components/HistoryTracker';
 
 function AdSlot({ className, type }: { className?: string; type: 'banner' | 'rectangle' }) {
+  if (process.env.NODE_ENV === 'development') {
+    return (
+      <div
+        className={`relative w-full overflow-hidden select-none rounded-2xl border bg-white border-zinc-200/80 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] dark:bg-[#090a10]/40 dark:border-[var(--color-border)] dark:backdrop-blur-md flex flex-col items-center justify-center dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.01)] ${className ?? ''} ${type === 'banner' ? 'min-h-[90px]' : 'min-h-[250px]'
+          }`}
+      >
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.03)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none" />
+        <span className="text-[9px] tracking-[0.2em] uppercase font-mono font-bold text-[var(--color-text-main)]0 bg-zinc-100 dark:bg-[var(--color-surface)] border border-zinc-300 dark:border-[var(--color-border)] px-2 py-0.5 rounded-md z-10 shadow-sm">
+          Ad Placement Space
+        </span>
+        <span className="text-[10px] font-mono text-[var(--color-text-main)]0 dark:text-zinc-600 mt-1 z-10">
+          {type === 'banner' ? 'Supports 728x90 / 970x90 Leaderboards' : 'Supports 300x250 / 336x280 Rectangles'}
+        </span>
+      </div>
+    );
+  }
+
   return (
-    <div
-      className={`relative w-full overflow-hidden select-none rounded-2xl border bg-white border-zinc-200/80 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] dark:bg-[#090a10]/40 dark:border-[var(--color-border)] dark:backdrop-blur-md flex flex-col items-center justify-center dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.01)] ${className} ${type === 'banner' ? 'min-h-[90px]' : 'min-h-[250px]'
-        }`}
-    >
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.03)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none" />
-      <span className="text-[9px] tracking-[0.2em] uppercase font-mono font-bold text-[var(--color-text-main)]0 bg-zinc-100 dark:bg-[var(--color-surface)] border border-zinc-300 dark:border-[var(--color-border)] px-2 py-0.5 rounded-md z-10 shadow-sm">
-        Ad Placement Space
-      </span>
-      <span className="text-[10px] font-mono text-[var(--color-text-main)]0 dark:text-zinc-600 mt-1 z-10">
-        {type === 'banner' ? 'Supports 728x90 / 970x90 Leaderboards' : 'Supports 300x250 / 336x280 Rectangles'}
-      </span>
+    <div className={`w-full overflow-hidden flex justify-center items-center ${className ?? ''} ${type === 'banner' ? 'min-h-[90px]' : 'min-h-[250px]'}`}>
+      <ins
+        className="adsbygoogle"
+        style={{ display: 'block' }}
+        data-ad-client="ca-pub-production-id"
+        data-ad-slot="production-slot"
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      />
     </div>
   );
 }
@@ -192,8 +207,8 @@ function SubnetCalculatorContent() {
         </p>
       </section>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start w-full">
-        <div className="lg:col-span-5 flex flex-col gap-6 w-full">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 md:gap-6 lg:gap-8 items-start w-full">
+        <div className="md:col-span-1 lg:col-span-5 flex flex-col gap-4 md:gap-6 w-full">
           <CalculatorForm ip={ip} setIp={setIp} prefix={prefix} setPrefix={setPrefix} />
           <Suspense fallback={<div className="animate-pulse h-[200px] bg-zinc-100 dark:bg-[var(--color-surface)] border border-zinc-200 dark:border-[var(--color-border)] rounded-2xl w-full" />}>
             <BinaryVisualizer result={result} ip={ip} setIp={setIp} />
@@ -211,7 +226,7 @@ function SubnetCalculatorContent() {
           </Suspense>
         </div>
 
-        <div className="lg:col-span-7 flex flex-col gap-6 w-full">
+        <div className="md:col-span-1 lg:col-span-7 flex flex-col gap-4 md:gap-6 w-full">
           <LiveMatrix result={result} />
           <Suspense fallback={<div className="animate-pulse h-[260px] bg-zinc-100 dark:bg-[var(--color-surface)] border border-zinc-200 dark:border-[var(--color-border)] rounded-2xl w-full" />}>
             <SubnetSplitter result={result} onLoadSubnet={handleLoadSubnet} />

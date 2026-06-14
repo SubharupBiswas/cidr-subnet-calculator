@@ -27,7 +27,7 @@ export default function WidgetGenerator() {
   src="https://subnetmask.tech/?embed=true"
   width="100%"
   height="800"
-  style="border:1px solid #27272a; border-radius:12px; background:#050508;"
+  style="border:none; background:transparent;"
   allow="clipboard-write">
 </iframe>`;
 
@@ -38,7 +38,7 @@ export default function WidgetGenerator() {
   };
 
   return (
-    <div className="bento-card p-5 md:p-7 w-full flex flex-col gap-7">
+    <div className="w-full flex flex-col gap-7">
       <div className="flex flex-col gap-2 border-b border-zinc-200 dark:border-[var(--color-border)] pb-5">
         <div className="flex items-center gap-3">
           <Layout className="w-5 h-5 text-cyan-400" />
@@ -51,8 +51,8 @@ export default function WidgetGenerator() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 items-start">
-        <div className="flex flex-col gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 items-start">
+        <div className="md:col-span-1 flex flex-col gap-6">
           <h3 className="text-xs font-bold uppercase tracking-widest text-[var(--color-text-main)]0 font-mono flex items-center gap-2">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -61,8 +61,8 @@ export default function WidgetGenerator() {
             Live Interactive Sandbox
           </h3>
 
-          <div className="w-full border border-zinc-200 dark:border-[var(--color-border)] rounded-xl overflow-hidden bg-zinc-100/30 dark:bg-[var(--color-bg)]/60 flex flex-col">
-            <div className="flex items-center gap-2 px-4 py-2.5 border-b border-zinc-200 dark:border-[var(--color-border)] bg-zinc-200/50 dark:bg-[var(--color-surface)] backdrop-blur-sm">
+          <div className="w-full flex flex-col">
+            <div className="flex items-center gap-2 px-0 py-2.5 border-b border-zinc-200/40 dark:border-zinc-800/40 bg-transparent">
               <span className="w-2.5 h-2.5 rounded-full bg-rose-400/70 dark:bg-rose-500/50"></span>
               <span className="w-2.5 h-2.5 rounded-full bg-amber-400/70 dark:bg-amber-500/50"></span>
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-400/70 dark:bg-emerald-500/50"></span>
@@ -72,7 +72,7 @@ export default function WidgetGenerator() {
               <Zap className="w-3 h-3 text-cyan-500" />
             </div>
 
-            <div className="p-4 flex flex-col gap-4 max-h-[680px] overflow-y-auto custom-scrollbar">
+            <div className="py-6 flex flex-col gap-6 max-h-[680px] overflow-y-auto custom-scrollbar">
               <CalculatorForm
                 ip={widgetIp}
                 setIp={setWidgetIp}
@@ -84,7 +84,7 @@ export default function WidgetGenerator() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-4">
+        <div className="md:col-span-1 sticky top-24 h-max flex flex-col gap-4">
           <h3 className="text-xs font-bold uppercase tracking-widest text-[var(--color-text-main)]0 font-mono flex items-center gap-2">
             <Code className="w-4 h-4 text-[var(--color-text-muted)] dark:text-[var(--color-text-main)]0" />
             Integration Snippet

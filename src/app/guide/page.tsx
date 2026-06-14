@@ -1,13 +1,13 @@
 "use client";
 
 import { FC, ReactNode } from 'react';
-import { BookOpen, HelpCircle, GraduationCap, Server, Layers } from 'lucide-react';
+import { BookOpen, Server } from 'lucide-react';
 import { getMaskLong, longToIp } from '../../utils/ipv4Utils';
 
 const SectionCard: FC<{ children: ReactNode }> = ({ children }) => (
-  <div className="bento-inner-card p-5 flex flex-col gap-4">
+  <section className="flex flex-col gap-4">
     {children}
-  </div>
+  </section>
 );
 
 const CodeBadge: FC<{ children: ReactNode; color?: 'teal' | 'cyan' | 'amber' | 'purple' | 'rose' | 'zinc' }> = ({
@@ -37,12 +37,12 @@ export default function SubnetGuide() {
     matrixRows.push({ prefix: p, mask: longToIp(maskLong), hosts: hostsCount });
   }
 
-  const prose = 'text-sm text-zinc-550 dark:text-[var(--color-text-muted)] leading-relaxed';
-  const heading = 'text-base font-bold text-zinc-900 dark:text-[var(--color-text-main)] flex items-center gap-2.5';
+  const prose = 'text-sm text-zinc-600 dark:text-[var(--color-text-muted)] leading-relaxed tracking-wide';
+  const heading = 'text-lg font-extrabold text-zinc-900 dark:text-[var(--color-text-main)] flex items-center gap-0 tracking-tight';
   const strong  = 'font-semibold text-zinc-800 dark:text-zinc-200';
 
   return (
-    <div className="bento-card p-5 md:p-7 w-full flex flex-col gap-10">
+    <div className="w-full flex flex-col gap-10">
       <div className="flex flex-col gap-3 border-b border-zinc-200 dark:border-[var(--color-border)] pb-6">
         <div className="flex items-center gap-3">
           <BookOpen className="w-5 h-5 text-cyan-400" />
@@ -56,11 +56,10 @@ export default function SubnetGuide() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-        <div className="lg:col-span-7 flex flex-col gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 md:gap-10">
+        <div className="md:col-span-1 lg:col-span-4 flex flex-col gap-6 sticky top-24 h-max">
           <SectionCard>
             <h3 className={heading}>
-              <GraduationCap className="w-5 h-5 text-cyan-600 dark:text-cyan-400 shrink-0" />
               Understanding Classless Inter-Domain Routing (CIDR)
             </h3>
             <p className={prose}>
@@ -96,7 +95,6 @@ export default function SubnetGuide() {
 
           <SectionCard>
             <h3 className={heading}>
-              <HelpCircle className="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0" />
               The Bitwise Mathematics Behind Subnet Masking
             </h3>
             <p className={prose}>
@@ -146,7 +144,6 @@ export default function SubnetGuide() {
 
           <SectionCard>
             <h3 className={heading}>
-              <Layers className="w-5 h-5 text-purple-600 dark:text-purple-400 shrink-0" />
               Subnetting Tutorial — Predictable 4-Step Engineering Moves
             </h3>
             <p className={prose}>
@@ -185,7 +182,6 @@ export default function SubnetGuide() {
 
           <SectionCard>
             <h3 className={heading}>
-              <Server className="w-5 h-5 text-rose-600 dark:text-rose-400 shrink-0" />
               IPv6 Subnetting Architecture Standards
             </h3>
             <p className={prose}>
@@ -194,7 +190,7 @@ export default function SubnetGuide() {
             </p>
 
             <div className="flex flex-col gap-3">
-              <div className="flex items-start gap-3 bg-zinc-100 dark:bg-zinc-800/40 border border-zinc-200 dark:border-zinc-700/40 rounded-lg p-4">
+              <div className="flex items-start gap-4 py-4 border-b border-zinc-200/40 dark:border-zinc-800/40">
                 <CodeBadge color="teal">/64</CodeBadge>
                 <div className="flex flex-col gap-1">
                   <span className="text-sm font-semibold text-zinc-800 dark:text-zinc-200">Standard LAN Segment</span>
@@ -204,7 +200,7 @@ export default function SubnetGuide() {
                   </p>
                 </div>
               </div>
-              <div className="flex items-start gap-3 bg-zinc-100 dark:bg-zinc-800/40 border border-zinc-200 dark:border-zinc-700/40 rounded-lg p-4">
+              <div className="flex items-start gap-4 py-4 border-b border-zinc-200/40 dark:border-zinc-800/40">
                 <CodeBadge color="amber">/56</CodeBadge>
                 <div className="flex flex-col gap-1">
                   <span className="text-sm font-semibold text-zinc-800 dark:text-zinc-200">Consumer / Home Route Delegation</span>
@@ -214,7 +210,7 @@ export default function SubnetGuide() {
                   </p>
                 </div>
               </div>
-              <div className="flex items-start gap-3 bg-zinc-100 dark:bg-zinc-800/40 border border-zinc-200 dark:border-zinc-700/40 rounded-lg p-4">
+              <div className="flex items-start gap-4 py-4">
                 <CodeBadge color="purple">/48</CodeBadge>
                 <div className="flex flex-col gap-1">
                   <span className="text-sm font-semibold text-zinc-800 dark:text-zinc-200">Enterprise Site Allocation</span>
@@ -229,8 +225,8 @@ export default function SubnetGuide() {
         </div>
 
         <div className="lg:col-span-5">
-          <div className="border border-zinc-200 dark:border-[var(--color-border)] rounded-xl bg-zinc-100/30 dark:bg-[var(--color-bg)]/50 overflow-hidden flex flex-col sticky top-8">
-            <div className="bg-zinc-200/50 dark:bg-[var(--color-surface)] border-b border-zinc-200 dark:border-[var(--color-border)] px-4 py-3 flex items-center justify-between">
+          <div className="border border-zinc-200/50 dark:border-[var(--color-border)]/50 rounded-xl overflow-hidden flex flex-col sticky top-8">
+            <div className="border-b border-zinc-200/50 dark:border-[var(--color-border)]/50 px-4 py-3 flex items-center justify-between">
               <h4 className="font-bold text-xs font-mono uppercase tracking-widest text-zinc-600 dark:text-[var(--color-text-muted)]">
                 Prefix Scaling Matrix
               </h4>
@@ -238,23 +234,23 @@ export default function SubnetGuide() {
             </div>
             <div className="overflow-y-auto custom-scrollbar" style={{ maxHeight: '680px' }}>
               <table className="w-full text-left border-collapse font-mono text-xs">
-                <thead className="sticky top-0 bg-zinc-200/95 dark:bg-[var(--color-bg)]/90 backdrop-blur-sm z-10 border-b border-zinc-200 dark:border-[var(--color-border)]">
+                <thead className="sticky top-0 backdrop-blur-sm z-10 border-b border-zinc-200/50 dark:border-[var(--color-border)]/50">
                   <tr className="text-zinc-550 dark:text-[var(--color-text-muted)] font-semibold tracking-wider text-[10px] uppercase">
                     <th className="py-2.5 px-4 text-center">CIDR</th>
                     <th className="py-2.5 px-4">Subnet Mask</th>
                     <th className="py-2.5 px-4 text-right">Usable Hosts</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-zinc-200 dark:divide-zinc-800/50">
+                <tbody className="">
                   {matrixRows.map((row) => (
-                    <tr key={row.prefix} className="hover:bg-zinc-200/40 dark:hover:bg-zinc-800/30 transition-colors">
-                      <td className="py-2.5 px-4 text-center font-bold text-cyan-600 dark:text-cyan-400">
+                    <tr key={row.prefix} className="border-b border-zinc-200/40 dark:border-zinc-800/40 transition-opacity duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:opacity-70">
+                      <td className="py-2.5 px-4 text-center font-bold text-zinc-800 dark:text-zinc-200">
                         /{row.prefix}
                       </td>
-                      <td className="py-2.5 px-4 text-zinc-700 dark:text-zinc-300 font-medium">
+                      <td className="py-2.5 px-4 text-zinc-600 dark:text-zinc-400 font-medium tracking-widest tabular-nums">
                         {row.mask}
                       </td>
-                      <td className="py-2.5 px-4 text-right font-bold text-zinc-600 dark:text-[var(--color-text-muted)]">
+                      <td className="py-2.5 px-4 text-right font-mono text-zinc-600 dark:text-zinc-500 tabular-nums">
                         {row.hosts.toLocaleString('en-US')}
                       </td>
                     </tr>

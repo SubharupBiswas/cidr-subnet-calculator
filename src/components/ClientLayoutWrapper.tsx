@@ -8,11 +8,26 @@ import { Footer } from './Footer';
 import { FaqAccordion } from './FaqAccordion';
 
 export function AdSlot({ className, type }: { className?: string; type: 'banner' | 'rectangle' }) {
+  if (process.env.NODE_ENV === 'development') {
+    return (
+      <div
+        className={`w-full border border-dashed border-zinc-700/40 rounded-xl bg-zinc-900/10 dark:bg-zinc-950/20 flex items-center justify-center text-xs tracking-wider text-[var(--color-text-muted)] ${className ?? ''} ${type === 'banner' ? 'min-h-[90px]' : 'min-h-[250px]'}`}
+      >
+        ADVERTISEMENT SPACE
+      </div>
+    );
+  }
+
   return (
-    <div
-      className={`w-full border border-dashed border-zinc-700/40 rounded-xl bg-zinc-900/10 dark:bg-zinc-950/20 flex items-center justify-center text-xs tracking-wider text-[var(--color-text-muted)] ${className ?? ''} ${type === 'banner' ? 'min-h-[90px]' : 'min-h-[250px]'}`}
-    >
-      ADVERTISEMENT SPACE
+    <div className={`w-full overflow-hidden flex justify-center items-center ${className ?? ''} ${type === 'banner' ? 'min-h-[90px]' : 'min-h-[250px]'}`}>
+      <ins
+        className="adsbygoogle"
+        style={{ display: 'block' }}
+        data-ad-client="ca-pub-production-id"
+        data-ad-slot="production-slot"
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      />
     </div>
   );
 }
@@ -101,7 +116,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
       {/* Top ambient glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[300px] bg-gradient-to-b from-cyan-500/6 to-transparent blur-[120px] pointer-events-none z-0" />
 
-      <div className="max-w-7xl w-full mx-auto px-4 md:px-8 pt-5 pb-10 z-10 flex-grow relative">
+      <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pt-5 pb-10 z-10 flex-grow relative">
 
         {/* ── Floating Header ── */}
         <header className="mb-6 flex items-center justify-between bg-zinc-100/75 dark:bg-[var(--color-surface)] backdrop-blur-xl border border-zinc-250 dark:border-[var(--color-border)] px-4 md:px-5 h-14 rounded-2xl shadow-md dark:shadow-lg shadow-zinc-200/50 dark:shadow-black/40 transition-colors duration-300">
@@ -146,7 +161,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
 
         {/* ── Navigation Tab Bar ── */}
         <nav className="flex items-center justify-center mb-8 px-2" aria-label="Main navigation">
-          <div className="inline-flex p-1 bg-zinc-200/40 dark:bg-[var(--color-surface)] border border-zinc-200 dark:border-[var(--color-border)] rounded-xl backdrop-blur-md overflow-x-auto scrollbar-none shadow-inner gap-0.5">
+          <div className="inline-flex p-1 bg-zinc-200/40 dark:bg-[var(--color-surface)] border border-zinc-200 dark:border-[var(--color-border)] rounded-xl backdrop-blur-md overflow-x-auto whitespace-nowrap scrollbar-none touch-pan-x shadow-inner gap-0.5">
             {navItems.map(tab => {
               const isActive = pathname === tab.path || (tab.path !== '/' && pathname.startsWith(tab.path));
               return (
