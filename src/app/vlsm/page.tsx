@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { Plus, Trash2, Zap, AlertTriangle, Network, Terminal } from 'lucide-react';
 import { ipToLong, longToIp, getMaskLong, isValidIp } from '../../utils/ipv4Utils';
 
@@ -119,11 +119,34 @@ export default function VlsmPlanner() {
   ]);
   const [result, setResult] = useState<{ allocations: VlsmAllocation[]; slack: SlackFragment[]; error: string | null } | null>(null);
 
-  const addDept = () => {
+  const prefixRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const el = prefixRef.current;
+    if (!el) return;
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const delta = e.deltaY < 0 ? 1 : -1;
+      setParentPrefix(prev => Math.min(30, Math.max(1, prev + delta)));
+    };
+    el.addEventListener('wheel', onWheel, { passive: false });
+    return () => el.removeEventListener('wheel', onWheel);
+  }, []);
+
+  const addDept = (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     setDepartments(prev => [...prev, { id: crypto.randomUUID(), name: '', hosts: '' }]);
   };
 
-  const removeDept = (id: string) => {
+  const removeDept = (id: string, e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     setDepartments(prev => prev.filter(d => d.id !== id));
   };
 
@@ -131,7 +154,11 @@ export default function VlsmPlanner() {
     setDepartments(prev => prev.map(d => d.id === id ? { ...d, [field]: value } : d));
   };
 
-  const generate = useCallback(() => {
+  const generate = useCallback((e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     const depts = departments
       .map(d => ({ name: d.name || 'Unnamed', hosts: parseInt(d.hosts, 10) || 0 }))
       .filter(d => d.hosts > 0);
@@ -208,16 +235,17 @@ export default function VlsmPlanner() {
               <span className="text-[var(--color-text-muted)] text-[10px]">/{30}</span>
             </div>
             <input
+              ref={prefixRef}
               id="vlsm-parent-prefix"
               type="range"
               min={1}
               max={30}
               value={parentPrefix}
               onChange={e => setParentPrefix(parseInt(e.target.value))}
-              style={{
-                '--slider-pct': `${Math.round(((parentPrefix - 1) / 29) * 100)}%`,
-              } as React.CSSProperties}
               className="w-full"
+              style={{
+                background: `linear-gradient(to right, var(--color-accent) ${((parentPrefix - 1) / 29) * 100}%, var(--color-border) ${((parentPrefix - 1) / 29) * 100}%)`
+              }}
               aria-label="Parent network prefix slider"
             />
             <div className="flex justify-between text-[9px] font-mono text-[var(--color-text-muted)] select-none mt-0.5">
@@ -225,7 +253,7 @@ export default function VlsmPlanner() {
                 <button
                   key={v}
                   type="button"
-                  onClick={() => setParentPrefix(v)}
+                  onClick={(e) => { e.preventDefault(); e.stopPropagation(); setParentPrefix(v); }}
                   className={`transition-colors cursor-pointer hover:text-[var(--color-text-main)] ${
                     parentPrefix === v ? 'font-bold text-blue-600 dark:text-cyan-400' : ''
                   }`}
@@ -275,7 +303,7 @@ export default function VlsmPlanner() {
             />
             <span className="text-[10px] font-mono text-zinc-500 dark:text-zinc-600 shrink-0">hosts</span>
             <button
-              onClick={() => removeDept(dept.id)}
+              onClick={(e) => removeDept(dept.id, e)}
               className="text-zinc-400 dark:text-[var(--color-text-muted)] hover:text-rose-600 dark:hover:text-rose-500 hover:bg-rose-500/10 dark:hover:bg-rose-500/10 p-1.5 rounded-lg transition-all shrink-0 cursor-pointer opacity-0 group-hover:opacity-100 focus:opacity-100 ml-1"
               tabIndex={0}
               title="Remove department"

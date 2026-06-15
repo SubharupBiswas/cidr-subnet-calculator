@@ -13,7 +13,8 @@
   --color-bg:            oklch(97.5% 0.008 225);
   --color-surface:       oklch(100% 0 0);
   --color-border:        oklch(89% 0.012 225);
-  --color-text-main:     oklch(20% 0.015 230);
+  --color-text-main:     #1e293b;
+  --color-text-heading:  #0f172a;
   --color-text-muted:    oklch(50% 0.012 230);
   --color-inner-surface: oklch(98% 0.006 225);
   --color-inner-surface-hover: oklch(96% 0.012 225);

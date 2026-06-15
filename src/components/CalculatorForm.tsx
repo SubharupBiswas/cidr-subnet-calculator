@@ -44,6 +44,7 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
 
       const onWheel = (e: WheelEvent) => {
         e.preventDefault();
+        e.stopPropagation();
         const current = parseInt(octets[index] || '0', 10);
         const delta = e.deltaY < 0 ? 1 : -1;
         const next = Math.min(255, Math.max(0, current + delta));
@@ -62,6 +63,7 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
     if (prefixEl) {
       const onPrefixWheel = (e: WheelEvent) => {
         e.preventDefault();
+        e.stopPropagation();
         const delta = e.deltaY < 0 ? 1 : -1;
         setPrefix(Math.min(32, Math.max(1, prefix + delta)));
       };
@@ -120,8 +122,6 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
     }
   };
 
-  // Compute slider fill percentage for CSS custom property
-  const sliderPct = Math.round(((prefix - 1) / 31) * 100);
 
   const octetColors = ['bg-[#f87171]', 'bg-[#34d399]', 'bg-[#fbbf24]', 'bg-[#a78bfa]'];
 
@@ -140,7 +140,7 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
               value={octets[index]}
               onChange={(e) => handleOctetChange(index, e.target.value)}
               onKeyDown={(e) => handleKeyDown(index, e)}
-              className={`text-zinc-900 font-bold text-xl text-center p-2 rounded-xl shadow-sm w-14 focus:outline-none focus:ring-2 focus:ring-white/50 transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${octetColors[index]}`}
+              className={`text-[var(--color-text-main)] font-bold text-xl text-center p-2 rounded-xl shadow-sm w-14 focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${octetColors[index]}`}
               placeholder={['192', '168', '1', '1'][index]}
               maxLength={3}
               aria-label={`IP Address Octet ${index + 1}`}
@@ -184,7 +184,11 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
             <button
               key={p}
               type="button"
-              onClick={() => handlePrefixChange(p)}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handlePrefixChange(p);
+              }}
               className={`px-2 py-1 text-[11px] font-mono transition-colors duration-150 cursor-pointer ${
                 prefix === p
                   ? 'text-[var(--color-text-main)] font-bold'
@@ -206,7 +210,7 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
             onChange={(e) => handlePrefixChange(parseInt(e.target.value, 10))}
             className="w-full max-w-sm"
             style={{
-              background: `linear-gradient(to right, var(--color-accent) ${sliderPct}%, var(--color-border) ${sliderPct}%)`,
+              background: `linear-gradient(to right, var(--color-accent) ${((prefix - 1) / 31) * 100}%, var(--color-border) ${((prefix - 1) / 31) * 100}%)`
             }}
             aria-label="CIDR Prefix Slider"
           />

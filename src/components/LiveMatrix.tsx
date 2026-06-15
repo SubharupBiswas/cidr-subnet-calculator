@@ -46,7 +46,7 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
         </span>
         <CopyBtn text={value} id={id} />
       </div>
-      <span className="font-mono text-lg md:text-xl font-bold tracking-tight text-slate-900 dark:text-zinc-100 break-all w-full">
+      <span className="font-mono text-sm sm:text-base md:text-sm lg:text-base xl:text-lg font-bold tracking-tight text-slate-900 dark:text-zinc-100 truncate w-full" title={value}>
         {value}
       </span>
     </div>
@@ -64,7 +64,7 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
         <CopyBtn text={value} id={id} />
       </div>
       <div className="flex flex-col">
-        <span className="font-mono text-lg md:text-xl font-bold tracking-tight text-slate-900 dark:text-zinc-100 break-all w-full">
+        <span className="font-mono text-sm sm:text-base md:text-sm lg:text-base xl:text-lg font-bold tracking-tight text-slate-900 dark:text-zinc-100 truncate w-full" title={value}>
           {value}
         </span>
         {sublabel && (

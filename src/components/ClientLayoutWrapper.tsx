@@ -36,7 +36,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(true);
+  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
   const [copiedLink, setCopiedLink] = useState(false);
 
   const isEmbedded = searchParams.get('embed') === 'true';
@@ -44,7 +44,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     try {
       const storedTheme = localStorage.getItem('cidr_calc_theme');
-      if (storedTheme === 'light') setIsDarkMode(false);
+      if (storedTheme === 'dark') setIsDarkMode(true);
     } catch (e) {
       console.error('Error loading theme', e);
     }

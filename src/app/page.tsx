@@ -231,7 +231,7 @@ function SubnetCalculatorContent() {
           <Terminal className="w-3.5 h-3.5 stroke-[2.5]" />
           &gt;_ Subnetwork Engineering
         </div>
-        <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight text-[var(--color-text-main)] text-center max-w-3xl mx-auto font-sans">
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100 text-center max-w-3xl font-sans">
           Free IPv4 CIDR Subnet Calculator &amp; Network Mask Tool
         </h1>
         <p className="max-w-2xl mx-auto text-base leading-relaxed text-[var(--color-text-muted)] mb-8 mt-3">
@@ -240,7 +240,7 @@ function SubnetCalculatorContent() {
       </section>
 
       {/* ── Primary Calculator Stream ── */}
-      <div className="w-full flex flex-col items-center gap-8">
+      <main className="w-full flex flex-col items-center gap-8">
         {/* Calculator Input Board */}
         <div className="w-full">
           <CalculatorForm ip={ip} setIp={setIp} prefix={prefix} setPrefix={setPrefix} />
@@ -272,7 +272,7 @@ function SubnetCalculatorContent() {
           </Suspense>
           <AdSlot type="rectangle" />
         </div>
-      </div>
+      </main>
     </>
   );
 }
