@@ -207,7 +207,7 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
       <div className="flex flex-col md:flex-row md:items-center justify-start gap-6 md:gap-12">
         
         {/* Quick Presets */}
-        <div className="flex items-center gap-1.5 shrink-0">
+        <div className="flex flex-wrap items-center justify-center gap-1.5 shrink-0">
           {commonPrefixes.map((p) => (
             <button
               key={p}
@@ -217,10 +217,10 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
                 e.stopPropagation();
                 handlePrefixChange(p);
               }}
-              className={`px-2 py-1 text-[11px] font-mono transition-colors duration-150 cursor-pointer ${
+              className={`min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg text-sm font-mono transition-colors duration-150 cursor-pointer ${
                 prefix === p
-                  ? 'text-[var(--color-text-main)] font-bold'
-                  : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-main)]'
+                  ? 'text-[var(--color-text-main)] font-bold bg-[var(--color-border)]/50 dark:bg-[var(--color-border)]/30'
+                  : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-main)] hover:bg-[var(--color-border)]/30 dark:hover:bg-[var(--color-border)]/20'
               }`}
             >
               /{p}

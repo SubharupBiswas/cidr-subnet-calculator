@@ -37,8 +37,8 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
   const formatHosts = (num: number) => num.toLocaleString('en-US');
 
   const MetricRow = ({
-    label, value, id
-  }: { label: string; value: string; id: string }) => (
+    label, value, id, colorClass
+  }: { label: string; value: string; id: string; colorClass?: string }) => (
     <div className="flex flex-col gap-1 w-full text-center">
       <div className="flex items-center justify-center gap-3">
         <span className="whitespace-nowrap uppercase tracking-wider text-sm font-bold text-slate-500 dark:text-zinc-500">
@@ -46,7 +46,7 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
         </span>
         <CopyBtn text={value} id={id} />
       </div>
-      <span className="font-mono text-lg sm:text-xl md:text-lg lg:text-xl xl:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100 break-all w-full" title={value}>
+      <span className={`font-mono text-lg sm:text-xl md:text-lg lg:text-xl xl:text-2xl font-bold tracking-tight break-all w-full ${colorClass || 'text-slate-900 dark:text-zinc-100'}`} title={value}>
         {value}
       </span>
     </div>
@@ -54,8 +54,8 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
 
   // Hero-sized metric row (2× emphasis)
   const HeroRow = ({
-    label, value, id, sublabel
-  }: { label: string; value: string; id: string; sublabel?: string }) => (
+    label, value, id, sublabel, colorClass
+  }: { label: string; value: string; id: string; sublabel?: string; colorClass?: string }) => (
     <div className="flex flex-col gap-1 w-full text-center">
       <div className="flex items-center justify-center gap-3">
         <span className="whitespace-nowrap uppercase tracking-wider text-sm font-bold text-slate-500 dark:text-zinc-500">
@@ -64,7 +64,7 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
         <CopyBtn text={value} id={id} />
       </div>
       <div className="flex flex-col">
-        <span className="font-mono text-lg sm:text-xl md:text-lg lg:text-xl xl:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100 break-all w-full" title={value}>
+        <span className={`font-mono text-lg sm:text-xl md:text-lg lg:text-xl xl:text-2xl font-bold tracking-tight break-all w-full ${colorClass || 'text-slate-900 dark:text-zinc-100'}`} title={value}>
           {value}
         </span>
         {sublabel && (
@@ -85,12 +85,14 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
           label="Usable Host Range"
           value={result?.usableHostRange || '192.168.1.1 – 192.168.1.254'}
           id="range"
+          colorClass="text-emerald-600 dark:text-emerald-400"
         />
         <HeroRow
           label="Total Usable Hosts"
           value={result ? formatHosts(result.totalUsableHosts) : '254'}
           id="hosts"
           sublabel={result ? `2^${32 - result.prefix} − 2 endpoints` : '2^8 − 2 endpoints'}
+          colorClass="text-cyan-600 dark:text-cyan-400"
         />
       </div>
 
@@ -99,31 +101,37 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
           label="Network Address"
           value={result?.networkAddress || '192.168.1.0'}
           id="network"
+          colorClass="text-blue-600 dark:text-blue-400"
         />
         <MetricRow
           label="Broadcast Address"
           value={result?.broadcastAddress || '192.168.1.255'}
           id="broadcast"
+          colorClass="text-amber-600 dark:text-amber-400"
         />
         <MetricRow
           label="Subnet Mask"
           value={result?.subnetMask || '255.255.255.0'}
           id="mask"
+          colorClass="text-purple-600 dark:text-purple-400"
         />
         <MetricRow
           label="Wildcard Mask"
           value={result?.wildcardMask || '0.0.0.255'}
           id="wildcard"
+          colorClass="text-fuchsia-600 dark:text-fuchsia-400"
         />
         <MetricRow
           label="Hex IP Value"
           value={hexIp}
           id="hexip"
+          colorClass="text-slate-700 dark:text-slate-300"
         />
         <MetricRow
           label="IP Class"
           value={result?.ipClass || 'Class C'}
           id="class"
+          colorClass="text-indigo-600 dark:text-indigo-400"
         />
       </div>
 
