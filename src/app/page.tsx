@@ -12,6 +12,7 @@ const SubnetSplitter = lazy(() => import('../components/SubnetSplitter').then(m 
 const CheatSheet = lazy(() => import('../components/CheatSheet').then(m => ({ default: m.CheatSheet })));
 const HistoryTracker = lazy(() => import('../components/HistoryTracker').then(m => ({ default: m.HistoryTracker })));
 
+
 import type { HistoryItem } from '../components/HistoryTracker';
 
 function AdSlot({ className, type }: { className?: string; type: 'banner' | 'rectangle' }) {
@@ -135,7 +136,7 @@ function SubnetCalculatorContent() {
         nextParams.delete('ip');
       }
       nextParams.set('prefix', prefix.toString());
-      router.replace(`${pathname}?${nextParams.toString()}`);
+      window.history.replaceState(null, '', `${pathname}?${nextParams.toString()}`);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ip, prefix]);
@@ -227,14 +228,14 @@ function SubnetCalculatorContent() {
     <>
       {/* ── Hero Header ── */}
       <section aria-label="Utility Description" className="w-full text-center mb-10">
-        <div className="flex items-center justify-center gap-2 text-blue-600 dark:text-cyan-400 text-xs font-mono font-bold uppercase tracking-[0.15em] mb-3">
+        <div className="flex items-center justify-center gap-2 text-fuchsia-600 dark:text-fuchsia-400 text-xs font-mono font-bold uppercase tracking-[0.15em] mb-3">
           <Terminal className="w-3.5 h-3.5 stroke-[2.5]" />
           &gt;_ Subnetwork Engineering
         </div>
-        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100 text-center max-w-3xl font-sans">
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-violet-600 via-fuchsia-600 to-cyan-500 dark:from-violet-400 dark:via-fuchsia-400 dark:to-cyan-400 text-center max-w-4xl mx-auto font-sans">
           Free IPv4 CIDR Subnet Calculator &amp; Network Mask Tool
         </h1>
-        <p className="max-w-2xl mx-auto text-base leading-relaxed text-[var(--color-text-muted)] mb-8 mt-3">
+        <p className="max-w-2xl mx-auto text-lg sm:text-xl leading-relaxed text-[var(--color-text-muted)] mb-8 mt-4">
           Configure IP parameters client-side to instantly visualize boundaries, masks, binary structures, and subnet splits. Ideal for network architects, systems engineers, and DevOps.
         </p>
       </section>

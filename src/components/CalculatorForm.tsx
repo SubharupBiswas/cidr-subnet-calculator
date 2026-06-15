@@ -27,6 +27,13 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
     useRef<HTMLInputElement>(null),
   ];
   const prefixRef = useRef<HTMLInputElement>(null);
+  const sliderRef = useRef<HTMLInputElement>(null);
+  
+  // Use a ref to hold latest state to avoid reattaching wheel listeners
+  const stateRef = useRef({ octets, prefix });
+  useEffect(() => {
+    stateRef.current = { octets, prefix };
+  }, [octets, prefix]);
 
   useEffect(() => {
     const parts = ip.split('.');
@@ -45,10 +52,11 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
       const onWheel = (e: WheelEvent) => {
         e.preventDefault();
         e.stopPropagation();
-        const current = parseInt(octets[index] || '0', 10);
+        const { octets: currentOctets } = stateRef.current;
+        const current = parseInt(currentOctets[index] || '0', 10);
         const delta = e.deltaY < 0 ? 1 : -1;
         const next = Math.min(255, Math.max(0, current + delta));
-        const newOctets = [...octets];
+        const newOctets = [...currentOctets];
         newOctets[index] = String(next);
         setOctets(newOctets);
         setIp(newOctets.join('.'));
@@ -64,16 +72,31 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
       const onPrefixWheel = (e: WheelEvent) => {
         e.preventDefault();
         e.stopPropagation();
+        const { prefix: currentPrefix } = stateRef.current;
         const delta = e.deltaY < 0 ? 1 : -1;
-        setPrefix(Math.min(32, Math.max(1, prefix + delta)));
+        setPrefix(Math.min(32, Math.max(1, currentPrefix + delta)));
       };
       prefixEl.addEventListener('wheel', onPrefixWheel, { passive: false });
       handlers.push(() => prefixEl.removeEventListener('wheel', onPrefixWheel));
     }
 
+    // Wheel listener for Slider
+    const sliderEl = sliderRef.current;
+    if (sliderEl) {
+      const onSliderWheel = (e: WheelEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const { prefix: currentPrefix } = stateRef.current;
+        const delta = e.deltaY < 0 ? 1 : -1;
+        setPrefix(Math.min(32, Math.max(1, currentPrefix + delta)));
+      };
+      sliderEl.addEventListener('wheel', onSliderWheel, { passive: false });
+      handlers.push(() => sliderEl.removeEventListener('wheel', onSliderWheel));
+    }
+
     return () => handlers.forEach(cleanup => cleanup());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [octets, prefix]);
+  }, []); // Only run once on mount!
 
   const handlePrefixChange = (val: number) => {
     if (val >= 1 && val <= 32) setPrefix(val);
@@ -123,13 +146,18 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
   };
 
 
-  const octetColors = ['bg-[#f87171]', 'bg-[#34d399]', 'bg-[#fbbf24]', 'bg-[#a78bfa]'];
+  const octetColors = [
+    'text-pink-600 dark:text-pink-400 bg-pink-50 dark:bg-pink-500/10 border-pink-200 dark:border-pink-500/30 focus:border-pink-500 focus:shadow-[0_0_15px_rgba(236,72,153,0.3)]',
+    'text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-500/10 border-violet-200 dark:border-violet-500/30 focus:border-violet-500 focus:shadow-[0_0_15px_rgba(139,92,246,0.3)]',
+    'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-500/10 border-blue-200 dark:border-blue-500/30 focus:border-blue-500 focus:shadow-[0_0_15px_rgba(59,130,246,0.3)]',
+    'text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-500/10 border-teal-200 dark:border-teal-500/30 focus:border-teal-500 focus:shadow-[0_0_15px_rgba(20,184,166,0.3)]',
+  ];
 
   return (
     <div className="flex flex-col space-y-8 border-b border-[var(--color-border)] pb-6 w-full">
       
       {/* IP + CIDR Input Row */}
-      <div className={`flex items-center justify-start gap-1 font-mono transition-colors duration-300 w-fit px-4 py-2.5 bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl shadow-sm ${!isIpValid && ip !== '' ? 'text-rose-500' : 'text-zinc-900 dark:text-zinc-100'}`}>
+      <div className={`flex flex-wrap justify-center items-center gap-2 sm:gap-4 my-2 sm:my-6 font-mono transition-colors duration-300 w-full ${!isIpValid && ip !== '' ? 'text-rose-500' : 'text-zinc-900 dark:text-zinc-100'}`}>
         {[0, 1, 2, 3].map((index) => (
           <Fragment key={`octet-wrapper-${index}`}>
             <input
@@ -140,21 +168,21 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
               value={octets[index]}
               onChange={(e) => handleOctetChange(index, e.target.value)}
               onKeyDown={(e) => handleKeyDown(index, e)}
-              className={`text-[var(--color-text-main)] font-bold text-xl text-center p-2 rounded-xl shadow-sm w-14 focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${octetColors[index]}`}
+              className={`font-bold text-2xl sm:text-3xl text-center rounded-xl border-2 shadow-inner w-16 h-16 sm:w-20 sm:h-20 focus:outline-none transition-all duration-200 touch-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${octetColors[index]}`}
               placeholder={['192', '168', '1', '1'][index]}
               maxLength={3}
               aria-label={`IP Address Octet ${index + 1}`}
               title="Scroll to adjust value"
             />
             {index < 3 && (
-              <span className="text-zinc-300 dark:text-zinc-700 text-xl font-bold">.</span>
+              <span className="text-zinc-400 dark:text-zinc-600 text-3xl sm:text-5xl font-bold translate-y-1 sm:translate-y-2">.</span>
             )}
           </Fragment>
         ))}
 
         {/* CIDR */}
-        <div className="flex items-center pl-2 md:pl-4 border-l border-[var(--color-border)] ml-2 md:ml-4">
-          <span className="text-[var(--color-text-muted)] text-xl font-bold">/</span>
+        <div className="flex items-center ml-2 sm:ml-4 pl-2 sm:pl-4 border-l-2 border-[var(--color-border)]">
+          <span className="text-[var(--color-text-muted)] text-3xl sm:text-5xl font-bold translate-y-1 sm:translate-y-2 mr-2 sm:mr-4">/</span>
           <input
             ref={prefixRef}
             type="number"
@@ -163,7 +191,7 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
             value={prefix}
             onChange={(e) => handlePrefixChange(parseInt(e.target.value, 10) || 1)}
             onKeyDown={handlePrefixKeyDown}
-            className="text-[var(--color-text-main)] font-bold text-xl text-center p-2 rounded-xl shadow-sm w-14 bg-[var(--color-inner-surface)] dark:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+            className="text-cyan-600 dark:text-cyan-400 bg-cyan-50 dark:bg-cyan-500/10 border-cyan-200 dark:border-cyan-500/30 focus:border-cyan-500 focus:shadow-[0_0_15px_rgba(6,182,212,0.3)] font-bold text-2xl sm:text-3xl text-center rounded-xl border-2 shadow-inner w-16 h-16 sm:w-20 sm:h-20 focus:outline-none transition-all duration-200 touch-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             aria-label="CIDR Prefix Length"
             title="Scroll to adjust prefix"
           />
@@ -203,14 +231,15 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
         {/* Slider */}
         <div className="flex-1 w-full flex items-center gap-3">
           <input
+            ref={sliderRef}
             type="range"
             min="1"
             max="32"
             value={prefix}
             onChange={(e) => handlePrefixChange(parseInt(e.target.value, 10))}
-            className="w-full max-w-sm"
+            className="w-full max-w-sm touch-none"
             style={{
-              background: `linear-gradient(to right, var(--color-accent) ${((prefix - 1) / 31) * 100}%, var(--color-border) ${((prefix - 1) / 31) * 100}%)`
+              background: `linear-gradient(to right, #a855f7 ${((prefix - 1) / 31) * 100}%, var(--color-border) ${((prefix - 1) / 31) * 100}%)`
             }}
             aria-label="CIDR Prefix Slider"
           />

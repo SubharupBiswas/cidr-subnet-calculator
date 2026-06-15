@@ -39,14 +39,14 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
   const MetricRow = ({
     label, value, id
   }: { label: string; value: string; id: string }) => (
-    <div className="flex flex-col gap-1 w-full text-left">
-      <div className="flex items-center gap-3">
-        <span className="whitespace-nowrap uppercase tracking-wider text-xs font-bold text-slate-500 dark:text-zinc-500">
+    <div className="flex flex-col gap-1 w-full text-center">
+      <div className="flex items-center justify-center gap-3">
+        <span className="whitespace-nowrap uppercase tracking-wider text-sm font-bold text-slate-500 dark:text-zinc-500">
           {label}
         </span>
         <CopyBtn text={value} id={id} />
       </div>
-      <span className="font-mono text-sm sm:text-base md:text-sm lg:text-base xl:text-lg font-bold tracking-tight text-slate-900 dark:text-zinc-100 truncate w-full" title={value}>
+      <span className="font-mono text-lg sm:text-xl md:text-lg lg:text-xl xl:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100 break-all w-full" title={value}>
         {value}
       </span>
     </div>
@@ -56,15 +56,15 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
   const HeroRow = ({
     label, value, id, sublabel
   }: { label: string; value: string; id: string; sublabel?: string }) => (
-    <div className="flex flex-col gap-1 w-full text-left">
-      <div className="flex items-center gap-3">
-        <span className="whitespace-nowrap uppercase tracking-wider text-xs font-bold text-slate-500 dark:text-zinc-500">
+    <div className="flex flex-col gap-1 w-full text-center">
+      <div className="flex items-center justify-center gap-3">
+        <span className="whitespace-nowrap uppercase tracking-wider text-sm font-bold text-slate-500 dark:text-zinc-500">
           {label}
         </span>
         <CopyBtn text={value} id={id} />
       </div>
       <div className="flex flex-col">
-        <span className="font-mono text-sm sm:text-base md:text-sm lg:text-base xl:text-lg font-bold tracking-tight text-slate-900 dark:text-zinc-100 truncate w-full" title={value}>
+        <span className="font-mono text-lg sm:text-xl md:text-lg lg:text-xl xl:text-2xl font-bold tracking-tight text-slate-900 dark:text-zinc-100 break-all w-full" title={value}>
           {value}
         </span>
         {sublabel && (
@@ -79,9 +79,8 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
     : '0xC0A80101';
 
   return (
-    <div className="flex flex-col gap-4 py-2 w-full">
-      {/* Primary Network Info Surface */}
-      <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl p-5 md:p-6 w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    <div className="flex flex-col gap-10 py-6 w-full">
+      <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-y-12 gap-x-6">
         <HeroRow
           label="Usable Host Range"
           value={result?.usableHostRange || '192.168.1.1 – 192.168.1.254'}
@@ -93,6 +92,9 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
           id="hosts"
           sublabel={result ? `2^${32 - result.prefix} − 2 endpoints` : '2^8 − 2 endpoints'}
         />
+      </div>
+
+      <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-10 gap-x-6">
         <MetricRow
           label="Network Address"
           value={result?.networkAddress || '192.168.1.0'}
@@ -103,10 +105,6 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
           value={result?.broadcastAddress || '192.168.1.255'}
           id="broadcast"
         />
-      </div>
-
-      {/* Technical Data Surface */}
-      <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl p-5 md:p-6 w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         <MetricRow
           label="Subnet Mask"
           value={result?.subnetMask || '255.255.255.0'}
@@ -129,15 +127,14 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
         />
       </div>
 
-      {/* ── Address Scope Badge ── */}
       {result && (
-        <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl p-5 md:p-6 w-full flex flex-col gap-2 text-left">
-          <span className="whitespace-nowrap uppercase tracking-wider text-xs font-bold text-[var(--color-text-muted)] mb-1">Address Scope</span>
-          <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-4">
-            <span className="font-mono text-lg md:text-xl font-bold tracking-tight text-[var(--color-text-main)] uppercase break-all">
+        <div className="w-full flex flex-col items-center justify-center gap-2 mt-4 text-center">
+          <span className="whitespace-nowrap uppercase tracking-wider text-sm font-bold text-[var(--color-text-muted)]">Address Scope</span>
+          <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
+            <span className="font-mono text-xl md:text-2xl font-bold tracking-tight text-[var(--color-text-main)] uppercase">
               {result.ipType.type}
             </span>
-            <span className="font-sans text-sm text-[var(--color-text-muted)]">{result.ipType.description}</span>
+            <span className="font-sans text-base text-[var(--color-text-muted)]">{result.ipType.description}</span>
           </div>
         </div>
       )}

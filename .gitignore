@@ -47,3 +47,5 @@ yarn-debug.log*
 # ─── Test Coverage ──────────────────────────────────────────────────────────
 coverage/
 .nyc_output/
+
+sample/

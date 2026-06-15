@@ -24,8 +24,22 @@ export const SubnetSplitter: FC<SubnetSplitterProps> = ({
     }
   }, [currentPrefix, targetPrefix]);
 
+  const containerClasses = 'bento-card bento-card-hover p-4 md:p-5 flex flex-col gap-6 w-full max-w-full block';
+
   if (currentPrefix >= 32) {
-    return null; // Cannot split a /32 single host network
+    return (
+      <div className={containerClasses}>
+        <div className="flex items-center gap-3 border-b border-zinc-200 dark:border-[var(--color-border)] pb-4">
+          <Columns className="w-4 h-4 text-cyan-400" />
+          <h2 className="text-sm font-bold text-zinc-900 dark:text-[var(--color-text-main)] font-mono uppercase tracking-widest">Subnet Splitter</h2>
+        </div>
+        <div className="flex flex-col gap-1 items-center justify-center py-10 opacity-60">
+          <p className="text-sm text-[var(--color-text-muted)] leading-relaxed">
+            Cannot split a <span className="font-mono text-[var(--color-text-main)] font-bold">/32</span> single host network.
+          </p>
+        </div>
+      </div>
+    );
   }
 
   const numSubnets = Math.pow(2, targetPrefix - currentPrefix);
@@ -63,7 +77,6 @@ export const SubnetSplitter: FC<SubnetSplitterProps> = ({
     });
   }
 
-  const containerClasses = 'bento-card bento-card-hover p-4 md:p-5 flex flex-col gap-6 w-full max-w-full block';
 
   return (
     <div className={containerClasses}>
@@ -105,10 +118,10 @@ export const SubnetSplitter: FC<SubnetSplitterProps> = ({
         </div>
 
         {/* Scrollable Subnets Table (No text truncation) */}
-        <div className="w-full overflow-x-auto bg-[var(--color-surface)] border border-zinc-200/60 dark:border-zinc-800/60 rounded-2xl p-6 shadow-sm">
+        <div className="w-full max-h-[500px] overflow-auto bg-[var(--color-surface)] border border-zinc-200/60 dark:border-zinc-800/60 rounded-2xl p-0 shadow-sm relative">
           <table className="w-full text-left border-collapse font-mono text-xs">
-            <thead>
-              <tr className="bg-zinc-200/50 dark:bg-[var(--color-surface)] border-b border-zinc-200 dark:border-[var(--color-border)] text-zinc-500 dark:text-[var(--color-text-muted)] font-semibold tracking-wider text-[9px] uppercase font-mono">
+            <thead className="sticky top-0 z-10">
+              <tr className="bg-zinc-200/90 dark:bg-zinc-900/90 backdrop-blur-md border-b border-zinc-200 dark:border-[var(--color-border)] text-zinc-500 dark:text-[var(--color-text-muted)] font-semibold tracking-wider text-[9px] uppercase font-mono shadow-sm">
                 <th className="py-3 px-4 w-12 text-center">No.</th>
                 <th className="py-3 px-4">Network Address</th>
                 <th className="py-3 px-4">Usable Host Range</th>
@@ -124,9 +137,9 @@ export const SubnetSplitter: FC<SubnetSplitterProps> = ({
                   {/* Network Address - Cyan */}
                   <td className="py-3 px-4 text-cyan-600 dark:text-cyan-400 font-semibold">{sub.network}</td>
                   {/* Usable Range - Emerald */}
-                  <td className="py-3 px-4 text-emerald-600 dark:text-emerald-400 break-words min-w-[200px]">{sub.range}</td>
+                  <td className="py-3 px-4 text-emerald-600 dark:text-emerald-400 whitespace-nowrap">{sub.range}</td>
                   {/* Broadcast - Amber */}
-                  <td className="py-3 px-4 text-amber-600 dark:text-amber-400">{sub.broadcast}</td>
+                  <td className="py-3 px-4 text-amber-600 dark:text-amber-400 whitespace-nowrap">{sub.broadcast}</td>
                   
                   <td className="py-3 px-4 text-right text-zinc-700 dark:text-[var(--color-text-muted)] font-bold">{sub.hosts.toLocaleString('en-US')}</td>
                   <td className="py-3 px-4 text-center">
