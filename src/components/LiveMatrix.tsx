@@ -41,7 +41,7 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
   }: { label: string; value: string; id: string; colorClass?: string }) => (
     <div className="flex flex-col gap-1 w-full text-center min-w-0">
       <div className="flex items-center justify-center gap-3 min-w-0">
-        <span className="truncate block text-xs font-semibold tracking-wider text-slate-400 uppercase">
+        <span className="truncate block text-xs font-semibold tracking-wider text-slate-600 dark:text-slate-400 uppercase">
           {label}
         </span>
         <CopyBtn text={value} id={id} />
@@ -60,7 +60,7 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
   }: { label: string; value: string; id: string; sublabel?: string; colorClass?: string }) => (
     <div className="flex flex-col gap-1 w-full text-center min-w-0">
       <div className="flex items-center justify-center gap-3 min-w-0">
-        <span className="truncate block text-xs font-semibold tracking-wider text-slate-400 uppercase">
+        <span className="truncate block text-xs font-semibold tracking-wider text-slate-600 dark:text-slate-400 uppercase">
           {label}
         </span>
         <CopyBtn text={value} id={id} />

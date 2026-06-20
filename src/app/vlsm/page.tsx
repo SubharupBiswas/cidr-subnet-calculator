@@ -414,9 +414,9 @@ export default function VlsmPlanner() {
             <div className="flex flex-col gap-2">
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-zinc-300 dark:bg-zinc-600 shrink-0" />
-                <h3 className="text-xs font-bold font-mono uppercase tracking-[0.15em] text-zinc-500 dark:text-zinc-500">
+                <h3 className="text-xs font-bold font-mono uppercase tracking-[0.15em] text-zinc-600 dark:text-zinc-400">
                   Unallocated Slack
-                  <span className="ml-2 font-mono text-[var(--color-text-muted)] dark:text-zinc-700 normal-case tracking-normal">({result.slack.length} fragment{result.slack.length !== 1 ? 's' : ''})</span>
+                  <span className="ml-2 font-mono text-[var(--color-text-muted)] dark:text-zinc-400 normal-case tracking-normal">({result.slack.length} fragment{result.slack.length !== 1 ? 's' : ''})</span>
                 </h3>
               </div>
               <div className="flex flex-wrap gap-2">
@@ -425,9 +425,9 @@ export default function VlsmPlanner() {
                     key={i}
                     className="inline-flex items-center gap-1.5 font-mono text-xs px-3 py-1.5 rounded-lg bg-zinc-100/50 dark:bg-[var(--color-surface)] border border-zinc-200 dark:border-[var(--color-border)] text-zinc-600 dark:text-[var(--color-text-muted)]"
                   >
-                    <span className="text-zinc-500 dark:text-zinc-500">{frag.networkAddress}</span>
+                    <span className="text-zinc-600 dark:text-zinc-400">{frag.networkAddress}</span>
                     <span className="font-bold text-cyan-600 dark:text-cyan-500">/{frag.prefix}</span>
-                    <span className="text-zinc-400 dark:text-zinc-700 text-[10px]">({frag.size.toLocaleString('en-US')})</span>
+                    <span className="text-zinc-500 dark:text-zinc-400 text-[10px]">({frag.size.toLocaleString('en-US')})</span>
                   </span>
                 ))}
               </div>

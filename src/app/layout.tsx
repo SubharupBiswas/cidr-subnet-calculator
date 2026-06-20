@@ -8,14 +8,14 @@ import { Inter, JetBrains_Mono } from 'next/font/google';
 
 const inter = Inter({
   subsets: ['latin'],
+  variable: '--font-sans',
   display: 'swap',
-  variable: '--font-inter',
 });
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
+  variable: '--font-mono',
   display: 'swap',
-  variable: '--font-jetbrains-mono',
 });
 
 export const metadata: Metadata = {
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
       <head>
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
         <script
@@ -77,7 +77,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           }}
         />
       </head>
-      <body className={`${inter.variable} ${jetbrainsMono.variable} antialiased subpixel-antialiased`}>
+      <body className="antialiased subpixel-antialiased">
         <div className="min-h-screen">
         <script
           id="site-jsonld"

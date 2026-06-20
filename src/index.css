@@ -3,9 +3,6 @@
 
 /* ─── Design Tokens ─── */
 :root {
-  /* Fonts mapped to Next.js CSS variables */
-  --font-sans: var(--font-inter, 'Inter'), system-ui, -apple-system, sans-serif;
-  --font-mono: var(--font-jetbrains-mono, 'JetBrains Mono'), monospace;
   --radius-card: 14px;
   --color-accent: oklch(62% 0.18 240);
 
