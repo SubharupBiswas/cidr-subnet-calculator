@@ -93,6 +93,7 @@ export const SubnetSplitter: FC<SubnetSplitterProps> = ({
             value={targetPrefix}
             onChange={(e) => setTargetPrefix(parseInt(e.target.value, 10))}
             className="bg-transparent text-cyan-600 dark:text-cyan-400 font-mono font-bold text-sm focus:outline-none cursor-pointer"
+            aria-label="Select target subnet mask for network splitting"
           >
             {Array.from({ length: 32 - currentPrefix }, (_, idx) => {
               const prefixVal = currentPrefix + 1 + idx;
