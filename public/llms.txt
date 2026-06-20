@@ -1,0 +1,10 @@
+# SubnetMask.tech
+
+An ultra-fast, client-side network utility for computing IPv4 CIDR blocks, Variable Length Subnet Masks (VLSM), and hardware OUI mappings.
+
+## Core Tooling Routes
+- [/] Free IPv4 CIDR Subnet Calculator & Network Mask Tool
+- [/vlsm] Variable Length Subnet Masking Allocation Suite
+- [/oui] MAC Address OUI Lookup Engine
+- [/widget] Embeddable Calculator Sandbox Configuration Panel
+- [/guide] Interactive Subnetting and Subnetwork Tutorial Docs

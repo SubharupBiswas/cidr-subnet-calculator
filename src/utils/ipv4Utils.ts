@@ -71,41 +71,41 @@ export function getIpType(longIp: number, firstOctet: number): { type: string; d
   // 172.16.0.0 - 172.31.255.255
   // 192.168.0.0 - 192.168.255.255
   if (firstOctet === 10) {
-    return { type: 'Private', description: 'RFC 1918 Private Address', badgeColor: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20' };
+    return { type: 'Private', description: 'RFC 1918 Private Address', badgeColor: 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/20' };
   }
   
   const secondOctet = Math.floor(longIp / 65536) % 256;
   if (firstOctet === 172 && secondOctet >= 16 && secondOctet <= 31) {
-    return { type: 'Private', description: 'RFC 1918 Private Address', badgeColor: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20' };
+    return { type: 'Private', description: 'RFC 1918 Private Address', badgeColor: 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/20' };
   }
   
   if (firstOctet === 192 && secondOctet === 168) {
-    return { type: 'Private', description: 'RFC 1918 Private Address', badgeColor: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20' };
+    return { type: 'Private', description: 'RFC 1918 Private Address', badgeColor: 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-emerald-500/20' };
   }
 
   // Loopback 127.0.0.0/8
   if (firstOctet === 127) {
-    return { type: 'Loopback', description: 'Localhost loopback address', badgeColor: 'bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border-cyan-500/20' };
+    return { type: 'Loopback', description: 'Localhost loopback address', badgeColor: 'bg-cyan-500/10 text-cyan-700 dark:text-cyan-400 border-cyan-500/20' };
   }
 
   // Link-Local (APIPA) 169.254.0.0/16
   if (firstOctet === 169 && secondOctet === 254) {
-    return { type: 'Link-Local', description: 'Auto-configuration APIPA', badgeColor: 'bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 border-yellow-500/20' };
+    return { type: 'Link-Local', description: 'Auto-configuration APIPA', badgeColor: 'bg-yellow-500/10 text-amber-800 dark:text-yellow-400 border-yellow-500/20' };
   }
 
   // Carrier-Grade NAT RFC 6598: 100.64.0.0/10
   if (firstOctet === 100 && (secondOctet & 0xc0) === 64) {
-    return { type: 'Shared', description: 'Carrier-Grade NAT Address', badgeColor: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20' };
+    return { type: 'Shared', description: 'Carrier-Grade NAT Address', badgeColor: 'bg-amber-500/10 text-amber-800 dark:text-amber-400 border-amber-500/20' };
   }
 
   // Multicast 224.0.0.0/4
   if (firstOctet >= 224 && firstOctet <= 239) {
-    return { type: 'Multicast', description: 'Class D Multicast group', badgeColor: 'bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20' };
+    return { type: 'Multicast', description: 'Class D Multicast group', badgeColor: 'bg-purple-500/10 text-purple-700 dark:text-purple-400 border-purple-500/20' };
   }
 
   // Experimental/Reserved 240.0.0.0/4
   if (firstOctet >= 240) {
-    return { type: 'Reserved', description: 'Class E Reserved/Experimental', badgeColor: 'bg-zinc-500/10 text-zinc-600 dark:text-zinc-400 border-zinc-500/20' };
+    return { type: 'Reserved', description: 'Class E Reserved/Experimental', badgeColor: 'bg-zinc-500/10 text-zinc-700 dark:text-zinc-400 border-zinc-500/20' };
   }
 
   // Documentations: 192.0.2.0/24, 198.51.100.0/24, 203.0.113.0/24
@@ -114,10 +114,10 @@ export function getIpType(longIp: number, firstOctet: number): { type: string; d
     (firstOctet === 198 && secondOctet === 51 && (Math.floor(longIp / 256) % 256) === 100) ||
     (firstOctet === 203 && secondOctet === 0 && (Math.floor(longIp / 256) % 256) === 113)
   ) {
-    return { type: 'Documentation', description: 'Reserved for examples/docs', badgeColor: 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20' };
+    return { type: 'Documentation', description: 'Reserved for examples/docs', badgeColor: 'bg-blue-500/10 text-blue-700 dark:text-blue-400 border-blue-500/20' };
   }
 
-  return { type: 'Public', description: 'Globally routable Internet address', badgeColor: 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20' };
+  return { type: 'Public', description: 'Globally routable Internet address', badgeColor: 'bg-blue-500/10 text-blue-700 dark:text-blue-400 border-blue-500/20' };
 }
 
 export function toBinaryString(long: number): string {

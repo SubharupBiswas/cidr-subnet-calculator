@@ -147,10 +147,10 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
 
 
   const octetColors = [
-    'text-pink-600 dark:text-pink-400 bg-pink-50 dark:bg-pink-500/10 border-pink-200 dark:border-pink-500/30 focus:border-pink-500 focus:shadow-[0_0_15px_rgba(236,72,153,0.3)]',
+    'text-pink-700 dark:text-pink-400 bg-pink-50 dark:bg-pink-500/10 border-pink-200 dark:border-pink-500/30 focus:border-pink-500 focus:shadow-[0_0_15px_rgba(236,72,153,0.3)]',
     'text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-500/10 border-violet-200 dark:border-violet-500/30 focus:border-violet-500 focus:shadow-[0_0_15px_rgba(139,92,246,0.3)]',
     'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-500/10 border-blue-200 dark:border-blue-500/30 focus:border-blue-500 focus:shadow-[0_0_15px_rgba(59,130,246,0.3)]',
-    'text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-500/10 border-teal-200 dark:border-teal-500/30 focus:border-teal-500 focus:shadow-[0_0_15px_rgba(20,184,166,0.3)]',
+    'text-teal-700 dark:text-teal-400 bg-teal-50 dark:bg-teal-500/10 border-teal-200 dark:border-teal-500/30 focus:border-teal-500 focus:shadow-[0_0_15px_rgba(20,184,166,0.3)]',
   ];
 
   return (
@@ -191,7 +191,7 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
             value={prefix}
             onChange={(e) => handlePrefixChange(parseInt(e.target.value, 10) || 1)}
             onKeyDown={handlePrefixKeyDown}
-            className="w-12 h-12 sm:w-16 sm:h-16 text-center text-base sm:text-2xl font-semibold rounded-lg min-w-0 border border-slate-200 text-cyan-600 dark:text-cyan-400 bg-cyan-50 dark:bg-cyan-500/10 focus:border-cyan-500 focus:shadow-[0_0_15px_rgba(6,182,212,0.3)] focus:outline-none transition-all duration-200 touch-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+            className="w-12 h-12 sm:w-16 sm:h-16 text-center text-base sm:text-2xl font-semibold rounded-lg min-w-0 border border-slate-200 text-cyan-700 dark:text-cyan-400 bg-cyan-50 dark:bg-cyan-500/10 focus:border-cyan-500 focus:shadow-[0_0_15px_rgba(6,182,212,0.3)] focus:outline-none transition-all duration-200 touch-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             aria-label="CIDR Prefix Length"
             title="Scroll to adjust prefix"
           />
