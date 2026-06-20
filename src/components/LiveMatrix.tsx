@@ -26,8 +26,8 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
       aria-label={`Copy ${id}`}
       className={`shrink-0 flex items-center justify-center min-w-[40px] min-h-[40px] rounded-md border transition-all duration-150 ${
         copiedKey === id
-          ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/25'
-          : 'bg-zinc-100 dark:bg-zinc-800/80 border-zinc-200 dark:border-zinc-700/60 text-zinc-500 hover:text-zinc-700 dark:hover:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-700/80 hover:border-zinc-300 dark:hover:border-zinc-600'
+          ? 'bg-emerald-500/10 text-emerald-800 dark:text-emerald-400 border-emerald-500/25'
+          : 'bg-zinc-100 dark:bg-zinc-800/80 border-zinc-200 dark:border-zinc-700/60 text-zinc-700 hover:text-zinc-700 dark:hover:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-700/80 hover:border-zinc-300 dark:hover:border-zinc-600'
       }`}
     >
       {copiedKey === id ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
@@ -41,7 +41,7 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
   }: { label: string; value: string; id: string; colorClass?: string }) => (
     <div className="flex flex-col gap-1 w-full text-center min-w-0">
       <div className="flex items-center justify-center gap-3 min-w-0">
-        <span className="truncate block text-xs font-semibold tracking-wider text-slate-600 dark:text-slate-400 uppercase">
+        <span className="truncate block text-xs font-semibold tracking-wider text-slate-700 dark:text-slate-400 uppercase">
           {label}
         </span>
         <CopyBtn text={value} id={id} />
@@ -60,7 +60,7 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
   }: { label: string; value: string; id: string; sublabel?: string; colorClass?: string }) => (
     <div className="flex flex-col gap-1 w-full text-center min-w-0">
       <div className="flex items-center justify-center gap-3 min-w-0">
-        <span className="truncate block text-xs font-semibold tracking-wider text-slate-600 dark:text-slate-400 uppercase">
+        <span className="truncate block text-xs font-semibold tracking-wider text-slate-700 dark:text-slate-400 uppercase">
           {label}
         </span>
         <CopyBtn text={value} id={id} />
@@ -89,7 +89,7 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
           label="Usable Host Range"
           value={result?.usableHostRange || '192.168.1.1 – 192.168.1.254'}
           id="range"
-          colorClass="text-emerald-600 dark:text-emerald-400"
+          colorClass="text-emerald-800 dark:text-emerald-400"
         />
         <HeroRow
           label="Total Usable Hosts"

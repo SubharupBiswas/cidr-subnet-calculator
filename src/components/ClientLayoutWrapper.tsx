@@ -150,7 +150,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
               aria-label="Share current calculation link"
               className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 border transition-all duration-200 cursor-pointer font-mono ${
                 copiedLink
-                  ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/30 shadow-[0_4px_12px_rgba(16,185,129,0.05)] dark:shadow-[0_0_12px_rgba(16,185,129,0.15)]'
+                  ? 'bg-emerald-500/10 text-emerald-800 dark:text-emerald-400 border-emerald-500/30 shadow-[0_4px_12px_rgba(16,185,129,0.05)] dark:shadow-[0_0_12px_rgba(16,185,129,0.15)]'
                   : 'bg-[var(--color-inner-surface)] text-[var(--color-text-muted)] border-[var(--color-border)] hover:bg-[var(--color-inner-surface-hover)] hover:border-[var(--color-accent)] hover:text-[var(--color-text-main)] dark:hover:bg-zinc-800 dark:hover:border-zinc-700 dark:hover:text-zinc-200'
               }`}
             >

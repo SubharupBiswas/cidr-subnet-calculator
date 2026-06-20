@@ -23,10 +23,10 @@ function AdSlot({ className, type }: { className?: string; type: 'banner' | 'rec
           }`}
       >
         <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(0,0,0,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,0,0,0.03)_1px,transparent_1px)] dark:bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none" />
-        <span className="text-[9px] tracking-[0.2em] uppercase font-mono font-bold text-zinc-500 bg-zinc-100 dark:bg-[var(--color-surface)] border border-zinc-300 dark:border-[var(--color-border)] px-2 py-0.5 rounded-md z-10 shadow-sm">
+        <span className="text-[9px] tracking-[0.2em] uppercase font-mono font-bold text-zinc-700 bg-zinc-100 dark:bg-[var(--color-surface)] border border-zinc-300 dark:border-[var(--color-border)] px-2 py-0.5 rounded-md z-10 shadow-sm">
           Ad Placement Space
         </span>
-        <span className="text-[10px] font-mono text-zinc-500 dark:text-zinc-600 mt-1 z-10">
+        <span className="text-[10px] font-mono text-zinc-700 dark:text-zinc-600 mt-1 z-10">
           {type === 'banner' ? 'Supports 728x90 / 970x90 Leaderboards' : 'Supports 300x250 / 336x280 Rectangles'}
         </span>
       </div>

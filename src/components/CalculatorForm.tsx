@@ -207,7 +207,7 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
       <div className="flex flex-col md:flex-row md:items-center justify-start gap-6 md:gap-12">
         
         {/* Quick Presets */}
-        <div className="flex flex-wrap items-center justify-center gap-2 max-w-md mx-auto px-2 text-sm text-slate-500 shrink-0">
+        <div className="flex flex-wrap items-center justify-center gap-2 max-w-md mx-auto px-2 text-sm text-slate-700 shrink-0">
           {commonPrefixes.map((p) => (
             <button
               key={p}

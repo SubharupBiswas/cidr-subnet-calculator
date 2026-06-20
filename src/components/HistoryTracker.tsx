@@ -44,8 +44,8 @@ export const HistoryTracker: FC<HistoryTrackerProps> = ({
       {history.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-8 text-center">
           <History className="w-7 h-7 text-[var(--color-text-muted)] dark:text-zinc-700 mb-2" />
-          <p className="text-xs text-zinc-500 dark:text-[var(--color-text-muted)] font-mono">No history yet</p>
-          <p className="text-[10px] text-zinc-500 dark:text-zinc-600 font-mono mt-1">Valid calculations appear here automatically.</p>
+          <p className="text-xs text-zinc-700 dark:text-[var(--color-text-muted)] font-mono">No history yet</p>
+          <p className="text-[10px] text-zinc-700 dark:text-zinc-600 font-mono mt-1">Valid calculations appear here automatically.</p>
         </div>
       ) : (
         <div className="flex flex-col gap-1.5 max-h-[280px] overflow-y-auto scrollbar-none">
@@ -62,7 +62,7 @@ export const HistoryTracker: FC<HistoryTrackerProps> = ({
                   <span className="text-[var(--color-text-muted)] dark:text-zinc-700 font-normal select-none text-xs">$_</span>
                   {item.ip}/{item.prefix}
                 </span>
-                <span className="text-[10px] text-zinc-500 dark:text-zinc-600 font-mono mt-0.5 ml-5 flex items-center gap-1">
+                <span className="text-[10px] text-zinc-700 dark:text-zinc-600 font-mono mt-0.5 ml-5 flex items-center gap-1">
                   <CornerDownRight className="w-2.5 h-2.5 text-[var(--color-text-muted)] dark:text-zinc-700" />
                   Net: {item.network}
                 </span>

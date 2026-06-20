@@ -47,14 +47,14 @@ export function LegalModal({ type, onClose }: LegalModalProps) {
           </h2>
           <button 
             onClick={onClose}
-            className="text-zinc-400 hover:text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-zinc-200 transition-colors cursor-pointer p-1 rounded-md dark:hover:bg-zinc-800"
+            className="text-zinc-700 hover:text-zinc-700 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-zinc-200 transition-colors cursor-pointer p-1 rounded-md dark:hover:bg-zinc-800"
             aria-label="Close modal"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        <div className="max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar text-zinc-600 dark:text-zinc-300 text-sm leading-relaxed whitespace-pre-wrap">
+        <div className="max-h-[60vh] overflow-y-auto pr-2 custom-scrollbar text-zinc-700 dark:text-zinc-300 text-sm leading-relaxed whitespace-pre-wrap">
           {content}
         </div>
 

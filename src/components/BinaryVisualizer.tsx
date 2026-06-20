@@ -50,7 +50,7 @@ export const BinaryVisualizer: FC<BinaryVisualizerProps> = ({ result, ip, setIp 
         <div className="flex items-center gap-3">
           <span className="flex items-center gap-1.5 text-[10px] font-mono font-semibold">
             <span className="w-2.5 h-2.5 rounded-sm bg-emerald-500/20 dark:bg-emerald-500/30 border border-emerald-500/40 dark:border-emerald-500/50 inline-block" />
-            <span className="text-emerald-600 dark:text-emerald-400">Net /{prefix}</span>
+            <span className="text-emerald-800 dark:text-emerald-400">Net /{prefix}</span>
           </span>
           <span className="flex items-center gap-1.5 text-[10px] font-mono font-semibold">
             <span className="w-2.5 h-2.5 rounded-sm bg-amber-500/10 dark:bg-amber-500/20 border border-amber-500/30 dark:border-amber-500/40 inline-block" />
@@ -85,7 +85,7 @@ export const BinaryVisualizer: FC<BinaryVisualizerProps> = ({ result, ip, setIp 
                     } else if (isOne && !isNetBit) {
                       bitClass = 'bg-amber-500/10 dark:bg-amber-500/20 border-amber-500/30 dark:border-amber-500/40 text-amber-700 dark:text-amber-300 shadow-sm dark:shadow-[0_0_8px_rgba(245,158,11,0.15)]';
                     } else if (!isOne && isNetBit) {
-                      bitClass = 'bg-emerald-100/50 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800/30 text-emerald-500 dark:text-emerald-750 hover:bg-emerald-200/50 dark:hover:bg-emerald-950/60 hover:border-emerald-300 dark:hover:border-emerald-700/40 hover:text-emerald-500';
+                      bitClass = 'bg-emerald-100/50 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800/30 text-emerald-800 dark:text-emerald-750 hover:bg-emerald-200/50 dark:hover:bg-emerald-950/60 hover:border-emerald-300 dark:hover:border-emerald-700/40 hover:text-emerald-800';
                     } else {
                       bitClass = 'bg-[var(--color-inner-surface)] border-[var(--color-border)] text-[var(--color-text-muted)] hover:bg-[var(--color-inner-surface-hover)] hover:border-[var(--color-accent)] hover:text-[var(--color-text-main)] dark:bg-[var(--color-surface)] dark:border-[var(--color-border)] dark:hover:bg-zinc-800/80 dark:hover:border-zinc-700';
                     }
@@ -109,7 +109,7 @@ export const BinaryVisualizer: FC<BinaryVisualizerProps> = ({ result, ip, setIp 
 
                 {/* Octet Label */}
                 <div className="flex flex-col items-center gap-0.5">
-                  <span className="text-[9px] font-mono text-zinc-500 dark:text-zinc-600 uppercase tracking-widest">oct {octetIndex + 1}</span>
+                  <span className="text-[9px] font-mono text-zinc-700 dark:text-zinc-600 uppercase tracking-widest">oct {octetIndex + 1}</span>
                   <span className="text-xs font-mono font-bold text-zinc-700 dark:text-[var(--color-text-muted)]">{label}</span>
                 </div>
               </div>
@@ -119,7 +119,7 @@ export const BinaryVisualizer: FC<BinaryVisualizerProps> = ({ result, ip, setIp 
       </div>
 
       {/* Info note */}
-      <p className="text-[10px] font-mono text-zinc-500 dark:text-zinc-600 leading-relaxed border-t border-zinc-200 dark:border-[var(--color-border)] pt-3">
+      <p className="text-[10px] font-mono text-zinc-700 dark:text-zinc-600 leading-relaxed border-t border-zinc-200 dark:border-[var(--color-border)] pt-3">
         Click any bit to toggle. <span className="text-emerald-650 dark:text-emerald-500">Network bits</span> define the boundary — <span className="text-amber-650 dark:text-amber-500">Host bits</span> address endpoints.
       </p>
     </div>

@@ -191,12 +191,12 @@ export default function VlsmPlanner() {
             <h1 className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-[var(--color-text-main)] tracking-tight leading-none">
               VLSM Calculator — Variable Length Subnet Mask Planner
             </h1>
-            <p className="text-[11px] font-mono text-zinc-500 dark:text-zinc-500 mt-0.5 tracking-wide">
+            <p className="text-[11px] font-mono text-zinc-700 dark:text-zinc-500 mt-0.5 tracking-wide">
               Variable Length Subnet Masking Engine
             </p>
           </div>
         </div>
-        <p className="text-sm text-zinc-500 dark:text-[var(--color-text-muted)] leading-relaxed mt-1">
+        <p className="text-sm text-zinc-700 dark:text-[var(--color-text-muted)] leading-relaxed mt-1">
           Input a parent CIDR block and department host requirements. The engine sorts requirements
           largest-first, then allocates optimally-sized subnets to prevent address starvation.
         </p>
@@ -204,7 +204,7 @@ export default function VlsmPlanner() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 mb-7">
         <div className="flex flex-col gap-2">
-          <label htmlFor="vlsm-parent-net" className="text-[10px] font-bold uppercase tracking-[0.15em] text-zinc-500 dark:text-zinc-500 flex items-center gap-1.5">
+          <label htmlFor="vlsm-parent-net" className="text-[10px] font-bold uppercase tracking-[0.15em] text-zinc-700 dark:text-zinc-500 flex items-center gap-1.5">
             <Terminal className="w-3 h-3" />
             Parent Network
           </label>
@@ -221,7 +221,7 @@ export default function VlsmPlanner() {
         </div>
 
         <div className="flex flex-col gap-2">
-          <label htmlFor="vlsm-parent-prefix" className="text-[10px] font-bold uppercase tracking-[0.15em] text-zinc-500 dark:text-zinc-500 flex items-center gap-2">
+          <label htmlFor="vlsm-parent-prefix" className="text-[10px] font-bold uppercase tracking-[0.15em] text-zinc-700 dark:text-zinc-500 flex items-center gap-2">
             <Terminal className="w-3 h-3" />
             Prefix Length
             <span className="font-mono text-sm font-bold text-cyan-600 dark:text-cyan-400 ml-auto normal-case tracking-normal">
@@ -248,7 +248,7 @@ export default function VlsmPlanner() {
               }}
               aria-label="Parent network prefix slider"
             />
-            <div className="flex flex-wrap items-center justify-center gap-2 max-w-md mx-auto px-2 text-sm text-slate-500 select-none mt-1">
+            <div className="flex flex-wrap items-center justify-center gap-2 max-w-md mx-auto px-2 text-sm text-slate-700 select-none mt-1">
               {[1, 8, 16, 24, 30].map(v => (
                 <button
                   key={v}
@@ -268,10 +268,10 @@ export default function VlsmPlanner() {
 
       <div className="flex flex-col gap-2 mb-5">
         <div className="flex items-center justify-between mb-1">
-          <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-zinc-500 dark:text-zinc-500">
+          <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-zinc-700 dark:text-zinc-500">
             Department Requirements
           </span>
-          <span className="text-[10px] font-mono text-zinc-500 dark:text-zinc-500 bg-zinc-100 dark:bg-[var(--color-surface)] border border-zinc-200 dark:border-[var(--color-border)] px-2 py-0.5 rounded-md">
+          <span className="text-[10px] font-mono text-zinc-700 dark:text-zinc-500 bg-zinc-100 dark:bg-[var(--color-surface)] border border-zinc-200 dark:border-[var(--color-border)] px-2 py-0.5 rounded-md">
             {departments.length} dept{departments.length !== 1 ? 's' : ''}
           </span>
         </div>
@@ -301,10 +301,10 @@ export default function VlsmPlanner() {
               className="w-20 shrink-0 bg-transparent font-mono text-sm text-zinc-800 dark:text-zinc-200 placeholder:text-[var(--color-text-muted)] dark:placeholder:text-zinc-700 focus:outline-none text-right [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
               aria-label={`Department ${idx + 1} Required Hosts`}
             />
-            <span className="text-[10px] font-mono text-zinc-500 dark:text-zinc-600 shrink-0">hosts</span>
+            <span className="text-[10px] font-mono text-zinc-700 dark:text-zinc-600 shrink-0">hosts</span>
             <button
               onClick={(e) => removeDept(dept.id, e)}
-              className="text-zinc-400 dark:text-[var(--color-text-muted)] hover:text-rose-600 dark:hover:text-rose-500 hover:bg-rose-500/10 dark:hover:bg-rose-500/10 p-1.5 rounded-lg transition-all shrink-0 cursor-pointer opacity-0 group-hover:opacity-100 focus:opacity-100 ml-1"
+              className="text-zinc-700 dark:text-[var(--color-text-muted)] hover:text-rose-600 dark:hover:text-rose-500 hover:bg-rose-500/10 dark:hover:bg-rose-500/10 p-1.5 rounded-lg transition-all shrink-0 cursor-pointer opacity-0 group-hover:opacity-100 focus:opacity-100 ml-1"
               tabIndex={0}
               title="Remove department"
               aria-label={`Delete Department ${dept.name || idx + 1}`}
@@ -316,7 +316,7 @@ export default function VlsmPlanner() {
 
         <button
           onClick={addDept}
-          className="w-full border border-dashed border-zinc-200 dark:border-[var(--color-border)] hover:border-cyan-500/40 dark:hover:border-cyan-500/30 rounded-xl p-3 text-xs font-mono font-medium text-zinc-500 dark:text-zinc-500 hover:text-cyan-600 dark:hover:text-cyan-400 bg-transparent hover:bg-cyan-500/[0.03] transition-all cursor-pointer flex items-center justify-center gap-2 mt-1"
+          className="w-full border border-dashed border-zinc-200 dark:border-[var(--color-border)] hover:border-cyan-500/40 dark:hover:border-cyan-500/30 rounded-xl p-3 text-xs font-mono font-medium text-zinc-700 dark:text-zinc-500 hover:text-cyan-600 dark:hover:text-cyan-400 bg-transparent hover:bg-cyan-500/[0.03] transition-all cursor-pointer flex items-center justify-center gap-2 mt-1"
         >
           <Plus className="w-3.5 h-3.5" />
           add_department_requirement()
@@ -347,7 +347,7 @@ export default function VlsmPlanner() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-60" />
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-500 shadow-[0_2px_6px_rgba(20,184,166,0.4)] dark:shadow-[0_0_8px_rgba(20,184,166,0.6)]" />
                 </span>
-                <h3 className="text-xs font-bold font-mono uppercase tracking-[0.15em] text-zinc-500 dark:text-[var(--color-text-muted)]">
+                <h3 className="text-xs font-bold font-mono uppercase tracking-[0.15em] text-zinc-700 dark:text-[var(--color-text-muted)]">
                   Allocated Subnets
                   <span className="ml-2 font-mono text-[var(--color-text-muted)] dark:text-zinc-600 normal-case tracking-normal">({result.allocations.length})</span>
                 </h3>
@@ -364,9 +364,9 @@ export default function VlsmPlanner() {
                       <div className="flex items-start justify-between gap-4">
                         <div className="flex flex-col">
                           <h4 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2.5">
-                            <span className="font-mono text-[10px] text-zinc-500">$_{i + 1}</span>
+                            <span className="font-mono text-[10px] text-zinc-700">$_{i + 1}</span>
                             {alloc.department}
-                            <span className="text-[10px] font-mono font-medium text-zinc-500">({alloc.requiredHosts} req)</span>
+                            <span className="text-[10px] font-mono font-medium text-zinc-700">({alloc.requiredHosts} req)</span>
                           </h4>
                           <div className="flex items-center gap-2 mt-1">
                             <span className="font-mono text-sm font-extrabold text-cyan-600 dark:text-cyan-400">
@@ -375,10 +375,10 @@ export default function VlsmPlanner() {
                           </div>
                         </div>
                         <div className="flex flex-col items-end">
-                          <span className="font-mono text-xs font-bold text-emerald-600 dark:text-emerald-400 tabular-nums">
+                          <span className="font-mono text-xs font-bold text-emerald-800 dark:text-emerald-400 tabular-nums">
                             {alloc.actualCapacity.toLocaleString('en-US')} hosts
                           </span>
-                          <span className="font-mono text-[10px] text-zinc-500 mt-0.5 tabular-nums">
+                          <span className="font-mono text-[10px] text-zinc-700 mt-0.5 tabular-nums">
                             {alloc.wastedHosts.toLocaleString('en-US')} wasted
                           </span>
                         </div>
@@ -387,19 +387,19 @@ export default function VlsmPlanner() {
                       {/* Detail Metrics Matrix */}
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-3 border-t border-zinc-200/50 dark:border-zinc-800/60">
                         <div className="flex flex-col gap-1">
-                          <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-500">Subnet Mask</span>
+                          <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-700">Subnet Mask</span>
                           <span className="font-mono text-xs text-purple-600 dark:text-purple-400">{alloc.subnetMask}</span>
                         </div>
                         <div className="flex flex-col gap-1">
-                          <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-500">First Usable</span>
-                          <span className="font-mono text-xs text-emerald-600 dark:text-emerald-400">{alloc.firstUsable}</span>
+                          <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-700">First Usable</span>
+                          <span className="font-mono text-xs text-emerald-800 dark:text-emerald-400">{alloc.firstUsable}</span>
                         </div>
                         <div className="flex flex-col gap-1">
-                          <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-500">Last Usable</span>
-                          <span className="font-mono text-xs text-emerald-600 dark:text-emerald-400">{alloc.lastUsable}</span>
+                          <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-700">Last Usable</span>
+                          <span className="font-mono text-xs text-emerald-800 dark:text-emerald-400">{alloc.lastUsable}</span>
                         </div>
                         <div className="flex flex-col gap-1">
-                          <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-500">Broadcast</span>
+                          <span className="text-[9px] font-bold uppercase tracking-widest text-zinc-700">Broadcast</span>
                           <span className="font-mono text-xs text-amber-600 dark:text-amber-400">{alloc.broadcastAddress}</span>
                         </div>
                       </div>
@@ -414,7 +414,7 @@ export default function VlsmPlanner() {
             <div className="flex flex-col gap-2">
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-zinc-300 dark:bg-zinc-600 shrink-0" />
-                <h3 className="text-xs font-bold font-mono uppercase tracking-[0.15em] text-zinc-600 dark:text-zinc-400">
+                <h3 className="text-xs font-bold font-mono uppercase tracking-[0.15em] text-zinc-700 dark:text-zinc-400">
                   Unallocated Slack
                   <span className="ml-2 font-mono text-[var(--color-text-muted)] dark:text-zinc-400 normal-case tracking-normal">({result.slack.length} fragment{result.slack.length !== 1 ? 's' : ''})</span>
                 </h3>
@@ -423,11 +423,11 @@ export default function VlsmPlanner() {
                 {result.slack.map((frag, i) => (
                   <span
                     key={i}
-                    className="inline-flex items-center gap-1.5 font-mono text-xs px-3 py-1.5 rounded-lg bg-zinc-100/50 dark:bg-[var(--color-surface)] border border-zinc-200 dark:border-[var(--color-border)] text-zinc-600 dark:text-[var(--color-text-muted)]"
+                    className="inline-flex items-center gap-1.5 font-mono text-xs px-3 py-1.5 rounded-lg bg-zinc-100/50 dark:bg-[var(--color-surface)] border border-zinc-200 dark:border-[var(--color-border)] text-zinc-700 dark:text-[var(--color-text-muted)]"
                   >
-                    <span className="text-zinc-600 dark:text-zinc-400">{frag.networkAddress}</span>
+                    <span className="text-zinc-700 dark:text-zinc-400">{frag.networkAddress}</span>
                     <span className="font-bold text-cyan-600 dark:text-cyan-500">/{frag.prefix}</span>
-                    <span className="text-zinc-500 dark:text-zinc-400 text-[10px]">({frag.size.toLocaleString('en-US')})</span>
+                    <span className="text-zinc-700 dark:text-zinc-400 text-[10px]">({frag.size.toLocaleString('en-US')})</span>
                   </span>
                 ))}
               </div>

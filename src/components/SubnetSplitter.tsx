@@ -111,9 +111,9 @@ export const SubnetSplitter: FC<SubnetSplitterProps> = ({
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-1">
           <p className="text-sm text-[var(--color-text-muted)] leading-relaxed">
-            Splitting <span className="font-mono text-[var(--color-text-main)] font-bold">{networkAddress}/{currentPrefix}</span> into <strong className="text-teal-600 dark:text-teal-400 font-semibold">{numSubnets.toLocaleString('en-US')}</strong> subnetworks of size <span className="font-mono text-[var(--color-text-main)]">/{targetPrefix}</span>.
+            Splitting <span className="font-mono text-[var(--color-text-main)] font-bold">{networkAddress}/{currentPrefix}</span> into <strong className="text-teal-800 dark:text-teal-400 font-semibold">{numSubnets.toLocaleString('en-US')}</strong> subnetworks of size <span className="font-mono text-[var(--color-text-main)]">/{targetPrefix}</span>.
           </p>
-          <p className="text-xs text-zinc-500 dark:text-[var(--color-text-muted)] leading-relaxed">
+          <p className="text-xs text-zinc-700 dark:text-[var(--color-text-muted)] leading-relaxed">
             Each subnet provides <strong className="text-zinc-700 dark:text-zinc-300 font-semibold">{targetPrefix >= 31 ? stepSize : stepSize - 2}</strong> usable IP addresses.
           </p>
         </div>
@@ -122,7 +122,7 @@ export const SubnetSplitter: FC<SubnetSplitterProps> = ({
         <div className="w-full max-h-[500px] overflow-auto bg-[var(--color-surface)] border border-zinc-200/60 dark:border-zinc-800/60 rounded-2xl p-0 shadow-sm relative">
           <table className="w-full text-left border-collapse font-mono text-xs">
             <thead className="sticky top-0 z-10">
-              <tr className="bg-zinc-200/90 dark:bg-zinc-900/90 backdrop-blur-md border-b border-zinc-200 dark:border-[var(--color-border)] text-zinc-500 dark:text-[var(--color-text-muted)] font-semibold tracking-wider text-[9px] uppercase font-mono shadow-sm">
+              <tr className="bg-zinc-200/90 dark:bg-zinc-900/90 backdrop-blur-md border-b border-zinc-200 dark:border-[var(--color-border)] text-zinc-700 dark:text-[var(--color-text-muted)] font-semibold tracking-wider text-[9px] uppercase font-mono shadow-sm">
                 <th className="py-3 px-4 w-12 text-center">No.</th>
                 <th className="py-3 px-4">Network Address</th>
                 <th className="py-3 px-4">Usable Host Range</th>
@@ -138,7 +138,7 @@ export const SubnetSplitter: FC<SubnetSplitterProps> = ({
                   {/* Network Address - Cyan */}
                   <td className="py-3 px-4 text-cyan-600 dark:text-cyan-400 font-semibold">{sub.network}</td>
                   {/* Usable Range - Emerald */}
-                  <td className="py-3 px-4 text-emerald-600 dark:text-emerald-400 whitespace-nowrap">{sub.range}</td>
+                  <td className="py-3 px-4 text-emerald-800 dark:text-emerald-400 whitespace-nowrap">{sub.range}</td>
                   {/* Broadcast - Amber */}
                   <td className="py-3 px-4 text-amber-600 dark:text-amber-400 whitespace-nowrap">{sub.broadcast}</td>
                   
@@ -160,7 +160,7 @@ export const SubnetSplitter: FC<SubnetSplitterProps> = ({
 
         {isCapped && (
           <div className="flex items-center gap-2 text-xs text-[var(--color-text-muted)] bg-[var(--color-inner-surface)] border border-[var(--color-border)] rounded-xl p-3">
-            <CornerDownRight className="w-3.5 h-3.5 text-teal-500/60 shrink-0" />
+            <CornerDownRight className="w-3.5 h-3.5 text-teal-800/60 shrink-0" />
             <span>
               Showing the first <strong>{displayLimit}</strong> subnets of <strong>{numSubnets.toLocaleString('en-US')}</strong>.
             </span>
