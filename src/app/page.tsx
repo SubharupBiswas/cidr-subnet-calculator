@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, Suspense, lazy } from 'react';
-import { useSearchParams, useRouter, usePathname } from 'next/navigation';
+import { useSearchParams, usePathname } from 'next/navigation';
 import { Terminal } from 'lucide-react';
 import { CalculatorForm } from '../components/CalculatorForm';
 import { LiveMatrix } from '../components/LiveMatrix';
@@ -49,7 +49,6 @@ function AdSlot({ className, type }: { className?: string; type: 'banner' | 'rec
 
 function SubnetCalculatorContent() {
   const searchParams = useSearchParams();
-  const router = useRouter();
   const pathname = usePathname();
 
   const rawIp = searchParams.get('ip') || '192.168.1.1';

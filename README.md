@@ -1,66 +1,112 @@
-# Enterprise-Grade Client-Side Multi-Tool Networking Suite & VLSM Topology Architect
+# subnetmask.tech — High-Performance Subnet & VLSM Allocation Suite
 
-![React 19](https://img.shields.io/badge/React-19-blue?style=for-the-badge&logo=react)
-![TypeScript](https://img.shields.io/badge/TypeScript-Strict-blue?style=for-the-badge&logo=typescript)
-![Vite](https://img.shields.io/badge/Vite-6-646CFF?style=for-the-badge&logo=vite)
-![Tailwind CSS v4](https://img.shields.io/badge/Tailwind_CSS-v4-38B2AC?style=for-the-badge&logo=tailwind-css)
-![Lucide Icons](https://img.shields.io/badge/Lucide-Icons-FF6C37?style=for-the-badge)
-![Web Workers](https://img.shields.io/badge/Client_Side-Execution-green?style=for-the-badge)
+A professional-grade, zero-latency IPv4 CIDR calculator and Variable Length Subnet Mask (VLSM) topology planner designed for network architects, system engineers, and developers. Built from the ground up on Next.js, this suite handles heavy bitwise operations entirely client-side for absolute privacy and instantaneous computation.
 
-An elite, high-performance web engineering workbench designed to completely eclipse legacy network calculators. This project demonstrates strict component isolation, client-side architectural state management, and a high-end "Obsidian Satin" design language.
-
----
-
-## 🚀 Advanced 5-Node Product Capability Matrix
-
-| Tool Module | Technical Description | Engineering Value |
-| :--- | :--- | :--- |
-| **Subnet/CIDR Matrix** | Real-time IP and CIDR parameter evaluation engine. Features active state syncing with URL query parameters and local storage history indexing. | Eliminates manual network boundary calculations with instantaneous feedback loops and fluid typography scaling. |
-| **32-Bit Bitstream Console** | Clickable, interactive visualizer mapping 4 octets of binary state dynamically to their decimal IPv4 equivalents. | Deep educational utility for visualizing wildcard masks and bitwise logic at the hardware level. |
-| **VLSM Topology Planner** | Greedy largest-first sub-network allocation algorithm that computes power-of-2 boundaries and recursive slack fragments. | Prevents IP starvation during complex departmental structuring; produces zero-waste topology models. |
-| **OUI Vendor Lookup** | Offline regex-based MAC format filtering matched against a localized Top-30 hardware vendor dictionary. | Instant offline identification of network hardware manufacturers with localized multicast bit decoding. |
-| **Embedded Sandbox** | Configurable iframe payload generator injecting a stripped down, parameter-driven version of the calculator. | Allows seamless syndication of the calculator logic into external engineering wikis or dashboards. |
+[![Next.js Build](https://img.shields.io/badge/Next.js-16.2-black?style=flat-square&logo=nextdotjs)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-Strict-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4.0-38bdf8?style=flat-square&logo=tailwindcss)](https://tailwindcss.com/)
+[![Core Vitals](https://img.shields.io/badge/Core_Vitals-100%2F100-emerald?style=flat-square&logo=lighthouse)](https://web.dev/vitals/)
+[![Brave verified Creator](https://img.shields.io/badge/Brave-Verified_Creator-orange?style=flat-square&logo=brave)](https://creators.brave.com/)
 
 ---
 
-## 🧮 Mathematical & Logical Algorithmic Explanations
+## 💎 High-End UI/UX Innovations
 
-Our system processes network calculations strictly via client-side bitwise operations for zero-latency execution.
+This suite rejects the generic styles of typical subnetting tools in favor of a desktop-class interactive environment optimized for rapid iteration.
 
-### Dynamic VLSM Allocation Engine
-The **Variable Length Subnet Masking (VLSM)** engine prevents network space starvation by executing a precise, sorted algorithm:
-1. **Demand Sorting:** Department requirements are sorted in strict descending order.
-2. **Boundary Alignment:** The cursor IP address is aligned to the next valid power-of-2 block boundary using modulus offsets to guarantee valid network increments.
-3. **Slack Fragment Parsing:** Remaining unallocated IP spaces between the cursor and the ultimate broadcast boundary are mathematically chunked into the largest possible subnets to form an accurate structural slack inventory tracking grid.
+### ❄️ Glacier Steel Aesthetic
+- **Light-First Foundation**: Features a custom glare-free, ice-blue workspace canvas (`oklch(97.5% 0.008 225)`) as its primary interface theme.
+- **Strict Legibility Compliance**: Configured with ultra-crisp slate navy typography (`#1e293b` text / `#0f172a` headings) that guarantees compliance with the strict WCAG AA/AAA color contrast guidelines, ensuring comfortable readability under any ambient lighting conditions.
 
-### Bitwise Derivation Operations
-All foundational IP boundaries are computed using high-performance 32-bit integer arithmetic rather than expensive string splitting loops. 
+### 🎡 Desktop-Grade Wheel & Trackpad Scaling
+- **Zero-Jump Interaction**: Allows the operator to scroll mouse-wheels or perform trackpad gestures directly over the four IP address octet input fields, the CIDR prefix text cell, and the mask slider.
+- **Scroll Isolation**: Non-passive event listeners (`{ passive: false }`) intercept inputs, updating values synchronously while calling `e.preventDefault()` and `e.stopPropagation()` to completely eliminate layout shifting or unwanted page scrolling during adjustments.
 
-```typescript
-// Core Bitwise Conversions
-const ipToLong = (ip: string) => 
-  ip.split('.').reduce((acc, octet) => (acc << 8) + parseInt(octet, 10), 0) >>> 0;
+### 🧬 Zero-Shift Binary Stream Matrix
+- **Semantic Matrix Layout**: Features 32 individual button nodes mapping the raw binary stream representation of the calculated IPv4 address.
+- **In-Place Bitwise Toggles**: Direct bit-flipping updates the IP address instantly. Every button is configured with absolute click event interceptors, calling `e.preventDefault()` to suppress layout reflow jumps.
 
-const getMaskLong = (prefix: number) => 
-  prefix === 0 ? 0 : (~0 << (32 - prefix)) >>> 0;
+### 🎚️ Native VLSM Slider & Fast Snapping
+- **Responsive Rails**: Replaces fragile custom slider tracks with standard, native range elements styled with absolute precision for high-fidelity responsive behavior on mobile viewports.
+- **Prefix Snap Buttons**: Quick-action controls map directly to subnet boundaries (`/1`, `/8`, `/16`, `/24`, `/30`), snapping the slider and updating calculated host blocks instantly.
 
-// Network Address Derivation (AND)
-const networkLong = (ipLong & maskLong) >>> 0;
+---
 
-// Broadcast Address Derivation (NOT / OR)
-const broadcastLong = (networkLong | (~maskLong)) >>> 0;
+## 📂 Repository Architecture & File Blueprint
+
+The application conforms to the modern Next.js App Router structure with distinct page controllers and isolated client components.
+
+```
+subnetmask.tech/
+├── public/                 # Static assets and sitemaps
+└── src/
+    ├── app/
+    │   ├── layout.tsx      # Core metadata, typography injection, and layout shell
+    │   ├── page.tsx        # Main IPv4/CIDR Calculator Dashboard [calculator landing page]
+    │   ├── sitemap.ts      # Automated XML sitemap generator
+    │   ├── vlsm/
+    │   │   ├── layout.tsx  # Dedicated SEO metadata and JSON-LD structural markup
+    │   │   └── page.tsx    # Variable Length Subnet Mask Planner Dashboard [runVlsm algorithm]
+    │   ├── oui/
+    │   │   └── page.tsx    # Offline hardware vendor MAC database lookup dashboard
+    │   ├── widget/
+    │   │   └── page.tsx    # Embedded calculator iframe code generator utility
+    │   ├── guide/
+    │   │   └── page.tsx    # Integrated subnetting guidelines and tutorial handbook
+    │   ├── about/
+    │   │   └── page.tsx    # Publisher about routing template page
+    │   ├── contact/
+    │   │   └── page.tsx    # Publisher contact routing template page
+    │   └── privacy/
+    │       └── page.tsx    # AdSense compliance privacy and DART cookie disclosure page
+    ├── components/
+    │   ├── CalculatorForm.tsx   # Handlers for IP inputs, wheel scaling, and state boundaries
+    │   ├── BinaryVisualizer.tsx # 32-bit semantic matrix rendering live interactive bit streams
+    │   ├── SubnetSplitter.tsx   # Sub-subnetting wizard utilizing binary division calculations
+    │   ├── ClientLayoutWrapper.tsx # Manages persistent local history syncing and theme providers
+    │   ├── LiveMatrix.tsx       # Calculated parameter display grids (network, broadcast, wildcards)
+    │   ├── HistoryTracker.tsx   # LocalStorage history module tracking calculated parameters
+    │   ├── CheatSheet.tsx       # Subnetting prefix reference table
+    │   ├── FaqSection.tsx       # SEO-optimized diagnostic FAQ accordion container
+    │   ├── FaqAccordion.tsx     # Single accordion animation wrapper
+    │   ├── Footer.tsx           # Compliance footer navigational structures
+    │   └── LegalModal.tsx       # Central disclaimer modal handler
+    ├── utils/
+    │   └── ipv4Utils.ts         # Fast pure bitwise mathematics (IP parse, long conversion)
+    └── index.css                # Global CSS variables, custom themes, and Tailwind import
 ```
 
 ---
 
-## 🧠 AI-Augmented Systems Engineering Workflow Showcase
+## 📈 Monetization & Publisher Compliance Configuration
 
-This project serves as a showcase of **AI-Augmented Software Architecture**, demonstrating an elite development velocity when collaborating with advanced context-aware AI models.
+The architecture is configured out-of-the-box for production monetization, utilizing standard compliance pages and crypto attention frameworks.
 
-### Strategic Engineering Execution
-- **Enforced Component Isolation:** The architecture strictly bounds state to the tool level (`WidgetGenerator`, `VlsmPlanner`, `MacLookup`), preventing cross-tab state bleeding while utilizing union types (`ActiveView`) for deterministic routing.
-- **Unified Tailwind Design Tokens:** Executed a comprehensive layout overhaul, establishing a premium "Obsidian Satin" theme with deep geometric radial backgrounds, translucent glass control tracks, and dynamic light/dark mode syncing.
-- **Resolving Layout Voids:** Traced and eliminated masonry-grid vertical clipping bugs by pivoting to an ultra-stable, two-column flex/grid isolation pattern, preventing responsive layout reflow issues.
-- **Algorithmic Edge-Case Testing:** Leveraged AI as a mathematical sounding board to validate greedy VLSM sorting strategies, text truncation edge-cases (`tabular-nums`), and regex boundaries on varied MAC address inputs.
+### 1. Google AdSense Ready
+- **Centralized Compliance**: Layout frameworks incorporate automated placements mapping to Google AdSense guidelines.
+- **Transparency Routing**: Mandatory cookie and data disclosure policies are fully integrated within the dynamic `/privacy` endpoint, addressing DART cookie personalization opt-out requirements.
 
-This repository proves that by treating AI as a "Lead Engineer" peer, we can iteratively direct deep structural refactors, enforce unified UI/UX paradigms, and rapidly ship highly polished, production-ready SaaS tools.
+### 2. Brave Rewards Integration
+- **Verified Creator Node**: Domain verification parameters route directly through the verified Brave Creators publisher console.
+- **ZebPay Wallet Linkage**: Basic Attention Token (BAT) distributions are directed to verified ZebPay nodes to ensure compliance with regional transaction standards.
+
+---
+
+## 🛠️ Deployment & Production Compiling Scripts
+
+Use the following scripts to run the local developer sandbox or build for deployment:
+
+### Local Sandbox Execution
+Spins up the Next.js development server with hot-module reloading:
+```bash
+npm run dev
+```
+
+### Production Strict Build Pipeline
+Cleans artifacts, executes strict TypeScript type checking without generating outputs, and runs the compiler to produce optimized web assets:
+```bash
+rm -rf .next && npx tsc --noEmit && npm run build
+```
+
+### Static Exports Overview
+The build process compiles routes into static structures to ensure 100/100 Core Vitals scores and edge hosting efficiency. The sitemap is automatically generated at compile-time by `src/app/sitemap.ts`.
