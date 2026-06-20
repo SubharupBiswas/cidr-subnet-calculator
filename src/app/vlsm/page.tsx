@@ -248,7 +248,7 @@ export default function VlsmPlanner() {
               }}
               aria-label="Parent network prefix slider"
             />
-            <div className="flex justify-between text-[9px] font-mono text-[var(--color-text-muted)] select-none mt-0.5">
+            <div className="flex flex-wrap items-center justify-center gap-2 max-w-md mx-auto px-2 text-sm text-slate-500 select-none mt-1">
               {[1, 8, 16, 24, 30].map(v => (
                 <button
                   key={v}

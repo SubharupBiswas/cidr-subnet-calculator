@@ -157,7 +157,7 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
     <div className="flex flex-col space-y-8 border-b border-[var(--color-border)] pb-6 w-full">
       
       {/* IP + CIDR Input Row */}
-      <div className={`flex flex-wrap justify-center items-center gap-2 sm:gap-4 my-2 sm:my-6 font-mono transition-colors duration-300 w-full ${!isIpValid && ip !== '' ? 'text-rose-500' : 'text-zinc-900 dark:text-zinc-100'}`}>
+      <div className={`flex flex-nowrap items-center justify-center gap-1 sm:gap-2 my-2 sm:my-6 font-mono transition-colors duration-300 w-full ${!isIpValid && ip !== '' ? 'text-rose-500' : 'text-zinc-900 dark:text-zinc-100'}`}>
         {[0, 1, 2, 3].map((index) => (
           <Fragment key={`octet-wrapper-${index}`}>
             <input
@@ -168,21 +168,21 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
               value={octets[index]}
               onChange={(e) => handleOctetChange(index, e.target.value)}
               onKeyDown={(e) => handleKeyDown(index, e)}
-              className={`font-bold text-2xl sm:text-3xl text-center rounded-xl border-2 shadow-inner w-16 h-16 sm:w-20 sm:h-20 focus:outline-none transition-all duration-200 touch-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${octetColors[index]}`}
+              className={`font-bold text-lg sm:text-2xl text-center rounded-xl border-2 shadow-inner w-12 h-12 sm:w-16 sm:h-16 focus:outline-none transition-all duration-200 touch-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none ${octetColors[index]}`}
               placeholder={['192', '168', '1', '1'][index]}
               maxLength={3}
               aria-label={`IP Address Octet ${index + 1}`}
               title="Scroll to adjust value"
             />
             {index < 3 && (
-              <span className="text-zinc-400 dark:text-zinc-600 text-3xl sm:text-5xl font-bold translate-y-1 sm:translate-y-2">.</span>
+              <span className="text-zinc-400 dark:text-zinc-600 text-2xl sm:text-4xl font-bold translate-y-1 sm:translate-y-2 -mx-1 sm:mx-0">.</span>
             )}
           </Fragment>
         ))}
 
         {/* CIDR */}
-        <div className="flex items-center ml-2 sm:ml-4 pl-2 sm:pl-4 border-l-2 border-[var(--color-border)]">
-          <span className="text-[var(--color-text-muted)] text-3xl sm:text-5xl font-bold translate-y-1 sm:translate-y-2 mr-2 sm:mr-4">/</span>
+        <div className="flex items-center ml-1 sm:ml-4 pl-1 sm:pl-4 border-l-2 border-[var(--color-border)]">
+          <span className="text-[var(--color-text-muted)] text-2xl sm:text-4xl font-bold translate-y-1 sm:translate-y-2 mr-1 sm:mr-4">/</span>
           <input
             ref={prefixRef}
             type="number"
@@ -191,7 +191,7 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
             value={prefix}
             onChange={(e) => handlePrefixChange(parseInt(e.target.value, 10) || 1)}
             onKeyDown={handlePrefixKeyDown}
-            className="text-cyan-600 dark:text-cyan-400 bg-cyan-50 dark:bg-cyan-500/10 border-cyan-200 dark:border-cyan-500/30 focus:border-cyan-500 focus:shadow-[0_0_15px_rgba(6,182,212,0.3)] font-bold text-2xl sm:text-3xl text-center rounded-xl border-2 shadow-inner w-16 h-16 sm:w-20 sm:h-20 focus:outline-none transition-all duration-200 touch-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+            className="text-cyan-600 dark:text-cyan-400 bg-cyan-50 dark:bg-cyan-500/10 border-cyan-200 dark:border-cyan-500/30 focus:border-cyan-500 focus:shadow-[0_0_15px_rgba(6,182,212,0.3)] font-bold text-lg sm:text-2xl text-center rounded-xl border-2 shadow-inner w-12 h-12 sm:w-16 sm:h-16 focus:outline-none transition-all duration-200 touch-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
             aria-label="CIDR Prefix Length"
             title="Scroll to adjust prefix"
           />
@@ -207,7 +207,7 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
       <div className="flex flex-col md:flex-row md:items-center justify-start gap-6 md:gap-12">
         
         {/* Quick Presets */}
-        <div className="flex flex-wrap items-center justify-center gap-1.5 shrink-0">
+        <div className="flex flex-wrap items-center justify-center gap-2 max-w-md mx-auto px-2 text-sm text-slate-500 shrink-0">
           {commonPrefixes.map((p) => (
             <button
               key={p}
