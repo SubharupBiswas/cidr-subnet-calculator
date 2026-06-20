@@ -51,8 +51,10 @@ export default function WidgetGenerator() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 items-start">
-        <div className="md:col-span-1 flex flex-col gap-6">
+      <div className="flex flex-col xl:flex-row gap-6 w-full items-start justify-between">
+        {/* Sandbox Container */}
+        <div className="w-full xl:w-3/5 bg-slate-50/50 p-2 sm:p-4 rounded-xl border border-slate-200 overflow-hidden">
+          <div className="flex flex-col gap-6">
           <h3 className="text-xs font-bold uppercase tracking-widest text-zinc-500 font-mono flex items-center gap-2">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -82,9 +84,12 @@ export default function WidgetGenerator() {
               <LiveMatrix result={widgetResult} />
             </div>
           </div>
+          </div>
         </div>
 
-        <div className="md:col-span-1 sticky top-24 h-max flex flex-col gap-4">
+        {/* Code Snippet Container */}
+        <div className="w-full xl:w-2/5 flex-shrink-0">
+          <div className="sticky top-24 h-max flex flex-col gap-4">
           <h3 className="text-xs font-bold uppercase tracking-widest text-zinc-500 font-mono flex items-center gap-2">
             <Code className="w-4 h-4 text-[var(--color-text-muted)] dark:text-zinc-500" />
             Integration Snippet
@@ -125,6 +130,7 @@ export default function WidgetGenerator() {
                 Recommended minimum height to display both the form input panel and the full metric matrix without vertical clipping.
               </span>
             </div>
+          </div>
           </div>
         </div>
       </div>

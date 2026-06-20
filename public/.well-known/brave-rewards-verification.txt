@@ -1,4 +1,0 @@
-This is a Brave Creators publisher verification file.
-
-Domain: subnetmask.tech
-Token: 0cb31abecac2de8637e7d9c13c098dcf81fe1328e101c19c35f53ca937327290

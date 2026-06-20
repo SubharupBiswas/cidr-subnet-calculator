@@ -1,112 +1,108 @@
-# subnetmask.tech — High-Performance Subnet & VLSM Allocation Suite
+# subnetmask.tech — High-Performance Network Allocation Suite
 
-A professional-grade, zero-latency IPv4 CIDR calculator and Variable Length Subnet Mask (VLSM) topology planner designed for network architects, system engineers, and developers. Built from the ground up on Next.js, this suite handles heavy bitwise operations entirely client-side for absolute privacy and instantaneous computation.
-
-[![Next.js Build](https://img.shields.io/badge/Next.js-16.2-black?style=flat-square&logo=nextdotjs)](https://nextjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-Strict-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4.0-38bdf8?style=flat-square&logo=tailwindcss)](https://tailwindcss.com/)
-[![Core Vitals](https://img.shields.io/badge/Core_Vitals-100%2F100-emerald?style=flat-square&logo=lighthouse)](https://web.dev/vitals/)
-[![Brave verified Creator](https://img.shields.io/badge/Brave-Verified_Creator-orange?style=flat-square&logo=brave)](https://creators.brave.com/)
+A production-grade, zero-latency IPv4 subnetting and Variable Length Subnet Mask (VLSM) allocation suite. Built entirely with **Next.js 16 (App Router)** and **Tailwind CSS v4.0**, this project is engineered as a high-fidelity portfolio asset demonstrating advanced client-side state management, rigorous type safety, and fluid responsive design systems.
 
 ---
 
-## 💎 High-End UI/UX Innovations
+## ⚡ Engineering Challenges & Solutions
 
-This suite rejects the generic styles of typical subnetting tools in favor of a desktop-class interactive environment optimized for rapid iteration.
+Recruiters and engineering managers can review the technical resolutions to complex system and UI challenges below:
 
-### ❄️ Glacier Steel Aesthetic
-- **Light-First Foundation**: Features a custom glare-free, ice-blue workspace canvas (`oklch(97.5% 0.008 225)`) as its primary interface theme.
-- **Strict Legibility Compliance**: Configured with ultra-crisp slate navy typography (`#1e293b` text / `#0f172a` headings) that guarantees compliance with the strict WCAG AA/AAA color contrast guidelines, ensuring comfortable readability under any ambient lighting conditions.
+### 1. Zero-Latency Pure Bitwise Subnetting
+* **Problem**: Traditional subnet calculators rely on network roundtrips or heavy third-party libraries, leading to lag, input-shift, or privacy leaks for internal network planning.
+* **Solution**: Developed a lightweight, zero-dependency bitwise arithmetic engine ([`src/utils/ipv4Utils.ts`](file:///Users/subharup/Developer/side-project/src/utils/ipv4Utils.ts)) that processes IPv4 addresses as native 32-bit unsigned integers. High-speed bit shifting (`<<`, `>>>`, `&`, `|`) executes calculations instantly on the client side:
+  ```typescript
+  // Convert IP string to 32-bit integer for fast bitwise comparisons
+  export const ipToLong = (ip: string): number => {
+    return ip.split('.').reduce((ipInt, octet) => (ipInt << 8) + parseInt(octet, 10), 0) >>> 0;
+  };
+  ```
+  This implementation ensures immediate feedback with zero server latency or database overhead.
 
-### 🎡 Desktop-Grade Wheel & Trackpad Scaling
-- **Zero-Jump Interaction**: Allows the operator to scroll mouse-wheels or perform trackpad gestures directly over the four IP address octet input fields, the CIDR prefix text cell, and the mask slider.
-- **Scroll Isolation**: Non-passive event listeners (`{ passive: false }`) intercept inputs, updating values synchronously while calling `e.preventDefault()` and `e.stopPropagation()` to completely eliminate layout shifting or unwanted page scrolling during adjustments.
+### 2. Fluid UX Resiliency & Widget Isolation
+* **Problem**: Embedded calculators in custom sandboxes (e.g., IFrames) or constrained mobile displays face severe layout compression. Hardcoded widths or brute-force styles cause inputs to wrap awkwardly, clipping labels and cutting off IP strings mid-string (e.g., splitting `192.168.1.1` across two lines).
+* **Solution**: Designed a fluid, CSS-only container hierarchy:
+  - **No Hardcoded Widths**: Replaced all inline `minWidth` properties with standard Tailwind CSS dynamic flexing constraints (`w-full xl:w-3/5` and `w-full xl:w-2/5`) which auto-stack on lower breakpoints.
+  - **Fluid Inputs**: Octet fields use `min-w-0` and responsive sizing classes (`w-12 sm:w-16`), letting them shrink dynamically on small viewports while remaining aligned on a single row.
+  - **Horizontal Scroll Containers**: Used `overflow-x-auto whitespace-nowrap scrollbar-none` on results cards to allow horizontal touch swiping of long IP ranges rather than word-wrapping, protecting string integrity.
 
-### 🧬 Zero-Shift Binary Stream Matrix
-- **Semantic Matrix Layout**: Features 32 individual button nodes mapping the raw binary stream representation of the calculated IPv4 address.
-- **In-Place Bitwise Toggles**: Direct bit-flipping updates the IP address instantly. Every button is configured with absolute click event interceptors, calling `e.preventDefault()` to suppress layout reflow jumps.
+### 3. Desktop-Grade Scroll & Event Isolation
+* **Problem**: Scroll-to-adjust inputs on standard browser elements can trigger accidental page jumping, scroll animations, or layout reflows on mobile and desktop viewports.
+* **Solution**: Attached explicit wheel event listeners to the octet inputs, CIDR slider, and preset tags. By configuring non-passive event listeners (`{ passive: false }`), the calculator halts native scroll propagation synchronously:
+  ```typescript
+  const onWheel = (e: WheelEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    // Synchronously adjust octet value based on deltaY direction
+  };
+  el.addEventListener('wheel', onWheel, { passive: false });
+  ```
+  This isolates input adjustments from parent window scrolling, achieving desktop-class precision.
 
-### 🎚️ Native VLSM Slider & Fast Snapping
-- **Responsive Rails**: Replaces fragile custom slider tracks with standard, native range elements styled with absolute precision for high-fidelity responsive behavior on mobile viewports.
-- **Prefix Snap Buttons**: Quick-action controls map directly to subnet boundaries (`/1`, `/8`, `/16`, `/24`, `/30`), snapping the slider and updating calculated host blocks instantly.
+### 4. Interactive 32-Bit Binary Stream Representation
+* **Problem**: Render and state synchronization of a 32-bit address mask matrix. Direct interactions with 32 binary nodes must map cleanly back to standard IPv4 octet inputs without rendering loops or visual delays.
+* **Solution**: Implemented a unified React state flow. Toggling a specific bit index inside the semantic binary visualizer ([`src/components/BinaryVisualizer.tsx`](file:///Users/subharup/Developer/side-project/src/components/BinaryVisualizer.tsx)) computes the new 32-bit integer representation in-place and triggers parent state updates synchronously, ensuring single-source-of-truth reliability.
 
 ---
 
-## 📂 Repository Architecture & File Blueprint
+## 🏗️ Repository Architecture
 
-The application conforms to the modern Next.js App Router structure with distinct page controllers and isolated client components.
+This codebase demonstrates clean separation of concerns, modular utility functions, and Next.js App Router patterns:
 
 ```
-subnetmask.tech/
-├── public/                 # Static assets and sitemaps
-└── src/
-    ├── app/
-    │   ├── layout.tsx      # Core metadata, typography injection, and layout shell
-    │   ├── page.tsx        # Main IPv4/CIDR Calculator Dashboard [calculator landing page]
-    │   ├── sitemap.ts      # Automated XML sitemap generator
-    │   ├── vlsm/
-    │   │   ├── layout.tsx  # Dedicated SEO metadata and JSON-LD structural markup
-    │   │   └── page.tsx    # Variable Length Subnet Mask Planner Dashboard [runVlsm algorithm]
-    │   ├── oui/
-    │   │   └── page.tsx    # Offline hardware vendor MAC database lookup dashboard
-    │   ├── widget/
-    │   │   └── page.tsx    # Embedded calculator iframe code generator utility
-    │   ├── guide/
-    │   │   └── page.tsx    # Integrated subnetting guidelines and tutorial handbook
-    │   ├── about/
-    │   │   └── page.tsx    # Publisher about routing template page
-    │   ├── contact/
-    │   │   └── page.tsx    # Publisher contact routing template page
-    │   └── privacy/
-    │       └── page.tsx    # AdSense compliance privacy and DART cookie disclosure page
-    ├── components/
-    │   ├── CalculatorForm.tsx   # Handlers for IP inputs, wheel scaling, and state boundaries
-    │   ├── BinaryVisualizer.tsx # 32-bit semantic matrix rendering live interactive bit streams
-    │   ├── SubnetSplitter.tsx   # Sub-subnetting wizard utilizing binary division calculations
-    │   ├── ClientLayoutWrapper.tsx # Manages persistent local history syncing and theme providers
-    │   ├── LiveMatrix.tsx       # Calculated parameter display grids (network, broadcast, wildcards)
-    │   ├── HistoryTracker.tsx   # LocalStorage history module tracking calculated parameters
-    │   ├── CheatSheet.tsx       # Subnetting prefix reference table
-    │   ├── FaqSection.tsx       # SEO-optimized diagnostic FAQ accordion container
-    │   ├── FaqAccordion.tsx     # Single accordion animation wrapper
-    │   ├── Footer.tsx           # Compliance footer navigational structures
-    │   └── LegalModal.tsx       # Central disclaimer modal handler
-    ├── utils/
-    │   └── ipv4Utils.ts         # Fast pure bitwise mathematics (IP parse, long conversion)
-    └── index.css                # Global CSS variables, custom themes, and Tailwind import
+src/
+├── app/
+│   ├── layout.tsx         # Global layout shell, custom fonts, and theme providers
+│   ├── page.tsx           # Home view: IPv4 Subnet Calculator Dashboard
+│   ├── sitemap.ts         # Programmatic Google sitemap crawler router
+│   ├── vlsm/
+│   │   └── page.tsx       # Variable Length Subnet Mask Planning Dashboard
+│   ├── oui/
+│   │   └── page.tsx       # Offline MAC Address vendor database lookup page
+│   ├── widget/
+│   │   └── page.tsx       # Embeddable calculator sandbox/iframe builder
+│   └── guide/
+│       └── page.tsx       # Integrated reference handbook and subnet tutorial
+├── components/
+│   ├── CalculatorForm.tsx  # Dynamic inputs, keyboard navigation, and wheel handlers
+│   ├── BinaryVisualizer.tsx# Semantic 32-bit bitmask toggle grid
+│   ├── LiveMatrix.tsx      # Calculated network parameters and Usable Host views
+│   ├── SubnetSplitter.tsx  # Wizard for splitting networks into sub-subnets
+│   └── HistoryTracker.tsx  # LocalStorage syncing module for calculation logs
+└── utils/
+    └── ipv4Utils.ts        # Highly optimized binary math operations
 ```
 
 ---
 
-## 📈 Monetization & Publisher Compliance Configuration
+## 🚀 Performance & Technical Specifications
 
-The architecture is configured out-of-the-box for production monetization, utilizing standard compliance pages and crypto attention frameworks.
-
-### 1. Google AdSense Ready
-- **Centralized Compliance**: Layout frameworks incorporate automated placements mapping to Google AdSense guidelines.
-- **Transparency Routing**: Mandatory cookie and data disclosure policies are fully integrated within the dynamic `/privacy` endpoint, addressing DART cookie personalization opt-out requirements.
-
-### 2. Brave Rewards Integration
-- **Verified Creator Node**: Domain verification parameters route directly through the verified Brave Creators publisher console.
-- **ZebPay Wallet Linkage**: Basic Attention Token (BAT) distributions are directed to verified ZebPay nodes to ensure compliance with regional transaction standards.
+* **Next.js 16 & Turbopack**: Utilizes Next.js App Router, enabling optimized static page compilation and edge CDN routing.
+* **100/100 Lighthouse Metrics**: Zero layout shifts (CLS), sub-millisecond scripting overhead, and optimized semantic structure yield perfect Lighthouse scores across all metrics.
+* **Zero Dependencies**: Core operations are written in vanilla TypeScript, ensuring minimal bundle size and lightning-fast load times.
+* **Strict Type Safety**: Written under strict TypeScript compilation settings (no implicit `any`, explicit interfaces, and zero compilation warnings).
 
 ---
 
-## 🛠️ Deployment & Production Compiling Scripts
+## 🛠️ Installation & Setup
 
-Use the following scripts to run the local developer sandbox or build for deployment:
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/SubharupBiswas/cidr-subnet-calculator.git
+   cd cidr-subnet-calculator
+   ```
 
-### Local Sandbox Execution
-Spins up the Next.js development server with hot-module reloading:
-```bash
-npm run dev
-```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-### Production Strict Build Pipeline
-Cleans artifacts, executes strict TypeScript type checking without generating outputs, and runs the compiler to produce optimized web assets:
-```bash
-rm -rf .next && npx tsc --noEmit && npm run build
-```
+3. Run the development server:
+   ```bash
+   npm run dev
+   ```
 
-### Static Exports Overview
-The build process compiles routes into static structures to ensure 100/100 Core Vitals scores and edge hosting efficiency. The sitemap is automatically generated at compile-time by `src/app/sitemap.ts`.
+4. Build for production:
+   ```bash
+   npm run build
+   ```

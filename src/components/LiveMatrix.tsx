@@ -39,16 +39,18 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
   const MetricRow = ({
     label, value, id, colorClass
   }: { label: string; value: string; id: string; colorClass?: string }) => (
-    <div className="flex flex-col gap-1 w-full text-center">
-      <div className="flex items-center justify-center gap-3">
-        <span className="whitespace-nowrap uppercase tracking-wider text-sm font-bold text-slate-500 dark:text-zinc-500">
+    <div className="flex flex-col gap-1 w-full text-center min-w-0">
+      <div className="flex items-center justify-center gap-3 min-w-0">
+        <span className="truncate block text-xs font-semibold tracking-wider text-slate-400 uppercase">
           {label}
         </span>
         <CopyBtn text={value} id={id} />
       </div>
-      <span className={`font-mono text-lg sm:text-xl md:text-lg lg:text-xl xl:text-2xl font-bold tracking-tight break-all w-full ${colorClass || 'text-slate-900 dark:text-zinc-100'}`} title={value}>
-        {value}
-      </span>
+      <div className="w-full overflow-x-auto whitespace-nowrap scrollbar-none px-1">
+        <span className={`inline-block text-sm sm:text-base font-bold text-slate-800 tabular-nums ${colorClass || ''}`} title={value}>
+          {value}
+        </span>
+      </div>
     </div>
   );
 
@@ -56,17 +58,19 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
   const HeroRow = ({
     label, value, id, sublabel, colorClass
   }: { label: string; value: string; id: string; sublabel?: string; colorClass?: string }) => (
-    <div className="flex flex-col gap-1 w-full text-center">
-      <div className="flex items-center justify-center gap-3">
-        <span className="whitespace-nowrap uppercase tracking-wider text-sm font-bold text-slate-500 dark:text-zinc-500">
+    <div className="flex flex-col gap-1 w-full text-center min-w-0">
+      <div className="flex items-center justify-center gap-3 min-w-0">
+        <span className="truncate block text-xs font-semibold tracking-wider text-slate-400 uppercase">
           {label}
         </span>
         <CopyBtn text={value} id={id} />
       </div>
-      <div className="flex flex-col">
-        <span className={`font-mono text-lg sm:text-xl md:text-lg lg:text-xl xl:text-2xl font-bold tracking-tight break-all w-full ${colorClass || 'text-slate-900 dark:text-zinc-100'}`} title={value}>
-          {value}
-        </span>
+      <div className="flex flex-col items-center w-full min-w-0">
+        <div className="w-full overflow-x-auto whitespace-nowrap scrollbar-none px-1">
+          <span className={`inline-block text-sm sm:text-base font-bold text-slate-800 tabular-nums ${colorClass || ''}`} title={value}>
+            {value}
+          </span>
+        </div>
         {sublabel && (
           <span className="text-sm font-mono text-[var(--color-text-muted)] mt-1">{sublabel}</span>
         )}
@@ -96,7 +100,7 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
         />
       </div>
 
-      <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-y-10 gap-x-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3 gap-3 w-full">
         <MetricRow
           label="Network Address"
           value={result?.networkAddress || '192.168.1.0'}
