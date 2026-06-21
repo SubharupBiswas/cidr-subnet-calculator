@@ -27,7 +27,7 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
       className={`shrink-0 flex items-center justify-center min-w-[40px] min-h-[40px] rounded-md border transition-all duration-150 ${
         copiedKey === id
           ? 'bg-emerald-500/10 text-emerald-800 dark:text-emerald-400 border-emerald-500/25'
-          : 'bg-zinc-100 dark:bg-zinc-800/80 border-zinc-200 dark:border-zinc-700/60 text-zinc-700 hover:text-zinc-700 dark:hover:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-700/80 hover:border-zinc-300 dark:hover:border-zinc-600'
+          : 'bg-zinc-100 dark:bg-zinc-800/80 border-zinc-200 dark:border-zinc-700/60 text-zinc-700 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 hover:bg-zinc-200 dark:hover:bg-zinc-700/80 hover:border-zinc-300 dark:hover:border-zinc-600'
       }`}
     >
       {copiedKey === id ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
@@ -47,7 +47,7 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
         <CopyBtn text={value} id={id} />
       </div>
       <div className="w-full overflow-x-auto whitespace-nowrap scrollbar-none px-1">
-        <span className={`inline-block text-sm sm:text-base font-bold text-slate-800 tabular-nums ${colorClass || ''}`} title={value}>
+        <span className={`inline-block text-sm sm:text-base font-bold tabular-nums ${colorClass || 'text-slate-800 dark:text-slate-200'}`} title={value}>
           {value}
         </span>
       </div>
@@ -67,7 +67,7 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
       </div>
       <div className="flex flex-col items-center w-full min-w-0">
         <div className="w-full overflow-x-auto whitespace-nowrap scrollbar-none px-1">
-          <span className={`inline-block text-sm sm:text-base font-bold text-slate-800 tabular-nums ${colorClass || ''}`} title={value}>
+          <span className={`inline-block text-sm sm:text-base font-bold tabular-nums ${colorClass || 'text-slate-800 dark:text-slate-200'}`} title={value}>
             {value}
           </span>
         </div>

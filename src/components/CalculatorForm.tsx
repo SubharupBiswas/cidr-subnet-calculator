@@ -217,10 +217,10 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
                 e.stopPropagation();
                 handlePrefixChange(p);
               }}
-              className={`min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg text-sm font-mono transition-colors duration-150 cursor-pointer ${
+              className={`min-w-[44px] min-h-[44px] flex items-center justify-center cursor-pointer ${
                 prefix === p
-                  ? 'text-[var(--color-text-main)] font-bold bg-[var(--color-border)]/50 dark:bg-[var(--color-border)]/30'
-                  : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-main)] hover:bg-[var(--color-border)]/30 dark:hover:bg-[var(--color-border)]/20'
+                  ? 'bg-slate-200 dark:bg-slate-700 text-slate-950 dark:text-slate-50 font-bold rounded px-1.5 py-0.5'
+                  : 'text-slate-700 dark:text-slate-400 hover:text-slate-900 hover:dark:text-slate-200 transition-colors font-medium text-xs sm:text-sm'
               }`}
             >
               /{p}
