@@ -1,16 +1,17 @@
 "use client";
 
-import { useState, useEffect, useRef, Suspense, lazy } from 'react';
+import { useState, useEffect, useRef, Suspense } from 'react';
+import dynamic from 'next/dynamic';
 import { useSearchParams, usePathname } from 'next/navigation';
 import { Terminal } from 'lucide-react';
 import { CalculatorForm } from '../components/CalculatorForm';
 import { LiveMatrix } from '../components/LiveMatrix';
 import { calculateSubnet, isValidIp, SubnetResult } from '../utils/ipv4Utils';
 
-const BinaryVisualizer = lazy(() => import('../components/BinaryVisualizer').then(m => ({ default: m.BinaryVisualizer })));
-const SubnetSplitter = lazy(() => import('../components/SubnetSplitter').then(m => ({ default: m.SubnetSplitter })));
-const CheatSheet = lazy(() => import('../components/CheatSheet').then(m => ({ default: m.CheatSheet })));
-const HistoryTracker = lazy(() => import('../components/HistoryTracker').then(m => ({ default: m.HistoryTracker })));
+const BinaryVisualizer = dynamic(() => import('../components/BinaryVisualizer').then(m => m.BinaryVisualizer), { ssr: false, loading: () => <div className="animate-pulse h-[200px] bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl w-full" /> });
+const SubnetSplitter = dynamic(() => import('../components/SubnetSplitter').then(m => m.SubnetSplitter), { ssr: false, loading: () => <div className="animate-pulse h-[260px] bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl w-full" /> });
+const CheatSheet = dynamic(() => import('../components/CheatSheet').then(m => m.CheatSheet), { ssr: false, loading: () => <div className="animate-pulse h-[100px] bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl w-full" /> });
+const HistoryTracker = dynamic(() => import('../components/HistoryTracker').then(m => m.HistoryTracker), { ssr: false, loading: () => <div className="animate-pulse h-[140px] bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl w-full" /> });
 
 
 import type { HistoryItem } from '../components/HistoryTracker';
@@ -253,23 +254,15 @@ function SubnetCalculatorContent() {
 
         {/* Sub-Tools Stack */}
         <div className="w-full flex flex-col gap-10">
-          <Suspense fallback={<div className="animate-pulse h-[200px] bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl w-full" />}>
-            <BinaryVisualizer result={result} ip={ip} setIp={setIp} />
-          </Suspense>
-          <Suspense fallback={<div className="animate-pulse h-[260px] bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl w-full" />}>
-            <SubnetSplitter result={result} onLoadSubnet={handleLoadSubnet} />
-          </Suspense>
-          <Suspense fallback={<div className="animate-pulse h-[140px] bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl w-full" />}>
-            <HistoryTracker
-              history={history}
-              onLoadHistory={handleLoadHistory}
-              onDeleteHistoryItem={handleDeleteHistoryItem}
-              onClearHistory={handleClearHistory}
-            />
-          </Suspense>
-          <Suspense fallback={<div className="animate-pulse h-[100px] bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl w-full" />}>
-            <CheatSheet currentPrefix={prefix} onSelectPrefix={setPrefix} />
-          </Suspense>
+          <BinaryVisualizer result={result} ip={ip} setIp={setIp} />
+          <SubnetSplitter result={result} onLoadSubnet={handleLoadSubnet} />
+          <HistoryTracker
+            history={history}
+            onLoadHistory={handleLoadHistory}
+            onDeleteHistoryItem={handleDeleteHistoryItem}
+            onClearHistory={handleClearHistory}
+          />
+          <CheatSheet currentPrefix={prefix} onSelectPrefix={setPrefix} />
           <AdSlot type="rectangle" />
         </div>
       </main>
