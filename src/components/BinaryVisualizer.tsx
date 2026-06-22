@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, Fragment } from 'react';
+import { FC, Fragment, useRef } from 'react';
 import { Activity } from 'lucide-react';
 import { SubnetResult } from '../utils/ipv4Utils';
 
@@ -13,6 +13,7 @@ interface BinaryVisualizerProps {
 export const BinaryVisualizer: FC<BinaryVisualizerProps> = ({ result, ip, setIp }) => {
   const prefix = result?.prefix ?? 24;
   const rawBinary = result?.binaryIp?.replace(/\./g, '') || '11000000101010000000000100000001';
+  const binaryScrollRef = useRef<HTMLDivElement>(null);
 
   const handleBitToggle = (e: React.MouseEvent<HTMLButtonElement>, bitIndex: number) => {
     e.preventDefault();
@@ -41,26 +42,42 @@ export const BinaryVisualizer: FC<BinaryVisualizerProps> = ({ result, ip, setIp 
   return (
     <div className="bento-card bento-card-hover p-4 md:p-5 flex flex-col gap-5">
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-zinc-200 dark:border-[var(--color-border)] pb-4">
-        <div className="flex items-center gap-2.5">
+      <div className="flex items-center justify-between w-full mb-4">
+        <div className="flex items-center gap-2">
           <Activity className="w-4 h-4 text-cyan-400" />
           <h2 className="text-sm font-bold text-zinc-900 dark:text-[var(--color-text-main)] tracking-tight font-mono uppercase tracking-widest">Binary Stream</h2>
         </div>
-        {/* Legend */}
-        <div className="flex items-center gap-3">
-          <span className="flex items-center gap-1.5 text-[10px] font-mono font-semibold">
-            <span className="w-2.5 h-2.5 rounded-sm bg-emerald-500/20 dark:bg-emerald-500/30 border border-emerald-500/40 dark:border-emerald-500/50 inline-block" />
-            <span className="text-emerald-800 dark:text-emerald-400">Net /{prefix}</span>
-          </span>
-          <span className="flex items-center gap-1.5 text-[10px] font-mono font-semibold">
-            <span className="w-2.5 h-2.5 rounded-sm bg-amber-500/10 dark:bg-amber-500/20 border border-amber-500/30 dark:border-amber-500/40 inline-block" />
-            <span className="text-amber-600 dark:text-amber-400">Host /{32 - prefix}</span>
-          </span>
+        {/* Desktop carousel navigation — hidden on touch devices */}
+        <div className="flex items-center gap-1 p-0.5 bg-blue-50/80 dark:bg-[var(--color-surface)] border border-blue-100 dark:border-[var(--color-border)] rounded-xl">
+          <button
+            type="button"
+            aria-label="Scroll left"
+            onClick={() => {
+              if (binaryScrollRef.current) {
+                binaryScrollRef.current.scrollBy({ left: -160, behavior: 'smooth' });
+              }
+            }}
+            className="min-w-[44px] min-h-[44px] flex items-center justify-center px-3 py-1.5 text-xs font-mono font-semibold rounded-xl text-[var(--color-text-muted)] hover:text-[var(--color-text-main)] hover:bg-white dark:hover:bg-zinc-800/80 border border-transparent hover:border-blue-200 dark:hover:border-zinc-700/50 transition-all duration-200 cursor-pointer"
+          >
+            ◀
+          </button>
+          <button
+            type="button"
+            aria-label="Scroll right"
+            onClick={() => {
+              if (binaryScrollRef.current) {
+                binaryScrollRef.current.scrollBy({ left: 160, behavior: 'smooth' });
+              }
+            }}
+            className="min-w-[44px] min-h-[44px] flex items-center justify-center px-3 py-1.5 text-xs font-mono font-semibold rounded-xl text-[var(--color-text-muted)] hover:text-[var(--color-text-main)] hover:bg-white dark:hover:bg-zinc-800/80 border border-transparent hover:border-blue-200 dark:hover:border-zinc-700/50 transition-all duration-200 cursor-pointer"
+          >
+            ▶
+          </button>
         </div>
       </div>
 
       {/* Bit Stream & Labels */}
-      <div className="flex items-center overflow-x-auto whitespace-nowrap scrollbar-none touch-pan-x pb-2 select-none gap-2" role="group" aria-label="32-bit binary representation">
+      <div ref={binaryScrollRef} className="flex items-center overflow-x-auto whitespace-nowrap scrollbar-none touch-pan-x pb-2 select-none gap-2" role="group" aria-label="32-bit binary representation">
         {[0, 1, 2, 3].map((octetIndex) => {
           const octetValue = parseInt(rawBinary.substring(octetIndex * 8, octetIndex * 8 + 8), 2);
           const label = ip.split('.')[octetIndex] || String(octetValue);

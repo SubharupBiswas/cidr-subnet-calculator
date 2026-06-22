@@ -228,12 +228,9 @@ export default function VlsmPlanner() {
               /{parentPrefix}
             </span>
           </label>
-          <div className={`${fieldWrap} flex flex-col justify-center gap-2`}>
-            <div className="flex items-center justify-between text-xs font-mono font-bold mb-0.5">
-              <span className="text-[var(--color-text-muted)] text-[10px]">/{1}</span>
-              <span className="text-blue-600 dark:text-cyan-400 text-sm tabular-nums">/{parentPrefix}</span>
-              <span className="text-[var(--color-text-muted)] text-[10px]">/{30}</span>
-            </div>
+          {/* Single coordinate-space container: both input and labels reference
+              the same bounding box. No padding, no overflow tricks. */}
+          <div className="relative w-full block">
             <input
               ref={prefixRef}
               id="vlsm-parent-prefix"
@@ -242,25 +239,49 @@ export default function VlsmPlanner() {
               max={30}
               value={parentPrefix}
               onChange={e => setParentPrefix(parseInt(e.target.value))}
-              className="w-full"
+              className="w-full block m-0 p-0 touch-none"
               style={{
                 background: `linear-gradient(to right, var(--color-accent) ${((parentPrefix - 1) / 29) * 100}%, var(--color-border) ${((parentPrefix - 1) / 29) * 100}%)`
               }}
               aria-label="Parent network prefix slider"
             />
-            <div className="flex flex-wrap items-center justify-center gap-2 max-w-md mx-auto px-2 text-sm text-slate-700 select-none mt-1">
-              {[1, 8, 16, 24, 30].map(v => (
-                <button
-                  key={v}
-                  type="button"
-                  onClick={(e) => { e.preventDefault(); e.stopPropagation(); setParentPrefix(v); }}
-                  className={`transition-colors cursor-pointer hover:text-[var(--color-text-main)] ${
-                    parentPrefix === v ? 'font-bold text-blue-600 dark:text-cyan-400' : ''
-                  }`}
-                >
-                  /{v}
-                </button>
-              ))}
+            {/* Labels: each badge is placed at the exact pixel where the thumb
+                center sits for that value.
+                Formula: calc(7px + fraction*(100%-14px))
+                  - 7px  = half the 14px thumb diameter (from index.css)
+                  - fraction = (value-min)/(max-min)
+                -translate-x-1/2 centers the badge over that point. */}
+            <div className="relative w-full h-14 mt-1 select-none">
+              {([1, 8, 16, 24, 30] as const).map((p) => {
+                const isActive = parentPrefix === p;
+                const fraction = (p - 1) / 29;          // range 1–30
+                return (
+                  <button
+                    key={p}
+                    type="button"
+                    onClick={() => setParentPrefix(p)}
+                    aria-label={`Set prefix to /${p}`}
+                    aria-pressed={isActive}
+                    className="absolute top-0 -translate-x-1/2 min-w-[44px] min-h-[44px] flex flex-col items-center justify-start pt-1 group cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 rounded-md"
+                    style={{ left: `calc(7px + ${fraction} * (100% - 14px))` }}
+                  >
+                    {/* Tick dot — sits directly below the track */}
+                    <span className={`w-1 h-1 rounded-full transition-all duration-200 flex-shrink-0 ${
+                      isActive
+                        ? 'bg-accent shadow-[0_0_8px_rgba(34,211,238,0.8)] scale-125'
+                        : 'bg-zinc-300 dark:bg-zinc-700 group-hover:bg-zinc-400 dark:group-hover:bg-zinc-500'
+                    }`} />
+                    {/* Label Badge */}
+                    <span className={`mt-1 px-2 py-0.5 text-[10px] font-mono font-bold rounded-md transition-all duration-200 border whitespace-nowrap ${
+                      isActive
+                        ? 'text-accent bg-accent/10 border-accent/30 shadow-[0_2px_8px_-2px_rgba(34,211,238,0.2)]'
+                        : 'text-zinc-400 dark:text-zinc-500 bg-transparent border-transparent group-hover:text-zinc-700 dark:group-hover:text-zinc-300 group-hover:bg-zinc-100 dark:group-hover:bg-zinc-800/40 group-hover:border-zinc-200/50 dark:group-hover:border-zinc-700/50'
+                    }`}>
+                      /{p}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
           </div>
         </div>

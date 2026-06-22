@@ -3,9 +3,19 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
-import { Network, Share2, RefreshCw, Moon, Sun, Calculator, GitFork, Cpu, Layout, BookOpen, Check } from 'lucide-react';
+import { Share2, RefreshCw, Moon, Sun, Calculator, GitFork, Cpu, Layout, BookOpen, Check } from 'lucide-react';
 import { Footer } from './Footer';
 import { FaqAccordion } from './FaqAccordion';
+
+const SubnetLogo = ({ className }: { className?: string }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" className={className}>
+    <path d="M125 45 L75 155" stroke="currentColor" strokeWidth="20" strokeLinecap="round" />
+    <circle cx="65" cy="80" r="14" fill="currentColor" />
+    <circle cx="135" cy="120" r="14" fill="currentColor" />
+    <circle cx="105" cy="50" r="10" fill="currentColor" opacity="0.6" />
+    <circle cx="95" cy="150" r="10" fill="currentColor" opacity="0.6" />
+  </svg>
+);
 
 export function AdSlot({ className, type }: { className?: string; type: 'banner' | 'rectangle' }) {
   if (process.env.NODE_ENV === 'development') {
@@ -96,7 +106,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
           <div className="flex justify-between items-center bg-[var(--color-surface)] backdrop-blur-xl p-3 rounded-xl border border-[var(--color-border)] shadow-sm transition-colors duration-300">
             <div className="flex items-center gap-2.5">
               <div className="h-6 w-6 rounded-md bg-gradient-to-tr from-cyan-500 to-emerald-400 flex items-center justify-center shadow-[0_4px_12px_rgba(34,211,238,0.15)] dark:shadow-[0_0_12px_rgba(34,211,238,0.35)]">
-                <Network className="w-3 h-3 text-white stroke-[2.5]" />
+                <SubnetLogo className="w-3 h-3 text-white" />
               </div>
               <span className="text-xs font-bold tracking-tight text-[var(--color-text-main)] font-mono">subnetmask.tech</span>
             </div>
@@ -127,7 +137,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
             aria-label="subnetmask.tech — Go to homepage"
           >
             <div className="h-8 w-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-emerald-400 flex items-center justify-center shadow-[0_4px_16px_rgba(34,211,238,0.15)] dark:shadow-[0_0_16px_rgba(34,211,238,0.3)] group-hover:scale-105 transition-transform duration-200">
-              <Network className="w-4 h-4 text-white stroke-[2.5]" />
+              <SubnetLogo className="w-4 h-4 text-white" />
             </div>
             <div className="flex items-center gap-2">
               <span className="text-sm font-bold tracking-tight text-[var(--color-text-main)] font-mono group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-colors duration-200">subnetmask.tech</span>

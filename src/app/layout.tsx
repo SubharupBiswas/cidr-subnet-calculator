@@ -10,12 +10,14 @@ const inter = Inter({
   subsets: ['latin'],
   variable: '--font-sans',
   display: 'swap',
+  preload: true,
 });
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
   variable: '--font-mono',
   display: 'swap',
+  preload: true,
 });
 
 export const metadata: Metadata = {
@@ -55,6 +57,9 @@ export const metadata: Metadata = {
     follow: true,
     googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
   },
+  icons: {
+    icon: '/favicon.svg',
+  },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -62,20 +67,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
       <head>
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-        <Script
-          id="theme-switcher"
-          strategy="beforeInteractive"
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <script
+          id="theme-initializer"
+          suppressHydrationWarning={true}
           dangerouslySetInnerHTML={{
-            __html: `
-              try {
-                var theme = localStorage.getItem('cidr_calc_theme');
-                if (theme === 'dark') {
-                  document.documentElement.classList.add('dark');
-                } else {
-                  document.documentElement.classList.remove('dark');
-                }
-              } catch (e) {}
-            `,
+            __html: `try { if (localStorage.theme === 'dark') { document.documentElement.classList.add('dark') } else { document.documentElement.classList.remove('dark') } } catch (_) {}`
           }}
         />
       </head>
@@ -125,12 +122,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <ClientLayoutWrapper>
           {children}
         </ClientLayoutWrapper>
-        <Script 
+        <script 
+          async
           id="adsense-init"
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-production-id" 
           crossOrigin="anonymous" 
-          strategy="afterInteractive" 
-        />
+        ></script>
         <Script src="https://www.googletagmanager.com/gtag/js?id=G-E1DP7MY3VW" strategy="lazyOnload" />
         <Script id="google-analytics" strategy="lazyOnload">
           {`
@@ -141,9 +138,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           `}
         </Script>
         </div>
-      {/* impeccable-live-start */}
-        <Script src="http://localhost:8400/live.js" strategy="lazyOnload" />
-      {/* impeccable-live-end */}
+
       </body>
     </html>
   );

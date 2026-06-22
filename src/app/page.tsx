@@ -232,7 +232,7 @@ function SubnetCalculatorContent() {
           <Terminal className="w-3.5 h-3.5 stroke-[2.5]" />
           &gt;_ Subnetwork Engineering
         </div>
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100 text-center max-w-4xl mx-auto font-sans [text-wrap:balance]">
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-snug text-slate-900 dark:text-slate-100 text-center max-w-4xl mx-auto font-sans [text-wrap:balance]">
           Free IPv4 CIDR Subnet Calculator &amp; Network Mask Tool
         </h1>
         <p className="max-w-2xl mx-auto text-lg sm:text-xl leading-relaxed text-[var(--color-text-muted)] mb-8 mt-4">

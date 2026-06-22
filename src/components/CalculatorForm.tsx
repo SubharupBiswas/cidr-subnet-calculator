@@ -12,7 +12,6 @@ interface CalculatorFormProps {
 
 export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormProps) => {
   const isIpValid = isValidIp(ip) || ip === '';
-  const commonPrefixes = [8, 16, 20, 22, 24, 26, 28, 30];
 
   const [octets, setOctets] = useState<string[]>(() => {
     const parts = ip.split('.');
@@ -28,7 +27,7 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
   ];
   const prefixRef = useRef<HTMLInputElement>(null);
   const sliderRef = useRef<HTMLInputElement>(null);
-  
+
   // Use a ref to hold latest state to avoid reattaching wheel listeners
   const stateRef = useRef({ octets, prefix });
   useEffect(() => {
@@ -155,7 +154,7 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
 
   return (
     <div className="flex flex-col space-y-8 border-b border-[var(--color-border)] pb-6 w-full">
-      
+
       {/* IP + CIDR Input Row */}
       <div className={`flex flex-row flex-nowrap items-center justify-center gap-1 w-full min-w-0 my-2 sm:my-6 font-mono transition-colors duration-300 ${!isIpValid && ip !== '' ? 'text-rose-500' : 'text-zinc-900 dark:text-zinc-100'}`}>
         {[0, 1, 2, 3].map((index) => (
@@ -204,32 +203,32 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
       )}
 
       {/* Slider & Presets Row */}
-      <div className="flex flex-col md:flex-row md:items-center justify-start gap-6 md:gap-12">
-        
-        {/* Quick Presets */}
-        <div className="flex flex-wrap items-center justify-center gap-2 max-w-md mx-auto px-2 text-sm text-slate-700 shrink-0">
-          {commonPrefixes.map((p) => (
-            <button
-              key={p}
-              type="button"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                handlePrefixChange(p);
-              }}
-              className={`min-w-[44px] min-h-[44px] flex items-center justify-center cursor-pointer ${
-                prefix === p
-                  ? 'bg-slate-200 dark:bg-slate-700 text-slate-950 dark:text-slate-50 font-bold rounded px-1.5 py-0.5'
-                  : 'text-slate-700 dark:text-slate-400 hover:text-slate-900 hover:dark:text-slate-200 transition-colors font-medium text-xs sm:text-sm'
-              }`}
-            >
-              /{p}
-            </button>
-          ))}
+      <div className="flex flex-row items-center w-full mt-4 sm:mt-6 gap-3 sm:gap-6 px-1 sm:px-2">
+        {/* Presets */}
+        <div className="flex flex-row items-center gap-1 sm:gap-2">
+          {([8, 16, 20, 22, 24, 26, 28, 30] as const).map((p) => {
+            const isActive = prefix === p;
+            return (
+              <button
+                key={p}
+                type="button"
+                onClick={() => handlePrefixChange(p)}
+                aria-label={`Set prefix to /${p}`}
+                aria-pressed={isActive}
+                className={`px-1.5 sm:px-2 py-1 text-[10px] sm:text-xs font-mono font-bold rounded-md transition-all duration-200 border cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 ${
+                  isActive
+                    ? 'bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 border-zinc-200 dark:border-zinc-700 shadow-sm'
+                    : 'text-zinc-400 dark:text-zinc-500 bg-transparent border-transparent hover:text-zinc-700 dark:hover:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800/40'
+                }`}
+              >
+                /{p}
+              </button>
+            );
+          })}
         </div>
-
-        {/* Slider */}
-        <div className="flex-1 w-full flex items-center gap-3">
+        
+        {/* Slider Track */}
+        <div className="flex-1 min-w-0 relative block m-0 p-0">
           <input
             ref={sliderRef}
             type="range"
@@ -237,9 +236,9 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
             max="32"
             value={prefix}
             onChange={(e) => handlePrefixChange(parseInt(e.target.value, 10))}
-            className="w-full max-w-sm touch-none"
+            className="w-full block m-0 p-0 touch-none cursor-pointer [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:border-0"
             style={{
-              background: `linear-gradient(to right, #a855f7 ${((prefix - 1) / 31) * 100}%, var(--color-border) ${((prefix - 1) / 31) * 100}%)`
+              background: `linear-gradient(to right, #a855f7 calc(8px + ${(prefix - 1) / 31} * (100% - 16px)), var(--color-border) calc(8px + ${(prefix - 1) / 31} * (100% - 16px)))`
             }}
             aria-label="CIDR Prefix Slider"
           />
