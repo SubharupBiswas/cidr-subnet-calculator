@@ -8,8 +8,8 @@ import { CalculatorForm } from '../components/CalculatorForm';
 import { LiveMatrix } from '../components/LiveMatrix';
 import { calculateSubnet, isValidIp, SubnetResult } from '../utils/ipv4Utils';
 
-const BinaryVisualizer = dynamic(() => import('../components/BinaryVisualizer').then(m => m.BinaryVisualizer), { ssr: false, loading: () => <div className="animate-pulse h-[200px] bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl w-full" /> });
-const SubnetSplitter = dynamic(() => import('../components/SubnetSplitter').then(m => m.SubnetSplitter), { ssr: false, loading: () => <div className="animate-pulse h-[260px] bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl w-full" /> });
+import { BinaryVisualizer } from '../components/BinaryVisualizer';
+import { SubnetSplitter } from '../components/SubnetSplitter';
 const CheatSheet = dynamic(() => import('../components/CheatSheet').then(m => m.CheatSheet), { ssr: false, loading: () => <div className="animate-pulse h-[100px] bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl w-full" /> });
 const HistoryTracker = dynamic(() => import('../components/HistoryTracker').then(m => m.HistoryTracker), { ssr: false, loading: () => <div className="animate-pulse h-[140px] bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl w-full" /> });
 
