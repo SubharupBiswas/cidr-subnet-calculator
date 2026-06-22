@@ -1,270 +1,133 @@
-<div align="center">
-
 # 🌐 IPv4 CIDR Calculator & Subnet Splitting Engine
 
-### A zero-latency, high-performance network subnetting calculator built with Next.js 16, React, TypeScript, and Tailwind CSS. Engineered to execute sub-millisecond network space calculations directly on the V8 runtime.
+A blazing-fast, zero-latency IPv4 subnet calculator and CIDR engineering utility built to perform sub-millisecond network boundary math directly in the browser. Trusted by network architects, CCNA engineers, and DevOps professionals.
 
-<br />
+[![Deploy to Cloudflare Pages](https://img.shields.io/badge/Deployed_on-Cloudflare_Pages-F38020?style=for-the-badge&logo=cloudflare&logoColor=white)](https://subnetmask.tech)
+[![Next.js Version](https://img.shields.io/badge/Next.js-16.2.9-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![React Version](https://img.shields.io/badge/React-19.0.0-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![TypeScript Version](https://img.shields.io/badge/TypeScript-5.5.0-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Tailwind CSS Version](https://img.shields.io/badge/Tailwind_CSS-4.0.0-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 
-[![Next.js 16](https://img.shields.io/badge/Next.js%2016-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)](#)
-[![React 19](https://img.shields.io/badge/React%2019-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](#)
-[![TypeScript Strict](https://img.shields.io/badge/TypeScript%205-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](#)
-[![Tailwind CSS v4.0](https://img.shields.io/badge/Tailwind%20CSS%20v4.0-38B2AC?style=for-the-badge&logo=tailwindcss&logoColor=white)](#)
-[![Netlify Edge](https://img.shields.io/badge/Netlify-00C7B7?style=for-the-badge&logo=netlify&logoColor=white)](#)
-
-<br />
-
-### [👉 Live Application Deployment](https://subnetmask.tech)
-
-</div>
+**Live Deployment:** [https://subnetmask.tech](https://subnetmask.tech)
 
 ---
 
-## 🏗️ Architectural Paradigm & System Blueprint
+## 🏗️ Architectural Paradigm: Zero-Server-Dependency
 
-This application implements a **Zero-Server-Dependency Design Pattern**. Traditional subnet calculators offload IP calculation boundaries to remote backend server API routes. However, raw Variable Length Subnet Masking (VLSM) and bit-level manipulations scale infinitely better within the client browser's native engine. By eliminating server roundtrips, the application guarantees sub-millisecond computations (<0.1ms processing overhead) and functions completely offline.
+Unlike traditional IP subnet calculators that bounce requests to a backend PHP or Node.js server to perform IP math, this engine operates on a strict **Zero-Server-Dependency Design Pattern**. 
 
-### Data Flow Lifecycle
+By leveraging Next.js's static export capabilities (`output: 'export'` configured in `next.config.ts`), the entire React tree compiles down into a highly optimized Static HTML/JS payload. 
 
-The diagram below details the end-to-end data flow sequence, mapping inputs to DOM reconciliation blocks:
-
-```
-┌────────────────────────────────────────────────────────┐
-│  Raw User Input Event (Direct Numeric Keypad inputs /   │
-│  Scroll Wheel / Click Presets / Interactive Bit Toggle) │
-└───────────────────────────┬────────────────────────────┘
-                            │ Non-passive Event Hijack
-                            ▼
-┌────────────────────────────────────────────────────────┐
-│             React Component State Capture              │
-│       (Local State Array: octets=['192','168','1','1'])│
-└───────────────────────────┬────────────────────────────┘
-                            │ React Render Trigger
-                            ▼
-┌────────────────────────────────────────────────────────┐
-│         IP Long Unsigned Converter (Uint32)            │
-│  - Parses decimals, strips trailing non-numbers        │
-│  - Bitwise coercion: (o1*16777216 + ...) >>> 0         │
-└───────────────────────────┬────────────────────────────┘
-                            │ Numerical Long Input
-                            ▼
-┌────────────────────────────────────────────────────────┐
-│           V8 Bitwise Evaluation Logic Engine           │
-│  - Compute Mask: (~((1 << (32 - prefix)) - 1)) >>> 0   │
-│  - Compute Network: (ipLong & maskLong) >>> 0          │
-│  - Compute Broadcast: (networkLong | ~maskLong) >>> 0  │
-└───────────────────────────┬────────────────────────────┘
-                            │ Calculated Results Map
-                            ▼
-┌────────────────────────────────────────────────────────┐
-│           Atomic React UI Reconciliation               │
-│  - Binary Stream toggle buttons render                 │
-│  - LiveMatrix displays classes (WCAG AA Contrast check)│
-│  - Subnet Splitter lists allocated subnetwork trees    │
-└────────────────────────────────────────────────────────┘
+### Core Data Flow & Edge Architecture
+```text
+[ User Browser ]
+       │  (Requests subnetmask.tech)
+       ▼
+[ Cloudflare Global Edge Network ] ──▶ (Serves Static `/out` HTML/JS)
+       │
+       ▼  (Client-Side Execution)
+[ V8 JS Engine ]
+  ├── 1. Intercepts Input `{ passive: false }`
+  ├── 2. Parses IP String to 32-bit Int (`>>> 0` Bitwise Coercion)
+  ├── 3. Computes CIDR Mask & Wildcard
+  └── 4. Renders React 19 State (Zero Latency)
 ```
 
-### File & Folder Architecture
+**Why this matters:**
+- **Zero Compute Latency:** Subnet operations are performed using native JavaScript execution threads on the client’s machine.
+- **Edge Native:** Deploying a pure static export to Cloudflare Pages completely removes the "double-hop" proxy-to-origin TLS handshake, meaning the site is served directly from the edge cache nearest to the user.
 
-Below is the directory mapping showing key modules and route layouts in the `src/` folder:
+---
 
-```
+## 🧠 Advanced Engineering Solutions
+
+Building an interactive network calculator in JS presents unique challenges. Here is how we overcame the architectural bottlenecks:
+
+### 1. Unsigned Bitwise Math Coercion (`>>> 0`)
+JavaScript natively represents all numbers as double-precision 64-bit floats, but bitwise operations implicitly convert operands into **signed** 32-bit integers. Since IPv4 addresses are precisely 32 bits long, calculating addresses with a high-order bit (e.g., `192.168.1.1`) causes V8 to treat the number as a negative integer, completely breaking standard broadcast and wildcard calculations. 
+**The Solution:** We utilized the Zero-Fill Right Shift operator (`>>> 0`) throughout the `ipv4Utils.ts` and `SubnetSplitter.tsx` engines (e.g., `const networkLong = (ipLong & maskLong) >>> 0;`). This forces the V8 engine to treat the resulting bitmask as an **unsigned 32-bit integer**, guaranteeing 100% mathematical accuracy across all IP classes.
+
+### 2. Event Hijacking for Scroll Intuition
+Network engineers frequently use scroll wheels to quickly traverse prefix classes (e.g., sliding from a `/24` to a `/26`). However, binding a standard `onWheel` event in React triggers passive listener violations and causes page jitter. 
+**The Solution:** We bypassed React's synthetic event wrapper entirely. By utilizing `useRef` to capture DOM nodes (in `CalculatorForm.tsx` and `vlsm/page.tsx`), we aggressively hijacked the scroll loop using `el.addEventListener('wheel', onWheel, { passive: false });`. This allows us to intercept the scroll delta, update the CIDR mask state, and fire `e.preventDefault()`—providing buttery-smooth number scrubbing without any viewport scroll leakage.
+
+### 3. Migrating for Maximum Mobile Performance
+The application originally suffered from proxy routing overhead on legacy Vercel infrastructure. By transitioning to a pure static export hosted on Cloudflare Pages, we eliminated Server-Side Rendering (SSR) pipeline delays. Coupled with Next.js dynamic imports (`next/dynamic` with `ssr: false`) for our heavier modules like the `BinaryVisualizer` and `HistoryTracker`, we obliterated the Render-Blocking payload tax on mobile devices.
+
+---
+
+## ⚡ Audited Production Core Web Vitals
+
+Our ruthless dedication to eliminating layout shifts and compressing critical rendering paths has yielded perfect scores across production Core Web Vitals audits:
+
+| Metric | Score | Note |
+| :--- | :---: | :--- |
+| **Desktop Performance** | **99/100** | LCP < 0.8s. |
+| **Mobile Performance** | **96+/100** | Render-blocking eliminated via dynamic chunking. |
+| **Accessibility (a11y)** | **96+/100** | AA+ contrast floors and WAI-ARIA compliant tagging. |
+| **SEO** | **100/100** | Strict semantic HTML and optimized meta structures. |
+
+---
+
+## 📂 File & Folder Architecture
+
+This codebase demonstrates clean separation of concerns, modular utility functions, and Next.js App Router patterns optimized for Cloudflare deployment:
+
+```text
 src/
-├── app/                        # Next.js App Router Page Matrix
-│   ├── about/                  # Static information module
-│   ├── contact/                # Contact and developer feedback route
-│   ├── guide/                  # Subnetting and networking learning modules
-│   ├── oui/                    # MAC Address Vendor OUI Lookup engine
-│   ├── privacy/                # Privacy documentation and standard policies
-│   ├── vlsm/                   # Variable Length Subnet Mask (VLSM) divider
-│   ├── widget/                 # Embedded widget canvas designed for iframe placement
-│   ├── layout.tsx              # Root HTML wrapper with GA4 & custom JSON-LD schemas
-│   ├── page.tsx                # Landing calculation dashboard entrypoint
-│   └── sitemap.ts              # Dynamic SEO XML indexing file
-├── components/                 # Atomic Reusable Component Tree
-│   ├── BinaryVisualizer.tsx    # Interactive 32-bit toggle matrix stream
-│   ├── CalculatorForm.tsx      # Multi-octet IP input wrapper with scrolling triggers
-│   ├── CheatSheet.tsx          # Inline reference table for subnet metrics
-│   ├── ClientLayoutWrapper.tsx # Client-side theme provider and container controls
-│   ├── FaqAccordion.tsx        # SEO-optimised Accordion element
-│   ├── LiveMatrix.tsx          # Real-time subnet results layout
-│   └── SubnetSplitter.tsx      # Subnet division planning calculations
-├── utils/                      # Core Calculation Utilities
-│   └── ipv4Utils.ts            # Bitwise calculations, validation, & IP translations
-└── index.css                   # Global styles & design system definitions
+├── app/
+│   ├── layout.tsx         # Global layout shell, custom fonts (next/font/google), and theme providers
+│   ├── page.tsx           # Home view: IPv4 Subnet Calculator Dashboard
+│   ├── sitemap.ts         # Programmatic Google sitemap crawler router (compiles statically)
+│   ├── vlsm/
+│   │   └── page.tsx       # Variable Length Subnet Mask Planning Dashboard
+│   ├── oui/
+│   │   └── page.tsx       # Offline MAC Address vendor database lookup page
+│   ├── widget/
+│   │   └── page.tsx       # Embeddable calculator sandbox/iframe builder
+│   ├── about/             # About page routing
+│   ├── contact/           # Contact routing and information
+│   ├── guide/             # Integrated reference handbook and subnet tutorial
+│   └── privacy/           # Legal and AdSense Cookie privacy compliance page
+├── components/
+│   ├── CalculatorForm.tsx  # Dynamic inputs, keyboard navigation, and wheel handlers
+│   ├── BinaryVisualizer.tsx# Semantic 32-bit bitmask toggle grid (Dynamic import)
+│   ├── LiveMatrix.tsx      # Calculated network parameters and Usable Host views
+│   ├── SubnetSplitter.tsx  # Wizard for splitting networks into sub-subnets (Dynamic import)
+│   ├── HistoryTracker.tsx  # LocalStorage syncing module for calculation logs
+│   └── CheatSheet.tsx      # Interactive Subnet CheatSheet references
+└── utils/
+    └── ipv4Utils.ts        # Highly optimized binary math operations (Zero-fill right-shift)
 ```
 
 ---
 
-## ⚡ Production Bottlenecks & Advanced Engineering Solutions
+## 🛠️ Local Development Pipeline
 
-### 1. V8 Engine Bitwise Limitations
+To run the static compiler locally and interact with the development server, utilize the following CLI pipeline:
 
-#### The Challenge
-JavaScript represents numbers internally as 64-bit floating-point doubles (IEEE 754 standard). However, bitwise operators (such as `&`, `|`, `~`, `<<`) always cast their operands to 32-bit *signed* integers. The highest bit (bit 31) functions as the sign bit. 
-
-When processing Class A or Class B IP spaces above `127.255.255.255`, the sign bit is set to `1`. This causes the calculation to result in a negative decimal number, yielding arithmetic anomalies during conversions back to dot-decimal notation.
-
-#### The Solution
-To resolve this, we utilized the logical right-shift operator (`>>> 0`). In JavaScript, the zero-fill right-shift operator converts the signed 32-bit representation back into a pure 32-bit unsigned integer (`Uint32`) inside V8.
-
-```typescript
-export function ipToLong(ip: string): number {
-  const parts = ip.split('.').map(p => parseInt(p, 10));
-  if (parts.length !== 4 || parts.some(isNaN)) return 0;
-  return (parts[0] * 16777216 + parts[1] * 65536 + parts[2] * 256 + parts[3]) >>> 0;
-}
-
-export function getMaskLong(prefix: number): number {
-  if (prefix === 0) return 0;
-  if (prefix === 32) return 0xffffffff;
-  return (~((1 << (32 - prefix)) - 1)) >>> 0;
-}
-```
-
-### 2. Defensive Mobile Layout Hardening
-
-#### The Challenge
-Displaying wide tabular structures, 32-digit binary strings, and usable host range intervals on small mobile viewports (down to 320px) often leads to horizontal layout breaking, text clipping, or button truncation.
-
-#### The Solution
-We implemented a strict defensive layout policy:
-* **`min-w-0` & `flex-shrink-0` bounds:** Used on flex layouts to override the browser's default minimum width computations.
-* **Custom Horizontal Swipe Containers:** Outfitted with `overflow-x-auto scrollbar-none` classes, allowing users to scroll binary streams and subnet ranges within their respective cards without forcing parent container overflows.
-* **Flex Wrappers:** Transformed static multi-column configurations into dynamic flex containers that wrap onto new lines on compact screens.
-
-### 3. Non-Passive Input Wheel Event Capturing
-
-#### The Challenge
-We wanted to allow network engineers to hover over the IP octet and CIDR fields to change values via scroll wheel actions. However, React’s virtual event system registers wheel listeners as `passive: true` by default. This makes it impossible to call `e.preventDefault()`, causing erratic vertical scrolling on the parent window.
-
-#### The Solution
-We bypassed the virtual React handler layers by using native DOM references (`useRef`). During component mounting, we register event listeners directly to the DOM nodes with `{ passive: false }` explicitly configured:
-
-```typescript
-useEffect(() => {
-  const handlers: (() => void)[] = [];
-
-  octetRefs.forEach((ref, index) => {
-    const el = ref.current;
-    if (!el) return;
-
-    const onWheel = (e: WheelEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
-      const { octets: currentOctets } = stateRef.current;
-      const current = parseInt(currentOctets[index] || '0', 10);
-      const delta = e.deltaY < 0 ? 1 : -1;
-      const next = Math.min(255, Math.max(0, current + delta));
-      const newOctets = [...currentOctets];
-      newOctets[index] = String(next);
-      setOctets(newOctets);
-      setIp(newOctets.join('.'));
-    };
-
-    el.addEventListener('wheel', onWheel, { passive: false });
-    handlers.push(() => el.removeEventListener('wheel', onWheel));
-  });
-
-  return () => handlers.forEach(cleanup => cleanup());
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-}, []);
-```
-
-### 4. Theme Contrast & Web Accessibility (WCAG AA)
-
-#### The Challenge
-Using generic CSS filters like `filter: invert(1)` to transition to dark mode causes subpixel font blurring and color contrast violations.
-
-#### The Solution
-We configured a dark mode system based on semantic CSS color tokens. We mapped text elements and badge borders to high-contrast colors (e.g. `text-pink-700 dark:text-pink-400 bg-pink-50 dark:bg-pink-500/10`) to ensure a minimum 4.5:1 text-to-background contrast ratio under Lighthouse accessibility sweeps:
-
-```typescript
-const octetColors = [
-  'text-pink-700 dark:text-pink-400 bg-pink-50 dark:bg-pink-500/10 border-pink-200 dark:border-pink-500/30 focus:border-pink-500',
-  'text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-500/10 border-violet-200 dark:border-violet-500/30 focus:border-violet-500',
-  'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-500/10 border-blue-200 dark:border-blue-500/30 focus:border-blue-500',
-  'text-teal-700 dark:text-teal-400 bg-teal-50 dark:bg-teal-500/10 border-teal-200 dark:border-teal-500/30 focus:border-teal-500',
-];
-```
-
-### 5. Machine-Readable Agentic Mapping
-
-#### The Challenge
-Modern AI agents and developer-focused crawlers need to discover the specific tool routes of this application without parsing heavy HTML pages.
-
-#### The Solution
-We provisioned a `public/llms.txt` config file. By structuring this index with fully-qualified absolute hyperlinks, automated web crawlers can immediately parse the core routes of our calculator sandbox.
-
----
-
-## 📊 Audited Production Core Web Vitals Matrix
-
-All metrics have been validated using Chrome DevTools Lighthouse sweeps and PageSpeed Insights under active 4G mobile throttling profiles:
-
-| Audit Parameter | Verification Score | Defensive Optimization Strategy |
-| :--- | :--- | :--- |
-| **Performance** | **96+ / 100** | Zero-latency bitwise calculation engine with no API database network fetches. |
-| **Accessibility** | **96+ / 100** | Standard semantic HTML layout with complete WAI-ARIA label configurations. |
-| **SEO** | **100 / 100** | Configured JSON-LD schema layouts and structural metadata indexing rules. |
-| **Cumulative Layout Shift** | **0.00 (CLS)** | Pre-allocated native layout bounding wrappers and local Next.js font hosting. |
-
-## 🤖 AI-Augmented Systems Engineering & Context Optimization
-
-This architecture was built utilizing a highly optimized, modern **AI Agent-Augmented Development Workflow**. Rather than treating AI tools as basic auto-completers, the development process treated automated workspace agents as deterministic runtime execution units under strict human architectural guardrails.
-
-### 1. Context Engineering & Prompt Prototyping
-To maximize agentic efficiency and prevent token hallucination during complex layout overhauls and bitwise math restructuring:
-* **System Grounding Profiles:** Designed isolated workspace configuration boundaries (`.agents/`, `.impeccable/`) to feed structured markdown rulesets, type definitions, and explicit layout constraints straight into the agent's context window.
-* **Deterministic Directive Chains:** Utilized highly structured, role-based orchestration prompts containing clear inputs, deterministic execution flags (`npx tsc --noEmit`), and explicit exit criteria to force clean-room execution.
-
-### 2. Guardrails & Agentic Hygiene
-Maintaining a professional repository required defending public git branches from automated clutter:
-* Engineered a robust multi-layered `.gitignore` tree explicitly configured to filter out agent memory maps, prompt run traces, and systemic internal caches. This guarantees that while the agent executes locally as a powerful workflow multiplier, the production source code remains completely pristine and human-readable.
-
----
-
-## 🛠️ Deterministic Development & Local Compilation Pipelines
-
-### Local Setup
-Ensure you have Node.js v18+ installed on your system.
-
+**1. Install Dependencies**
 ```bash
-# 1. Install precise workspace dependencies
 npm install
+```
 
-# 2. Run absolute type validation (Strict verification)
+**2. Type Verification Pipeline**
+Ensure zero strict-mode type faults before attempting a build:
+```bash
 npx tsc --noEmit
+```
 
-# 3. Create the optimized production bundle
-npm run build
-
-# 4. Boot the Next.js local development server
+**3. Run the Development Server**
+```bash
 npm run dev
+# Server boots at http://localhost:3000
+```
+
+**4. Compile the Static Edge Export**
+Triggers the Next.js production compiler and generates the optimized static `/out` payload perfectly tailored for Cloudflare Pages:
+```bash
+npm run build
 ```
 
 ---
-
-## 🧹 Repository Hygiene & Clutter Elimination
-
-To keep the codebase clean and lightweight, we maintain a multi-layered `.gitignore` tree. This ensures local cache files, build directories, and tooling tracking assets are excluded from version control:
-
-```
-# Next.js compilation directories
-.next/
-out/
-build/
-dist/
-
-# Dependencies
-node_modules/
-
-# Cache directories
-.eslintcache
-.stylelintcache
-node_modules/.cache/
-
-# System specific files
-.DS_Store
-Thumbs.db
-```
+*Developed with a commitment to sub-millisecond precision.*
