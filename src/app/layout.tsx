@@ -122,6 +122,15 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <ClientLayoutWrapper>
           {children}
         </ClientLayoutWrapper>
+        <Script src="https://www.googletagmanager.com/gtag/js?id=G-E1DP7MY3VW" strategy="afterInteractive" />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-E1DP7MY3VW');
+          `}
+        </Script>
         </div>
       {/* impeccable-live-start */}
         <Script src="http://localhost:8400/live.js" strategy="lazyOnload" />
