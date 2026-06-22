@@ -218,7 +218,7 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
                 className={`px-1.5 sm:px-2 py-1 text-[10px] sm:text-xs font-mono font-bold rounded-md transition-all duration-200 border cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 ${
                   isActive
                     ? 'bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 border-zinc-200 dark:border-zinc-700 shadow-sm'
-                    : 'text-zinc-400 dark:text-zinc-500 bg-transparent border-transparent hover:text-zinc-700 dark:hover:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800/40'
+                    : 'text-zinc-600 dark:text-zinc-400 bg-transparent border-transparent hover:text-zinc-900 dark:hover:text-zinc-200 hover:bg-zinc-50 dark:hover:bg-zinc-800/40'
                 }`}
               >
                 /{p}

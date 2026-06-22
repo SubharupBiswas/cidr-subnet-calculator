@@ -58,7 +58,11 @@ export const metadata: Metadata = {
     googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
   },
   icons: {
-    icon: '/favicon.svg',
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.ico', type: 'image/x-icon' },
+    ],
+    apple: '/favicon.svg',
   },
 };
 
@@ -66,7 +70,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
       <head>
-        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="any" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <script
           id="theme-initializer"
@@ -81,7 +86,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <Script
           id="site-jsonld"
           type="application/ld+json"
-          strategy="beforeInteractive"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               '@context': 'https://schema.org',
@@ -122,13 +127,17 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <ClientLayoutWrapper>
           {children}
         </ClientLayoutWrapper>
-        <script 
-          async
+        {/* All third-party scripts are deferred until the main thread is idle */}
+        <Script
           id="adsense-init"
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-production-id" 
-          crossOrigin="anonymous" 
-        ></script>
-        <Script src="https://www.googletagmanager.com/gtag/js?id=G-E1DP7MY3VW" strategy="lazyOnload" />
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-production-id"
+          strategy="lazyOnload"
+          crossOrigin="anonymous"
+        />
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-E1DP7MY3VW"
+          strategy="lazyOnload"
+        />
         <Script id="google-analytics" strategy="lazyOnload">
           {`
             window.dataLayer = window.dataLayer || [];

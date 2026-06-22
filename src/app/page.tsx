@@ -5,11 +5,22 @@ import dynamic from 'next/dynamic';
 import { useSearchParams, usePathname } from 'next/navigation';
 import { Terminal } from 'lucide-react';
 import { CalculatorForm } from '../components/CalculatorForm';
-import { LiveMatrix } from '../components/LiveMatrix';
 import { calculateSubnet, isValidIp, SubnetResult } from '../utils/ipv4Utils';
 
-import { BinaryVisualizer } from '../components/BinaryVisualizer';
-import { SubnetSplitter } from '../components/SubnetSplitter';
+// Below-fold components: dynamically imported so they are excluded from the
+// critical mobile bundle. Each sheds JS parse time on the initial load.
+const LiveMatrix = dynamic(
+  () => import('../components/LiveMatrix').then(m => m.LiveMatrix),
+  { ssr: false, loading: () => <div className="animate-pulse h-[250px] bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl w-full" /> }
+);
+const BinaryVisualizer = dynamic(
+  () => import('../components/BinaryVisualizer').then(m => m.BinaryVisualizer),
+  { ssr: false, loading: () => <div className="animate-pulse h-[180px] bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl w-full" /> }
+);
+const SubnetSplitter = dynamic(
+  () => import('../components/SubnetSplitter').then(m => m.SubnetSplitter),
+  { ssr: false, loading: () => <div className="animate-pulse h-[140px] bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl w-full" /> }
+);
 const CheatSheet = dynamic(() => import('../components/CheatSheet').then(m => m.CheatSheet), { ssr: false, loading: () => <div className="animate-pulse h-[100px] bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl w-full" /> });
 const HistoryTracker = dynamic(() => import('../components/HistoryTracker').then(m => m.HistoryTracker), { ssr: false, loading: () => <div className="animate-pulse h-[140px] bg-[var(--color-surface)] border border-[var(--color-border)] rounded-2xl w-full" /> });
 
@@ -226,19 +237,6 @@ function SubnetCalculatorContent() {
 
   return (
     <>
-      {/* ── Hero Header ── */}
-      <section aria-label="Utility Description" className="w-full text-center mb-10">
-        <div className="flex items-center justify-center gap-2 text-cyan-600 dark:text-cyan-400 text-xs font-mono font-bold uppercase tracking-[0.15em] mb-3">
-          <Terminal className="w-3.5 h-3.5 stroke-[2.5]" />
-          &gt;_ Subnetwork Engineering
-        </div>
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-snug text-slate-900 dark:text-slate-100 text-center max-w-4xl mx-auto font-sans [text-wrap:balance]">
-          Free IPv4 CIDR Subnet Calculator &amp; Network Mask Tool
-        </h1>
-        <p className="max-w-2xl mx-auto text-lg sm:text-xl leading-relaxed text-[var(--color-text-muted)] mb-8 mt-4">
-          Configure IP parameters client-side to instantly visualize boundaries, masks, binary structures, and subnet splits. Ideal for network architects, systems engineers, and DevOps.
-        </p>
-      </section>
 
       {/* ── Primary Calculator Stream ── */}
       <main className="w-full flex flex-col items-center gap-8">
@@ -271,9 +269,29 @@ function SubnetCalculatorContent() {
 }
 
 export default function SubnetCalculator() {
+  const isEmbedded = typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('embed') === 'true' : false;
+
   return (
-    <Suspense fallback={<div className="animate-pulse h-[200px] w-full" />}>
-      <SubnetCalculatorContent />
-    </Suspense>
+    <>
+      {/* ── Hero Header ── (Extracted from Suspense to guarantee instant LCP) */}
+      {!isEmbedded && (
+        <section aria-label="Utility Description" className="w-full text-center mb-10">
+          <div className="flex items-center justify-center gap-2 text-cyan-600 dark:text-cyan-400 text-xs font-mono font-bold uppercase tracking-[0.15em] mb-3">
+            <Terminal className="w-3.5 h-3.5 stroke-[2.5]" />
+            &gt;_ Subnetwork Engineering
+          </div>
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-snug text-slate-900 dark:text-slate-100 text-center max-w-4xl mx-auto font-sans [text-wrap:balance]">
+            Free IPv4 CIDR Subnet Calculator &amp; Network Mask Tool
+          </h1>
+          <p className="max-w-2xl mx-auto text-lg sm:text-xl leading-relaxed text-[var(--color-text-muted)] mb-8 mt-4">
+            Configure IP parameters client-side to instantly visualize boundaries, masks, binary structures, and subnet splits. Ideal for network architects, systems engineers, and DevOps.
+          </p>
+        </section>
+      )}
+
+      <Suspense fallback={<div className="animate-pulse h-[200px] w-full" />}>
+        <SubnetCalculatorContent />
+      </Suspense>
+    </>
   );
 }

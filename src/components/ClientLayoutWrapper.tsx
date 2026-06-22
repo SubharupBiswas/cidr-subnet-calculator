@@ -8,7 +8,7 @@ import { Footer } from './Footer';
 import { FaqAccordion } from './FaqAccordion';
 
 const SubnetLogo = ({ className }: { className?: string }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" className={className}>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" className={className} width="200" height="200">
     <path d="M125 45 L75 155" stroke="currentColor" strokeWidth="20" strokeLinecap="round" />
     <circle cx="65" cy="80" r="14" fill="currentColor" />
     <circle cx="135" cy="120" r="14" fill="currentColor" />
