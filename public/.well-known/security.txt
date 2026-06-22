@@ -1,0 +1,5 @@
+Contact: mailto:biswassubharup@gmail.com
+Expires: 2027-06-22T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://subnetmask.tech/.well-known/security.txt
+Policy: https://subnetmask.tech/privacy

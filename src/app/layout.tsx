@@ -62,7 +62,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
       <head>
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-        <script
+        <Script
+          id="theme-switcher"
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               try {
@@ -79,9 +81,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </head>
       <body className="antialiased subpixel-antialiased">
         <div className="min-h-screen">
-        <script
+        <Script
           id="site-jsonld"
           type="application/ld+json"
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               '@context': 'https://schema.org',
@@ -122,8 +125,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <ClientLayoutWrapper>
           {children}
         </ClientLayoutWrapper>
-        <Script src="https://www.googletagmanager.com/gtag/js?id=G-E1DP7MY3VW" strategy="afterInteractive" />
-        <Script id="google-analytics" strategy="afterInteractive">
+        <Script 
+          id="adsense-init"
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-production-id" 
+          crossOrigin="anonymous" 
+          strategy="afterInteractive" 
+        />
+        <Script src="https://www.googletagmanager.com/gtag/js?id=G-E1DP7MY3VW" strategy="lazyOnload" />
+        <Script id="google-analytics" strategy="lazyOnload">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
