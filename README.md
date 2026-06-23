@@ -81,18 +81,18 @@ src/
 
 ```mermaid
 flowchart TD
-    A([User Input\n'192.168.1.75/24']) --> B[Octet Array Parsing\n'192','168','1','75' → int[]]
-    B --> C[Decimal → 32-bit Integer\nip = 192<<24 | 168<<16 | 1<<8 | 75]
-    C --> D[Subnet Mask Vector Generation\nmask = 0xFFFFFFFF << 32-prefix]
-    D --> E{Bitwise Operations}
+    A(["User Input: 192.168.1.75/24"]) --> B["Octet Array Parsing\n192, 168, 1, 75"]
+    B --> C["Decimal to 32-bit Integer\nip = 192 shl 24 OR 168 shl 16 OR 1 shl 8 OR 75"]
+    C --> D["Subnet Mask Vector Generation\nmask = 0xFFFFFFFF shl 32-n"]
+    D --> E{"Bitwise Operations"}
 
-    E --> F["Network Address\nnetwork = ip & mask\n→ 192.168.1.0"]
-    E --> G["Wildcard Mask\nwildcard = ~mask >>> 0\n→ 0.0.0.255"]
+    E --> F["Network Address\nnetwork = ip AND mask\nResult: 192.168.1.0"]
+    E --> G["Wildcard Mask\nwildcard = NOT mask unsigned\nResult: 0.0.0.255"]
 
-    F --> H["Broadcast Address\nbroadcast = network | wildcard\n→ 192.168.1.255"]
-    F --> I["First Usable Host\nnetwork + 1\n→ 192.168.1.1"]
-    H --> J["Last Usable Host\nbroadcast - 1\n→ 192.168.1.254"]
-    D --> K["Host Capacity\n2^32-n - 2 = 254 hosts"]
+    F --> H["Broadcast Address\nbroadcast = network OR wildcard\nResult: 192.168.1.255"]
+    F --> I["First Usable Host\nnetwork + 1\nResult: 192.168.1.1"]
+    H --> J["Last Usable Host\nbroadcast - 1\nResult: 192.168.1.254"]
+    D --> K["Host Capacity\n2^32-n minus 2 = 254 hosts"]
 
     style A fill:#0e7490,color:#fff,stroke:#0e7490
     style E fill:#7c3aed,color:#fff,stroke:#7c3aed
@@ -103,14 +103,14 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    P([VLSM Input\nParent: 10.10.0.0/21\nSegments: 200,50,30,10,10,2]) --> Q[Sort Segments\nDescending by host count]
-    Q --> R[For Each Segment\nFind min prefix n\nwhere 2^32-n - 2 ≥ required]
-    R --> S{Allocate from\ncurrent block pointer}
-    S --> T[Subnet 1: /24 → 10.10.0.0\n254 usable hosts]
-    T --> U[Advance Pointer\n+256 addresses]
-    U --> V[Subnet 2: /26 → 10.10.1.0\n62 usable hosts]
-    V --> W[... repeat for all segments ...]
-    W --> X([Output: Full allocation table\nno address space waste])
+    P(["VLSM Input\nParent: 10.10.0.0/21\nSegments: 200, 50, 30, 10, 2"]) --> Q["Sort Segments\nDescending by host count"]
+    Q --> R["For Each Segment\nFind min prefix n\nwhere 2^32-n minus 2 >= required"]
+    R --> S{"Allocate from\ncurrent block pointer"}
+    S --> T["Subnet 1: /24 -> 10.10.0.0\n254 usable hosts"]
+    T --> U["Advance Pointer\nplus 256 addresses"]
+    U --> V["Subnet 2: /26 -> 10.10.1.0\n62 usable hosts"]
+    V --> W["Repeat for all segments"]
+    W --> X(["Output: Full allocation table\nno address space waste"])
 
     style P fill:#0e7490,color:#fff,stroke:#0e7490
     style S fill:#7c3aed,color:#fff,stroke:#7c3aed
