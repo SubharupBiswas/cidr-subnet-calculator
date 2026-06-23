@@ -92,7 +92,7 @@ export const SubnetSplitter: FC<SubnetSplitterProps> = ({
           <select
             value={targetPrefix}
             onChange={(e) => setTargetPrefix(parseInt(e.target.value, 10))}
-            className="bg-transparent text-cyan-600 dark:text-cyan-400 font-mono font-bold text-sm focus:outline-none cursor-pointer"
+            className="bg-transparent text-cyan-700 dark:text-cyan-300 font-mono font-bold text-sm focus:outline-none cursor-pointer"
             aria-label="Select target subnet mask for network splitting"
           >
             {Array.from({ length: 32 - currentPrefix }, (_, idx) => {
@@ -136,17 +136,17 @@ export const SubnetSplitter: FC<SubnetSplitterProps> = ({
               <tr key={idx} className="hover:bg-[var(--color-inner-surface)] dark:hover:bg-zinc-800/30 transition-colors text-[var(--color-text-main)] dark:text-zinc-300 group">
                   <td className="py-3 px-4 text-[var(--color-text-muted)] text-center font-semibold">{idx + 1}</td>
                   {/* Network Address - Cyan */}
-                  <td className="py-3 px-4 text-cyan-600 dark:text-cyan-400 font-semibold">{sub.network}</td>
+                  <td className="py-3 px-4 text-cyan-700 dark:text-cyan-300 font-semibold">{sub.network}</td>
                   {/* Usable Range - Emerald */}
                   <td className="py-3 px-4 text-emerald-800 dark:text-emerald-400 whitespace-nowrap">{sub.range}</td>
                   {/* Broadcast - Amber */}
-                  <td className="py-3 px-4 text-amber-600 dark:text-amber-400 whitespace-nowrap">{sub.broadcast}</td>
+                  <td className="py-3 px-4 text-amber-700 dark:text-amber-300 whitespace-nowrap">{sub.broadcast}</td>
                   
                   <td className="py-3 px-4 text-right text-zinc-700 dark:text-[var(--color-text-muted)] font-bold">{sub.hosts.toLocaleString('en-US')}</td>
                   <td className="py-3 px-4 text-center">
                     <button
                       onClick={() => onLoadSubnet(sub.networkIp, targetPrefix)}
-                      className="p-1.5 text-[var(--color-text-muted)] dark:text-zinc-500 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-cyan-500/10 rounded-md transition-colors inline-flex items-center justify-center cursor-pointer"
+                      className="p-1.5 text-[var(--color-text-muted)] dark:text-zinc-500 hover:text-cyan-700 dark:hover:text-cyan-300 hover:bg-cyan-500/10 rounded-md transition-colors inline-flex items-center justify-center cursor-pointer"
                       title="Load Subnet"
                     >
                       <ArrowRight className="w-4 h-4" />

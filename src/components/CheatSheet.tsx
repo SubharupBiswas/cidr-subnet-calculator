@@ -98,11 +98,11 @@ export const CheatSheet: FC<CheatSheetProps> = ({
                       onClick={() => onSelectPrefix(row.prefix)}
                       className={`cursor-pointer transition-all font-mono text-xs ${
                         isActive
-                          ? 'bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 font-semibold'
+                          ? 'bg-cyan-500/10 text-cyan-700 dark:text-cyan-300 font-semibold'
                           : 'hover:bg-zinc-200/40 dark:hover:bg-zinc-800/40 text-zinc-700 dark:text-[var(--color-text-muted)] hover:text-zinc-900 dark:hover:text-zinc-200'
                       }`}
                     >
-                      <td className={`py-2 px-4 text-center font-bold font-mono ${isActive ? 'text-cyan-600 dark:text-cyan-400' : 'text-[var(--color-text-muted)] dark:text-zinc-600'}`}>
+                      <td className={`py-2 px-4 text-center font-bold font-mono ${isActive ? 'text-cyan-700 dark:text-cyan-300' : 'text-[var(--color-text-muted)] dark:text-zinc-600'}`}>
                         /{row.prefix}
                       </td>
                       <td className="py-2.5 px-4 font-medium">{row.mask}</td>

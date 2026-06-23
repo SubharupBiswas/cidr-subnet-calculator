@@ -96,7 +96,7 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
           value={result ? formatHosts(result.totalUsableHosts) : '254'}
           id="hosts"
           sublabel={result ? `2^${32 - result.prefix} − 2 endpoints` : '2^8 − 2 endpoints'}
-          colorClass="text-cyan-600 dark:text-cyan-400"
+          colorClass="text-cyan-700 dark:text-cyan-300"
         />
       </div>
 
@@ -111,7 +111,7 @@ export const LiveMatrix = ({ result }: LiveMatrixProps) => {
           label="Broadcast Address"
           value={result?.broadcastAddress || '192.168.1.255'}
           id="broadcast"
-          colorClass="text-amber-600 dark:text-amber-400"
+          colorClass="text-amber-700 dark:text-amber-300"
         />
         <MetricRow
           label="Subnet Mask"

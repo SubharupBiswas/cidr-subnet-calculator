@@ -425,7 +425,7 @@ export default function SubnetCalculator() {
         immediately without waiting for client hydration, minimising LCP.
       */}
       <section aria-label="Utility Description" className="w-full text-center mb-10">
-        <div className="flex items-center justify-center gap-2 text-cyan-600 dark:text-cyan-400 text-xs font-mono font-bold uppercase tracking-[0.15em] mb-3">
+        <div className="flex items-center justify-center gap-2 text-cyan-700 dark:text-cyan-300 text-xs font-mono font-bold uppercase tracking-[0.15em] mb-3">
           <Terminal className="w-3.5 h-3.5 stroke-[2.5]" />
           &gt;_ Subnetwork Engineering
         </div>

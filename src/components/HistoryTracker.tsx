@@ -33,7 +33,7 @@ export const HistoryTracker: FC<HistoryTrackerProps> = ({
         {history.length > 0 && (
           <button
             onClick={onClearHistory}
-            className="text-[9px] font-mono font-bold tracking-wider uppercase bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 px-2 py-1 rounded-md hover:bg-rose-500/20 transition-all flex items-center gap-1 cursor-pointer"
+            className="text-[9px] font-mono font-bold tracking-wider uppercase bg-rose-500/10 text-rose-700 dark:text-rose-300 border border-rose-500/20 px-2 py-1 rounded-md hover:bg-rose-500/20 transition-all flex items-center gap-1 cursor-pointer"
           >
             <Trash2 className="w-3 h-3" />
             Clear
@@ -70,7 +70,7 @@ export const HistoryTracker: FC<HistoryTrackerProps> = ({
               <div className="flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
                 <button
                   onClick={() => onLoadHistory(item.ip, item.prefix)}
-                  className="p-1.5 rounded-md bg-[var(--color-inner-surface)] border border-[var(--color-border)] text-[var(--color-text-muted)] hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-[var(--color-inner-surface-hover)] hover:border-[var(--color-accent)] dark:bg-zinc-800 dark:border-zinc-700 dark:hover:bg-zinc-700 dark:hover:border-cyan-500/30 transition-all"
+                  className="p-1.5 rounded-md bg-[var(--color-inner-surface)] border border-[var(--color-border)] text-[var(--color-text-muted)] hover:text-cyan-700 dark:hover:text-cyan-300 hover:bg-[var(--color-inner-surface-hover)] hover:border-[var(--color-accent)] dark:bg-zinc-800 dark:border-zinc-700 dark:hover:bg-zinc-700 dark:hover:border-cyan-500/30 transition-all"
                   title="Reload" aria-label={`Reload ${item.ip}/${item.prefix}`}
                 >
                   <ArrowRight className="w-3 h-3" />

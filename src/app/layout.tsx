@@ -131,12 +131,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <ClientLayoutWrapper>
           {children}
         </ClientLayoutWrapper>
-        {/* All third-party scripts are deferred until the main thread is idle */}
+        {/* AdSense: lazyOnload defers until window.requestIdleCallback — zero hydration thread cost */}
         <Script
           id="adsense-init"
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-production-id"
           strategy="lazyOnload"
           crossOrigin="anonymous"
+          async
         />
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-E1DP7MY3VW"

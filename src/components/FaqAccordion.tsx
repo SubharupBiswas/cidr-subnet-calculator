@@ -45,7 +45,7 @@ export function FaqAccordion() {
             <strong>Network Address:</strong> The first address in the subnet range (e.g., all host bits are set to binary <code className="text-teal-800 dark:text-teal-400 font-mono">0</code>). It uniquely identifies the network on a router and is not assignable to any device.
           </li>
           <li>
-            <strong>Broadcast Address:</strong> The last address in the subnet range (e.g., all host bits are set to binary <code className="text-amber-600 dark:text-amber-500 font-mono">1</code>). It is used to transmit data to all devices on the subnet simultaneously.
+            <strong>Broadcast Address:</strong> The last address in the subnet range (e.g., all host bits are set to binary <code className="text-amber-700 dark:text-amber-300 font-mono">1</code>). It is used to transmit data to all devices on the subnet simultaneously.
           </li>
         </ul>
       )
