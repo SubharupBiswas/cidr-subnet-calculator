@@ -415,25 +415,27 @@ function SubnetCalculatorContent() {
 }
 
 export default function SubnetCalculator() {
-  const isEmbedded = typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('embed') === 'true' : false;
-
   return (
     <>
-      {/* ── Hero Header ── (Extracted from Suspense to guarantee instant LCP) */}
-      {!isEmbedded && (
-        <section aria-label="Utility Description" className="w-full text-center mb-10">
-          <div className="flex items-center justify-center gap-2 text-cyan-600 dark:text-cyan-400 text-xs font-mono font-bold uppercase tracking-[0.15em] mb-3">
-            <Terminal className="w-3.5 h-3.5 stroke-[2.5]" />
-            &gt;_ Subnetwork Engineering
-          </div>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-snug text-slate-900 dark:text-slate-100 text-center max-w-4xl mx-auto font-sans [text-wrap:balance]">
-            Free IPv4 CIDR Subnet Calculator &amp; Network Mask Tool
-          </h1>
-          <p className="max-w-2xl mx-auto text-lg sm:text-xl leading-relaxed text-[var(--color-text-muted)] mb-8 mt-4">
-            Configure IP parameters client-side to instantly visualize boundaries, masks, binary structures, and subnet splits. Ideal for network architects, systems engineers, and DevOps.
-          </p>
-        </section>
-      )}
+      {/*
+        ── Hero Header ── (Always server-rendered in the SSR HTML stream)
+        The embed check is handled inside SubnetCalculatorContent via useSearchParams.
+        isEmbedded logic is inside the Suspense boundary, the hero is intentionally
+        always present in the initial HTML so Googlebot and mobile browsers paint it
+        immediately without waiting for client hydration, minimising LCP.
+      */}
+      <section aria-label="Utility Description" className="w-full text-center mb-10">
+        <div className="flex items-center justify-center gap-2 text-cyan-600 dark:text-cyan-400 text-xs font-mono font-bold uppercase tracking-[0.15em] mb-3">
+          <Terminal className="w-3.5 h-3.5 stroke-[2.5]" />
+          &gt;_ Subnetwork Engineering
+        </div>
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-snug text-slate-900 dark:text-slate-100 text-center max-w-4xl mx-auto font-sans [text-wrap:balance]">
+          Free IPv4 CIDR Subnet Calculator &amp; Network Mask Tool
+        </h1>
+        <p className="max-w-2xl mx-auto text-lg sm:text-xl leading-relaxed text-[var(--color-text-muted)] mb-8 mt-4">
+          Configure IP parameters client-side to instantly visualize boundaries, masks, binary structures, and subnet splits. Ideal for network architects, systems engineers, and DevOps.
+        </p>
+      </section>
 
       <Suspense fallback={<div className="animate-pulse h-[200px] w-full" />}>
         <SubnetCalculatorContent />
@@ -441,3 +443,4 @@ export default function SubnetCalculator() {
     </>
   );
 }
+

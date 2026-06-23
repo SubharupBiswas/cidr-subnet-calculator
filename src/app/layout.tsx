@@ -11,6 +11,7 @@ const inter = Inter({
   variable: '--font-sans',
   display: 'swap',
   preload: true,
+  weight: ['400', '500', '600', '700', '800'],
 });
 
 const jetbrainsMono = JetBrains_Mono({
@@ -18,6 +19,7 @@ const jetbrainsMono = JetBrains_Mono({
   variable: '--font-mono',
   display: 'swap',
   preload: true,
+  weight: ['400', '500', '600', '700'],
 });
 
 export const metadata: Metadata = {
@@ -72,6 +74,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <head>
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="any" />
+        {/* Preconnect to both Google Fonts hops for minimum font negotiation latency */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <script
           id="theme-initializer"
