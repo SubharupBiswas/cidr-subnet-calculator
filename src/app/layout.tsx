@@ -141,14 +141,17 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         />
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-E1DP7MY3VW"
-          strategy="lazyOnload"
+          strategy="afterInteractive"
         />
-        <Script id="google-analytics" strategy="lazyOnload">
+        <Script id="google-analytics" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'G-E1DP7MY3VW');
+            gtag('config', 'G-E1DP7MY3VW', {
+              transport_url: 'https://subnetmask.tech/gjq9',
+              first_party_collection: true
+            });
           `}
         </Script>
         </div>
