@@ -141,7 +141,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
             </div>
             <div className="flex items-center gap-2">
               <span className="text-sm font-bold tracking-tight text-[var(--color-text-main)] font-mono group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-colors duration-200">subnetmask.tech</span>
-              <span className="hidden sm:inline-flex text-[9px] uppercase font-bold tracking-widest text-cyan-600 dark:text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 px-2 py-0.5 rounded-md">
+              <span className="hidden sm:inline-flex text-[9px] uppercase font-bold tracking-widest text-cyan-800 dark:text-cyan-200 bg-cyan-500/10 border border-cyan-500/20 px-2 py-0.5 rounded-md">
                 Static Edge
               </span>
             </div>

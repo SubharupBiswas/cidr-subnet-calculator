@@ -132,35 +132,9 @@ input[type="range"]::-moz-range-thumb {
   cursor: pointer;
 }
 
-/* ─── Glow text utilities (disabled for clean light mode) ─── */
-.glow-text-cyan {
-  text-shadow: none;
-}
-.focus-glow-cyan {
-  box-shadow: none;
-  border-color: var(--color-accent) !important;
-}
-.glow-text-emerald { text-shadow: none; }
-.glow-text-amber   { text-shadow: none; }
-
-/* ─── Tab active indicator ─── */
-.tab-active-indicator {
-  position: relative;
-}
-.tab-active-indicator::after {
-  content: '';
-  position: absolute;
-  bottom: -1px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60%;
-  height: 2px;
-  background: linear-gradient(to right, #3b82f6, #22d3ee);
-  border-radius: 9999px;
-}
-
 /* ─── Animate ping for status dots ─── */
 @keyframes ping {
   75%, 100% { transform: scale(2); opacity: 0; }
 }
 .animate-ping { animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite; }
+
