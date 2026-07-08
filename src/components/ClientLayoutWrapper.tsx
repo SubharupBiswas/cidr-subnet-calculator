@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { Share2, RefreshCw, Moon, Sun, Calculator, GitFork, Cpu, Layout, BookOpen, Check } from 'lucide-react';
 import { Footer } from './Footer';
-import { FaqAccordion } from './FaqAccordion';
 
 const SubnetLogo = ({ className }: { className?: string }) => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" className={className} width="200" height="200">
@@ -198,11 +197,6 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
         </nav>
 
         {children}
-
-        {/* ── FAQ ── */}
-        <div className="w-full mt-14">
-          <FaqAccordion />
-        </div>
       </div>
 
       <Footer />
