@@ -101,7 +101,6 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
       <div className="min-h-screen font-sans antialiased flex flex-col p-4 sm:p-6 mesh-bg text-[var(--color-text-main)] transition-colors duration-300 relative overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[500px] h-[250px] bg-gradient-to-b from-cyan-500/8 to-transparent blur-[100px] pointer-events-none z-0" />
         <div className="w-full flex flex-col gap-6 relative z-10 max-w-5xl mx-auto">
-          {/* Embed mini-header */}
           <div className="flex justify-between items-center bg-[var(--color-surface)] backdrop-blur-xl p-3 rounded-xl border border-[var(--color-border)] shadow-sm transition-colors duration-300">
             <div className="flex items-center gap-2.5">
               <div className="h-6 w-6 rounded-md bg-gradient-to-tr from-cyan-500 to-emerald-400 flex items-center justify-center shadow-[0_4px_12px_rgba(34,211,238,0.15)] dark:shadow-[0_0_12px_rgba(34,211,238,0.35)]">
@@ -122,14 +121,12 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
   /* ── FULL LAYOUT ── */
   return (
     <div className="min-h-screen font-sans antialiased flex flex-col justify-between relative overflow-x-hidden mesh-bg text-[var(--color-text-main)] transition-colors duration-300">
-      {/* Top ambient glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[300px] bg-gradient-to-b from-cyan-500/6 to-transparent blur-[120px] pointer-events-none z-0" />
 
       <div className="max-w-4xl mx-auto w-full px-4 sm:px-6 pt-5 pb-10 z-10 flex-grow relative flex flex-col">
 
         {/* ── Floating Header ── */}
         <header className="mb-6 flex items-center justify-between bg-[var(--color-surface)] backdrop-blur-xl border border-[var(--color-border)] px-4 md:px-5 h-14 rounded-2xl shadow-sm transition-colors duration-300">
-          {/* Logo — routes to root without full reload */}
           <Link
             href="/"
             className="flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 rounded-xl"
@@ -146,7 +143,6 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
             </div>
           </Link>
 
-          {/* Actions */}
           <div className="flex items-center gap-2">
             <button onClick={toggleTheme} className={headerActionBtn} title="Toggle Theme" aria-label="Toggle Dark or Light Mode">
               {isDarkMode ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
@@ -169,10 +165,8 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
           </div>
         </header>
 
-        {/* ── Top Ad Banner ── */}
         <AdSlot type="banner" className="mb-6" />
 
-        {/* ── Navigation Tab Bar ── */}
         <nav className="flex items-center justify-center mb-8 px-2" aria-label="Main navigation">
           <div className="inline-flex p-1 bg-blue-50/80 dark:bg-[var(--color-surface)] border border-blue-100 dark:border-[var(--color-border)] rounded-xl backdrop-blur-md overflow-x-auto whitespace-nowrap scrollbar-none touch-pan-x shadow-inner gap-0.5">
             {navItems.map(tab => {

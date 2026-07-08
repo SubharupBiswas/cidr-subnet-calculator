@@ -32,8 +32,8 @@ export default function SubnetFaqs() {
   const toggle = (i: number) => setOpenIndex(prev => (prev === i ? null : i));
 
   return (
-    <section aria-label="Subnet Calculator Frequently Asked Questions">
-      <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-slate-100 mb-8 text-center">
+    <section aria-label="Subnet Calculator Frequently Asked Questions" className="w-full">
+      <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mb-8 text-center">
         Frequently Asked Questions
       </h2>
 
@@ -43,20 +43,20 @@ export default function SubnetFaqs() {
           return (
             <div
               key={i}
-              className="border border-zinc-200 dark:border-[var(--color-border)] rounded-xl overflow-hidden bg-white dark:bg-[var(--color-surface)] shadow-sm"
+              className="border border-zinc-200/80 dark:border-zinc-800 rounded-xl overflow-hidden bg-white dark:bg-zinc-900/40 shadow-sm transition-colors duration-200"
             >
               <dt>
                 <button
                   type="button"
                   onClick={() => toggle(i)}
                   aria-expanded={isOpen}
-                  className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 focus-visible:ring-inset"
+                  className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 focus-visible:ring-inset cursor-pointer"
                 >
-                  <span className="text-sm sm:text-base font-semibold text-slate-900 dark:text-slate-100 leading-snug">
+                  <span className="text-sm sm:text-base font-semibold text-zinc-800 dark:text-zinc-200 leading-snug transition-colors duration-200">
                     {q}
                   </span>
                   <ChevronDown
-                    className={`flex-shrink-0 w-5 h-5 text-zinc-400 dark:text-zinc-500 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
+                    className={`flex-shrink-0 w-5 h-5 text-zinc-400 dark:text-zinc-500 transition-transform duration-300 ${isOpen ? 'rotate-180 text-cyan-600 dark:text-cyan-400' : ''}`}
                     aria-hidden="true"
                   />
                 </button>
@@ -64,7 +64,7 @@ export default function SubnetFaqs() {
               <dd
                 className={`overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'}`}
               >
-                <p className="px-5 pb-5 text-sm leading-relaxed text-slate-600 dark:text-slate-400 border-t border-zinc-100 dark:border-[var(--color-border)] pt-4">
+                <p className="px-5 pb-5 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300 border-t border-zinc-100 dark:border-zinc-800/80 pt-4">
                   {a}
                 </p>
               </dd>
