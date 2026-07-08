@@ -122,11 +122,17 @@ export default function GuidePage() {
           identified by a leading 0-bit, reserved the first octet as the network
           identifier and devoted the remaining 24 bits to host addressing, permitting a
           single Class A assignment to house over 16 million individual host addresses.
-          Class B networks, identified by leading bits <code className="text-slate-800 dark:text-slate-200 bg-slate-100 dark:bg-slate-800/60 px-1.5 py-0.5 rounded text-sm font-mono font-semibold">10</code>, split the
-          32-bit space evenly into a 16-bit network field and a 16-bit host field,
-          yielding 65,534 usable hosts per block. Class C networks, identified by
-          leading bits <code className="text-slate-800 dark:text-slate-200 bg-slate-100 dark:bg-slate-800/60 px-1.5 py-0.5 rounded text-sm font-mono font-semibold">110</code>, allocated only 8 bits for hosts,
-          limiting each block to 254 usable addresses.
+          Class B networks, identified by leading bits{' '}
+          <code className="text-zinc-800 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800/60 px-1.5 py-0.5 rounded text-sm font-mono font-semibold">
+            10
+          </code>
+          , split the 32-bit space evenly into a 16-bit network field and a 16-bit host
+          field, yielding 65,534 usable hosts per block. Class C networks, identified by
+          leading bits{' '}
+          <code className="text-zinc-800 dark:text-zinc-200 bg-zinc-100 dark:bg-zinc-800/60 px-1.5 py-0.5 rounded text-sm font-mono font-semibold">
+            110
+          </code>
+          , allocated only 8 bits for hosts, limiting each block to 254 usable addresses.
         </p>
 
         <p className="leading-relaxed">
@@ -143,7 +149,7 @@ export default function GuidePage() {
 
         <p className="leading-relaxed">
           The solution, standardised in{' '}
-          <strong className="text-slate-100 dark:text-slate-100">RFC 1519 in 1993</strong>, was Classless
+          <strong className="text-slate-900 dark:text-slate-100">RFC 1519 in 1993</strong>, was Classless
           Inter-Domain Routing (CIDR). CIDR abolished the concept of fixed network
           classes entirely and replaced it with a flexible{' '}
           <strong className="text-slate-900 dark:text-slate-100">prefix-length notation</strong>. Under
@@ -160,11 +166,11 @@ export default function GuidePage() {
             { prefix: '/16', mask: '255.255.0.0',   hosts: '65,534',     label: 'Former Class B' },
             { prefix: '/24', mask: '255.255.255.0', hosts: '254',        label: 'Former Class C' },
           ].map(row => (
-            <div key={row.prefix} className="bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-4 text-center shadow-sm">
+            <div key={row.prefix} className="bg-white dark:bg-zinc-900/50 border border-zinc-200 dark:border-zinc-800 rounded-xl p-4 text-center shadow-sm">
               <p className="text-2xl font-bold font-mono text-cyan-600 dark:text-cyan-400">{row.prefix}</p>
-              <p className="text-xs text-slate-400 dark:text-slate-500 font-mono mt-1">{row.mask}</p>
+              <p className="text-xs text-zinc-500 dark:text-zinc-400 font-mono mt-1">{row.mask}</p>
               <p className="text-sm font-semibold text-emerald-600 dark:text-emerald-400 mt-2">{row.hosts} hosts</p>
-              <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">{row.label}</p>
+              <p className="text-xs text-zinc-500 dark:text-zinc-400 font-medium mt-1">{row.label}</p>
             </div>
           ))}
         </div>
