@@ -10,7 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     {
       url: `${baseUrl}/`,
       lastModified: currentDate,
-      changeFrequency: 'weekly',
+      changeFrequency: 'daily',
       priority: 1.0,
     },
     {
@@ -23,25 +23,25 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${baseUrl}/oui`,
       lastModified: currentDate,
       changeFrequency: 'weekly',
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/widget`,
-      lastModified: currentDate,
-      changeFrequency: 'weekly',
-      priority: 0.9,
+      priority: 0.8,
     },
     {
       url: `${baseUrl}/guide`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
-      priority: 0.8,
+      priority: 0.7,
     },
     {
       url: `${baseUrl}/about`,
       lastModified: currentDate,
       changeFrequency: 'monthly',
       priority: 0.5,
+    },
+    {
+      url: `${baseUrl}/widget`,
+      lastModified: currentDate,
+      changeFrequency: 'weekly',
+      priority: 0.9,
     },
     {
       url: `${baseUrl}/contact`,

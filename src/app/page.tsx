@@ -6,6 +6,7 @@ import { useSearchParams, usePathname } from 'next/navigation';
 import { Terminal } from 'lucide-react';
 import { CalculatorForm } from '../components/CalculatorForm';
 import { calculateSubnet, isValidIp, SubnetResult } from '../utils/ipv4Utils';
+import SubnetFaqs from '../components/SubnetFaqs';
 
 // Below-fold components: dynamically imported so they are excluded from the
 // critical mobile bundle. Each sheds JS parse time on the initial load.
@@ -440,6 +441,10 @@ export default function SubnetCalculator() {
       <Suspense fallback={<div className="animate-pulse h-[200px] w-full" />}>
         <SubnetCalculatorContent />
       </Suspense>
+
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 pb-12">
+        <SubnetFaqs />
+      </div>
     </>
   );
 }
