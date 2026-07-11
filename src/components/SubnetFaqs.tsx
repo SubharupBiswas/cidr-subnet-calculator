@@ -62,11 +62,15 @@ export default function SubnetFaqs() {
                 </button>
               </dt>
               <dd
-                className={`overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'}`}
+                className={`grid transition-all duration-300 ease-in-out ${
+                  isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                }`}
               >
-                <p className="px-5 pb-5 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300 border-t border-zinc-100 dark:border-zinc-800/80 pt-4">
-                  {a}
-                </p>
+                <div className="overflow-hidden">
+                  <p className="px-5 pb-5 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300 border-t border-zinc-100 dark:border-zinc-800/80 pt-4">
+                    {a}
+                  </p>
+                </div>
               </dd>
             </div>
           );
