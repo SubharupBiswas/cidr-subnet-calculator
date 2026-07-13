@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Script from 'next/script';
 
 export function AdSenseInitializer() {
   const [loadAds, setLoadAds] = useState(false);
@@ -29,15 +28,40 @@ export function AdSenseInitializer() {
     };
   }, []);
 
-  if (!loadAds) return null;
+  useEffect(() => {
+    if (!loadAds) return;
 
-  return (
-    <Script
-      id="adsense-init"
-      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-production-id"
-      strategy="lazyOnload"
-      crossOrigin="anonymous"
-      async
-    />
-  );
+    let callbackId: number | null = null;
+    let timeoutId: NodeJS.Timeout | null = null;
+
+    const injectScript = () => {
+      const existingScript = document.querySelector('script[src*="adsbygoogle.js"]');
+      if (existingScript) return;
+
+      const script = document.createElement('script');
+      script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-production-id';
+      script.crossOrigin = 'anonymous';
+      script.async = true;
+      document.body.appendChild(script);
+    };
+
+    if (typeof window !== 'undefined') {
+      if ('requestIdleCallback' in window) {
+        callbackId = window.requestIdleCallback(() => injectScript());
+      } else {
+        timeoutId = setTimeout(injectScript, 1);
+      }
+    }
+
+    return () => {
+      if (callbackId !== null && typeof window !== 'undefined' && 'cancelIdleCallback' in window) {
+        window.cancelIdleCallback(callbackId);
+      }
+      if (timeoutId !== null) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [loadAds]);
+
+  return null;
 }

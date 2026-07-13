@@ -368,10 +368,10 @@ export default function VlsmPlanner() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-60" />
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-500 shadow-[0_2px_6px_rgba(20,184,166,0.4)] dark:shadow-[0_0_8px_rgba(20,184,166,0.6)]" />
                 </span>
-                <h3 className="text-xs font-bold font-mono uppercase tracking-[0.15em] text-zinc-700 dark:text-[var(--color-text-muted)]">
+                <h2 className="text-xs font-bold font-mono uppercase tracking-[0.15em] text-zinc-700 dark:text-[var(--color-text-muted)]">
                   Allocated Subnets
                   <span className="ml-2 font-mono text-[var(--color-text-muted)] dark:text-zinc-600 normal-case tracking-normal">({result.allocations.length})</span>
-                </h3>
+                </h2>
               </div>
 
               <div className="relative border-l-2 border-zinc-200/50 dark:border-zinc-800/60 ml-3 pl-6 py-2 flex flex-col gap-8 mt-4">
@@ -384,11 +384,11 @@ export default function VlsmPlanner() {
                       {/* Title and Address block */}
                       <div className="flex items-start justify-between gap-4">
                         <div className="flex flex-col">
-                          <h4 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2.5">
+                          <h3 className="text-sm font-bold text-zinc-900 dark:text-zinc-100 flex items-center gap-2.5">
                             <span className="font-mono text-[10px] text-zinc-700">$_{i + 1}</span>
                             {alloc.department}
                             <span className="text-[10px] font-mono font-medium text-zinc-700">({alloc.requiredHosts} req)</span>
-                          </h4>
+                          </h3>
                           <div className="flex items-center gap-2 mt-1">
                             <span className="font-mono text-sm font-extrabold text-cyan-600 dark:text-cyan-400">
                               {alloc.networkAddress}/{alloc.allocatedPrefix}
@@ -435,10 +435,10 @@ export default function VlsmPlanner() {
             <div className="flex flex-col gap-2">
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-zinc-300 dark:bg-zinc-600 shrink-0" />
-                <h3 className="text-xs font-bold font-mono uppercase tracking-[0.15em] text-zinc-700 dark:text-zinc-400">
+                <h2 className="text-xs font-bold font-mono uppercase tracking-[0.15em] text-zinc-700 dark:text-zinc-400">
                   Unallocated Slack
                   <span className="ml-2 font-mono text-[var(--color-text-muted)] dark:text-zinc-400 normal-case tracking-normal">({result.slack.length} fragment{result.slack.length !== 1 ? 's' : ''})</span>
-                </h3>
+                </h2>
               </div>
               <div className="flex flex-wrap gap-2">
                 {result.slack.map((frag, i) => (

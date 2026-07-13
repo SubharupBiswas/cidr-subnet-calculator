@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, Suspense } from 'react';
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 import { useSearchParams, usePathname } from 'next/navigation';
 import { Terminal } from 'lucide-react';
 import { CalculatorForm } from '../components/CalculatorForm';
@@ -261,6 +262,21 @@ function SubnetCalculatorContent() {
             onDeleteHistoryItem={handleDeleteHistoryItem}
             onClearHistory={handleClearHistory}
           />
+ 
+          {/* Support CTA */}
+          <div className="w-full py-4 px-6 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/50 bg-slate-100/30 dark:bg-zinc-900/20 backdrop-blur-sm text-center shadow-sm">
+            <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 font-mono">
+              Saved you a few minutes of binary math?{' '}
+              <Link
+                href="/about#support"
+                aria-label="Support subnetmask.tech hosting costs"
+                className="text-zinc-700 dark:text-zinc-200 hover:text-cyan-600 dark:hover:text-cyan-400 hover:underline transition-colors duration-200 font-semibold cursor-pointer"
+              >
+                Consider supporting the site&apos;s hosting costs.
+              </Link>
+            </p>
+          </div>
+ 
           <CheatSheet currentPrefix={prefix} onSelectPrefix={setPrefix} />
           <AdSlot type="rectangle" />
         </div>

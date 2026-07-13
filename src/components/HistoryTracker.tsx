@@ -33,6 +33,7 @@ export const HistoryTracker: FC<HistoryTrackerProps> = ({
         {history.length > 0 && (
           <button
             onClick={onClearHistory}
+            aria-label="Clear all calculation history"
             className="text-[9px] font-mono font-bold tracking-wider uppercase bg-rose-500/10 text-rose-700 dark:text-rose-300 border border-rose-500/20 px-2 py-1 rounded-md hover:bg-rose-500/20 transition-all flex items-center gap-1 cursor-pointer"
           >
             <Trash2 className="w-3 h-3" />
@@ -57,6 +58,7 @@ export const HistoryTracker: FC<HistoryTrackerProps> = ({
               <button
                 onClick={() => onLoadHistory(item.ip, item.prefix)}
                 className="flex-1 flex flex-col text-left cursor-pointer"
+                aria-label={`Load calculation history entry for ${item.ip}/${item.prefix}`}
               >
                 <span className="font-mono text-sm font-bold text-[var(--color-text-main)] dark:text-zinc-300 group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-colors flex items-center gap-2">
                   <span className="text-[var(--color-text-muted)] dark:text-zinc-700 font-normal select-none text-xs">$_</span>

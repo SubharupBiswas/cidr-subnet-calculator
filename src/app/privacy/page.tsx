@@ -11,11 +11,11 @@ export const metadata: Metadata = {
 };
 
 export default function PrivacyPage() {
-  const lastUpdated = 'June 23, 2025';
+  const lastUpdated = '14 July, 2026';
 
   return (
     <div className="space-y-12 py-6 text-slate-700 dark:text-slate-300">
-      
+
       {/* ── Page Header ── */}
       <header className="space-y-2">
         <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
@@ -45,6 +45,9 @@ export default function PrivacyPage() {
           Calculation history is stored exclusively in your browser's <code className="font-mono text-sm bg-slate-100 dark:bg-slate-800/60 px-1.5 py-0.5 rounded font-semibold text-cyan-700 dark:text-cyan-300">localStorage</code> and
           never transmitted to any external server. You can clear this data at any time using the &quot;Clear History&quot;
           button within the application, or by clearing your browser's site data.
+        </p>
+        <p className="text-base leading-relaxed">
+          Personal information (Name, Email, and Phone Number) collected during voluntary financial contributions is processed securely via our payment gateway provider, Razorpay Software Private Limited. The Razorpay checkout script is loaded programmatically during browser idle time directly inside a localized, secure structural form container wrapper, preventing global document tracking leaks.
         </p>
       </section>
 
@@ -80,7 +83,7 @@ export default function PrivacyPage() {
             personalised ads to users based on their browsing history across sites in the Google Display Network.
           </li>
           <li>
-            <strong className="text-slate-900 dark:text-slate-100">You may opt out of personalised advertising</strong> by
+            <strong className="text-slate-900 dark:text-slate-100">You may opt out of personalised advertising</strong>{' '}by
             visiting Google&apos;s{' '}
             <a
               href="https://www.google.com/settings/ads"
@@ -137,10 +140,7 @@ export default function PrivacyPage() {
           anonymised and used exclusively to improve the quality and performance of this site.
         </p>
         <p className="text-base leading-relaxed">
-          All Google Analytics and AdSense scripts on this site are loaded with the{' '}
-          <code className="font-mono text-sm bg-slate-100 dark:bg-slate-800/60 px-1.5 py-0.5 rounded font-semibold text-cyan-700 dark:text-cyan-300">lazyOnload</code> strategy,
-          meaning they are deferred until the browser&apos;s main thread is completely idle. No third-party scripts
-          are executed during the initial page render or before the page becomes interactive.
+          Third-party scripts (Google AdSense, Analytics) are strictly quarantined and do not load during initial page rendering. They are programmatically injected only after active user interaction (such as scrolling, keydown events, or cursor movement) is detected. Furthermore, script execution is securely deferred to browser main-thread idle cycles (<code className="font-mono text-sm bg-slate-100 dark:bg-slate-800/60 px-1.5 py-0.5 rounded font-semibold text-cyan-700 dark:text-cyan-300">requestIdleCallback</code>) to eliminate Total Blocking Time (TBT) and guarantee a zero-lag user experience.
         </p>
         <p className="text-base leading-relaxed">
           You can opt out of Google Analytics tracking by installing the{' '}
@@ -179,6 +179,9 @@ export default function PrivacyPage() {
           <li>
             <strong className="text-slate-900 dark:text-slate-100">Analytics cookies:</strong> Set by Google Analytics to
             measure aggregate site usage. See Section 3 for opt-out options.
+          </li>
+          <li>
+            <strong className="text-slate-900 dark:text-slate-100">Payment Gateway cookies:</strong> While subnetmask.tech does not use tracking or marketing cookies, our third-party gateway (Razorpay) utilizes essential, functional cookies and local storage items solely to authorize transactions, tokenize secure data payments, and implement real-time fraud prevention metrics.
           </li>
         </ul>
         <p className="text-base leading-relaxed">

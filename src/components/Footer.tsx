@@ -16,21 +16,52 @@ export function Footer() {
         <div className="flex flex-wrap items-center justify-center gap-2">
           <Link
             href="/about"
+            aria-label="About subnetmask.tech"
             className="text-sm font-semibold text-zinc-600 dark:text-zinc-400 hover:text-blue-600 dark:hover:text-cyan-400 transition-colors mx-3"
           >
             About Us
           </Link>
           <Link
             href="/contact"
+            aria-label="Contact the subnetmask.tech team"
             className="text-sm font-semibold text-zinc-600 dark:text-zinc-400 hover:text-blue-600 dark:hover:text-cyan-400 transition-colors mx-3"
           >
             Contact Us
           </Link>
           <Link
+            href="/about#support"
+            aria-label="Support subnetmask.tech via Razorpay"
+            className="text-sm font-semibold text-zinc-600 dark:text-zinc-400 hover:text-blue-600 dark:hover:text-cyan-400 transition-colors mx-3"
+          >
+            Support Us
+          </Link>
+          <Link
             href="/privacy"
+            aria-label="Read our Privacy Policy"
             className="text-sm font-semibold text-zinc-600 dark:text-zinc-400 hover:text-blue-600 dark:hover:text-cyan-400 transition-colors mx-3"
           >
             Privacy Policy
+          </Link>
+          <Link
+            href="/terms"
+            aria-label="Read our Terms and Conditions"
+            className="text-sm font-semibold text-zinc-600 dark:text-zinc-400 hover:text-blue-600 dark:hover:text-cyan-400 transition-colors mx-3"
+          >
+            Terms &amp; Conditions
+          </Link>
+          <Link
+            href="/refund"
+            aria-label="Read our Refund and Cancellation Policy"
+            className="text-sm font-semibold text-zinc-600 dark:text-zinc-400 hover:text-blue-600 dark:hover:text-cyan-400 transition-colors mx-3"
+          >
+            Refund Policy
+          </Link>
+          <Link
+            href="/shipping"
+            aria-label="Read our Shipping and Delivery Policy"
+            className="text-sm font-semibold text-zinc-600 dark:text-zinc-400 hover:text-blue-600 dark:hover:text-cyan-400 transition-colors mx-3"
+          >
+            Shipping Policy
           </Link>
         </div>
       </div>

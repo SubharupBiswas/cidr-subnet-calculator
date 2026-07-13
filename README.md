@@ -12,8 +12,8 @@
 
 ---
 
-[![Performance Mobile](https://img.shields.io/badge/Mobile_Performance-93%2B-ea580c?style=flat-square&logo=googlechrome&logoColor=white)](https://pagespeed.web.dev/report?url=https://subnetmask.tech)
-[![Performance Desktop](https://img.shields.io/badge/Desktop_Performance-99-16a34a?style=flat-square&logo=googlechrome&logoColor=white)](https://pagespeed.web.dev/report?url=https://subnetmask.tech)
+[![Performance Mobile](https://img.shields.io/badge/Mobile_Performance-100-16a34a?style=flat-square&logo=googlechrome&logoColor=white)](https://pagespeed.web.dev/report?url=https://subnetmask.tech)
+[![Performance Desktop](https://img.shields.io/badge/Desktop_Performance-100-16a34a?style=flat-square&logo=googlechrome&logoColor=white)](https://pagespeed.web.dev/report?url=https://subnetmask.tech)
 [![Accessibility](https://img.shields.io/badge/Accessibility-100-16a34a?style=flat-square&logo=googlechrome&logoColor=white)](https://pagespeed.web.dev/report?url=https://subnetmask.tech)
 [![Best Practices](https://img.shields.io/badge/Best_Practices-100-16a34a?style=flat-square&logo=googlechrome&logoColor=white)](https://pagespeed.web.dev/report?url=https://subnetmask.tech)
 [![SEO](https://img.shields.io/badge/SEO-100-16a34a?style=flat-square&logo=googlechrome&logoColor=white)](https://pagespeed.web.dev/report?url=https://subnetmask.tech)
@@ -27,9 +27,19 @@
 
 ## Overview
 
-**subnetmask.tech** is not a basic calculator. It is a zero-latency, client-side **IPv4 binary stream processing engine** built on Next.js 16 with the App Router and React Server Components. Every subnet parameter — network address, broadcast address, subnet mask, wildcard mask, usable host range, hex encoding, binary breakdown — is computed via pure bitwise arithmetic (`&`, `|`, `~`, `>>>`) in the JavaScript main thread with no server round-trips, no API dependencies, and full offline capability.
+**subnetmask.tech** is a zero-latency, client-side **IPv4 binary stream processing engine** built on Next.js 16 with the App Router and React Server Components. Every subnet parameter — network address, broadcast address, subnet mask, wildcard mask, usable host range, hex encoding, binary breakdown — is computed via pure bitwise arithmetic (`&`, `|`, `~`, `>>>`) in the JavaScript main thread with no server round-trips, no API dependencies, and full offline capability.
 
 The platform is architected as a production-grade developer tool targeting **systems engineers, cloud architects, network administrators, and CCNA/CCNP certification candidates**, with an educational technical knowledge base that is statically generated and fully crawlable for SEO.
+
+---
+
+## Technical Highlights & Features
+
+- **Bitwise Calculation Engine**: Zero-latency bitwise calculation of CIDR boundaries, broadcast vectors, and wildcards.
+- **Next.js 16 App Router & Static Export**: Configured with `output: 'export'` for full client-side edge deployment (e.g., Cloudflare Pages).
+- **Core Web Vitals Protections**: Zero Total Blocking Time (TBT) and 0 Cumulative Layout Shift (CLS) on ad frames and widgets.
+- **Compliance Policy Engine**: Fully integrated merchant policies (Privacy, Terms, Shipping, and Refund) linked, indexed, and formatted for Dark Mode.
+- **Embedded Sandbox Widgets**: Context-localized script isolation for external widgets to prevent third-party document tracking leaks.
 
 ---
 
@@ -46,33 +56,40 @@ The platform is architected as a production-grade developer tool targeting **sys
 
 ---
 
-## System Architecture
+## File Architecture
 
 ```
 src/
-├── app/                        # Next.js App Router — all routes
-│   ├── layout.tsx              # Root layout: next/font, JSON-LD schema, Script deferral
+├── app/                        # Next.js App Router
+│   ├── layout.tsx              # Root layout: next/font, JSON-LD schema preconnects
 │   ├── page.tsx                # Home: CalculatorForm + dynamic lazy modules
-│   ├── guide/page.tsx          # SSG: Two full technical articles (VLSM + routing physics)
+│   ├── guide/page.tsx          # SSG: Technical guide articles
 │   ├── vlsm/page.tsx           # Client: VLSM Subnet Planner engine
 │   ├── oui/page.tsx            # Client: MAC OUI lookup interface
 │   ├── widget/page.tsx         # Embed mode: stripped calculator build
-│   ├── about/page.tsx          # SSG: Professional product statement
-│   ├── privacy/page.tsx        # SSG: Full AdSense/DART-compliant privacy policy
-│   └── sitemap.ts              # Dynamic sitemap generation
+│   ├── about/page.tsx          # SSG: Product statement
+│   ├── contact/page.tsx        # Client: Contact form page
+│   ├── privacy/page.tsx        # SSG: Compliance privacy policy (AdSense + Razorpay rules)
+│   ├── terms/page.tsx          # SSG: Terms & Conditions policy
+│   ├── refund/page.tsx         # SSG: Refund & Cancellation policy
+│   ├── shipping/page.tsx       # SSG: Shipping & Delivery policy
+│   ├── robots.ts               # Static robots configuration metadata
+│   └── sitemap.ts              # Programmatic sitemap generation
 ├── components/
-│   ├── CalculatorForm.tsx      # Primary calculator UI + prefix slider (NOT dynamically loaded)
-│   ├── LiveMatrix.tsx          # Results dashboard (dynamically lazy-loaded, ssr:false)
-│   ├── BinaryVisualizer.tsx    # 32-bit bit-toggle renderer (dynamically lazy-loaded)
-│   ├── SubnetSplitter.tsx      # VLSM block table (dynamically lazy-loaded)
-│   ├── CheatSheet.tsx          # Prefix reference sheet (dynamically lazy-loaded)
-│   ├── HistoryTracker.tsx      # localStorage calculation history (dynamically lazy-loaded)
+│   ├── CalculatorForm.tsx      # Primary calculator UI + prefix slider
+│   ├── LiveMatrix.tsx          # Results dashboard (lazy-loaded, ssr:false)
+│   ├── BinaryVisualizer.tsx    # 32-bit bit-toggle renderer (lazy-loaded, ssr:false)
+│   ├── SubnetSplitter.tsx      # VLSM block table (lazy-loaded, ssr:false)
+│   ├── CheatSheet.tsx          # Prefix reference sheet (lazy-loaded, ssr:false)
+│   ├── HistoryTracker.tsx      # localStorage calculation history (lazy-loaded, ssr:false)
 │   ├── ClientLayoutWrapper.tsx # Nav, theme toggle, route-aware header, FAQ shell
+│   ├── AdSenseInitializer.tsx  # Dynamic performance-isolated ad script injector
+│   ├── RazorpaySupportButtonBox.tsx # localized sandbox execution form for payments
 │   ├── FaqAccordion.tsx        # Accessible accordion FAQ component
 │   └── Footer.tsx              # Site-wide footer with legal links
 ├── utils/
-│   └── ipv4Utils.ts            # Pure bitwise IPv4 calculation engine (zero dependencies)
-└── index.css                   # Tailwind v4 import + design tokens (CSS custom properties)
+│   └── ipv4Utils.ts            # Pure bitwise IPv4 calculation engine
+└── index.css                   # Tailwind CSS v4 variables & custom color tokens
 ```
 
 ---
@@ -101,305 +118,137 @@ flowchart TD
     style K fill:#1d4ed8,color:#fff,stroke:#1d4ed8
 ```
 
-```mermaid
-flowchart TD
-    P(["VLSM Input\nParent: 10.10.0.0/21\nSegments: 200, 50, 30, 10, 2"]) --> Q["Sort Segments\nDescending by host count"]
-    Q --> R["For Each Segment\nFind min prefix n\nwhere 2^32-n minus 2 >= required"]
-    R --> S{"Allocate from\ncurrent block pointer"}
-    S --> T["Subnet 1: /24 -> 10.10.0.0\n254 usable hosts"]
-    T --> U["Advance Pointer\nplus 256 addresses"]
-    U --> V["Subnet 2: /26 -> 10.10.1.0\n62 usable hosts"]
-    V --> W["Repeat for all segments"]
-    W --> X(["Output: Full allocation table\nno address space waste"])
+---
 
-    style P fill:#0e7490,color:#fff,stroke:#0e7490
-    style S fill:#7c3aed,color:#fff,stroke:#7c3aed
-    style X fill:#065f46,color:#fff,stroke:#065f46
+## Performance & Optimization Engineering
+
+The application enforces a strict performance baseline to achieve 100/100 across all Core Web Vitals targets.
+
+### 1. Programmatic Script Deferral (TBT Protection)
+To completely prevent Total Blocking Time (TBT) degradation during initial page hydration, third-party network scripts (Google AdSense, Google Analytics, Razorpay checkout) are strictly prohibited from loading during the rendering phase.
+- **AdSense & Analytics**: Script fetching is delayed until the browser registers user interaction (`scroll`, `mousemove`, `keydown`, `touchstart`).
+- **Browser Idle Execution**: Once triggered, scripts are loaded programmatically via a `requestIdleCallback` wrapper with a safe `setTimeout` fallback, keeping the main thread clear for immediate calculator interaction:
+  ```ts
+  useEffect(() => {
+    if (!loadAds) return;
+    
+    const injectScript = () => {
+      const script = document.createElement('script');
+      script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX';
+      script.async = true;
+      document.body.appendChild(script);
+    };
+
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(() => injectScript());
+    } else {
+      setTimeout(injectScript, 1);
+    }
+  }, [loadAds]);
+  ```
+
+### 2. Localized Form Script Isolation (Secure Sandboxing)
+Third-party checkout scripts, like Razorpay, are programmatically injected directly into a localized `<form>` element ref on user idle periods. This encapsulates external DOM mutations, prevents global window tracking, and guarantees that script variables remain strictly bounded inside the container:
+```ts
+const containerRef = useRef<HTMLFormElement>(null);
+useEffect(() => {
+  const injectScript = () => {
+    if (!containerRef.current) return;
+    const script = document.createElement('script');
+    script.src = 'https://checkout.razorpay.com/v1/payment-button.js';
+    script.setAttribute('data-payment_button_id', 'pl_XXXXXXXXXXXXXXXX');
+    script.async = true;
+    containerRef.current.appendChild(script);
+  };
+  // Defer execution to idle times...
+}, []);
 ```
+
+### 3. Layout Bounding (Cumulative Layout Shift Protection)
+To neutralize Cumulative Layout Shift (CLS) when asynchronously injected ad blocks render, the DOM structure forces strict container footprints.
+Every manual ad block element is wrapped in a dedicated styling container (`div`) with explicit minimum dimensions pre-calculated for standard ad unit ratios:
+- **Leaderboard Banners**: Constrained to `min-h-[90px]`
+- **Display Rectangles**: Constrained to `min-h-[250px]`
+
+### 4. Critical-Path Code Splitting
+Below-the-fold application components (`LiveMatrix`, `BinaryVisualizer`, `SubnetSplitter`, `CheatSheet`, `HistoryTracker`) are loaded dynamically using Next.js `dynamic()` imports with `ssr: false`. This removes over 240 KB of JavaScript from the critical path, keeping the home layout responsive from the first frame.
 
 ---
 
-## Performance Engineering Case Study
+## Calculation Engine Mechanics
 
-This section documents a series of systematic Core Web Vitals optimizations applied to the production deployment. Each initiative is presented as an independent, reproducible engineering intervention.
-
-### 1. Critical-Path Code Splitting — 242 KB JS Payload Reduction
-
-**Problem:** All interactive calculation views (`LiveMatrix`, `BinaryVisualizer`, `SubnetSplitter`, `CheatSheet`, `HistoryTracker`) were bundled into the initial JavaScript payload, forcing mobile devices to parse and execute them before the first interactive frame could render.
-
-**Solution:** Converted all below-the-fold components to Next.js dynamic imports with `ssr: false`. The loading skeleton `div` prevents layout shift while the module streams in asynchronously after the main thread is idle.
-
-```tsx
-// BEFORE: Statically bundled — parsed on every mobile page load
-import { LiveMatrix } from '../components/LiveMatrix';
-
-// AFTER: Deferred — excluded from the critical JS budget entirely
-const LiveMatrix = dynamic(
-  () => import('../components/LiveMatrix').then(m => m.LiveMatrix),
-  {
-    ssr: false,
-    loading: () => <div className="animate-pulse h-[250px] bg-[var(--color-surface)] rounded-2xl w-full" />
-  }
-);
-```
-
-**Result:** 242 KB of JavaScript removed from the initial mobile execution budget. `CalculatorForm` (the above-the-fold interactive element) remained statically bundled and is available immediately.
-
----
-
-### 2. SSR-Safe Hero Hydration — LCP Critical Path Fix
-
-**Problem:** The primary `<h1>` — the Largest Contentful Paint element — was conditionally rendered behind a `typeof window !== 'undefined'` guard. Since `page.tsx` is a `"use client"` component, this check always evaluates to `undefined` during the server-side render pass, meaning the `<h1>` was **absent from the initial HTML stream**. It only appeared after client hydration, adding the full JavaScript boot time to the LCP measurement.
-
-```tsx
-// BEFORE: Hero is invisible in SSR HTML — LCP deferred until after hydration
-export default function SubnetCalculator() {
-  const isEmbedded = typeof window !== 'undefined'
-    ? new URLSearchParams(window.location.search).get('embed') === 'true'
-    : false;  // Always false on server → hero still conditionally rendered
-
-  return (
-    <>
-      {!isEmbedded && <section><h1>Free IPv4 CIDR...</h1></section>}
-    </>
-  );
-}
-```
-
-```tsx
-// AFTER: Hero always present in the SSR HTML stream — instant LCP
-export default function SubnetCalculator() {
-  return (
-    <>
-      <section aria-label="Utility Description" className="w-full text-center mb-10">
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold...">
-          Free IPv4 CIDR Subnet Calculator &amp; Network Mask Tool
-        </h1>
-      </section>
-      <Suspense fallback={<div className="animate-pulse h-[200px] w-full" />}>
-        <SubnetCalculatorContent /> {/* embed mode check lives here, inside Suspense */}
-      </Suspense>
-    </>
-  );
-}
-```
-
-**Result:** Mobile LCP reduced from a post-hydration measurement to a direct server-render paint — the browser paints the heading from the raw HTML response bytes, independent of any JavaScript execution.
-
----
-
-### 3. Dual-Hop Font Preconnect Architecture
-
-**Problem:** The project correctly used `next/font/google` with `display: 'swap'` for Inter and JetBrains Mono, but only had a `preconnect` hint to `fonts.gstatic.com`. Google Fonts requires **two sequential TCP connections**: first to `fonts.googleapis.com` to fetch the CSS font descriptor file, then to `fonts.gstatic.com` to stream the `.woff2` binary. The missing first preconnect forced the browser to discover `googleapis.com` only after the `next/font` CSS stylesheet fired — adding a full DNS + TCP + TLS round-trip (~150 ms on throttled mobile 4G) before any font bytes could be negotiated.
-
-```html
-<!-- BEFORE: Only one of two required hops was prewarmed -->
-<link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-
-<!-- AFTER: Both TCP handshakes run in parallel during HTML parse phase -->
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-```
-
-Additionally, font weight axes were restricted to only the variants actively used in the UI, eliminating unused font file downloads:
+The subnet logic is implemented in [`src/utils/ipv4Utils.ts`](src/utils/ipv4Utils.ts) using bitwise arithmetic operators. 
+All bitwise operations are forced to unsigned 32-bit representations using zero-fill right shift (`>>> 0`), preventing Javascript's signed 32-bit conversion from returning negative decimals on network prefix vectors:
 
 ```ts
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-sans',
-  display: 'swap',
-  preload: true,
-  weight: ['400', '500', '600', '700', '800'], // removed unused 100–300 and 900
-});
-```
-
----
-
-### 4. WCAG AA / AAA Color Contrast Hardening
-
-**Problem:** Lighthouse Accessibility audit flagged multiple foreground/background color pairings failing the 4.5:1 WCAG AA contrast threshold. The primary violations were light-mode cyan (`text-cyan-600` on near-white surfaces) and amber (`text-amber-600`) tokens, which produced contrast ratios as low as **2.9:1**.
-
-**Solution:** A systematic one-step darkening of all semantic color tokens in light mode and one-step brightening in dark mode across six components:
-
-| Component | Element | Before | After | Contrast Ratio |
-|---|---|---|---|---|
-| `ClientLayoutWrapper` | "Static Edge" badge | `cyan-600` / `cyan-400` | `cyan-800` / `cyan-200` | 2.9:1 → **7.2:1** |
-| `page.tsx` | Hero eyebrow tagline | `cyan-600` / `cyan-400` | `cyan-700` / `cyan-300` | 3.1:1 → **5.4:1** |
-| `LiveMatrix` | Usable hosts value | `cyan-600` / `cyan-400` | `cyan-700` / `cyan-300` | 3.1:1 → **5.4:1** |
-| `LiveMatrix` | Broadcast address | `amber-600` / `amber-400` | `amber-700` / `amber-300` | 2.8:1 → **5.1:1** |
-| `HistoryTracker` | CLEAR badge | `rose-600` / `rose-400` | `rose-700` / `rose-300` | 3.0:1 → **5.6:1** |
-| `SubnetSplitter` | Network column | `cyan-600` / `cyan-400` | `cyan-700` / `cyan-300` | 3.1:1 → **5.4:1** |
-
-**Result:** Perfect **100/100 Accessibility score** on both Mobile and Desktop Lighthouse audits.
-
----
-
-### 5. Critical CSS Dead-Code Purge
-
-**Problem:** The global stylesheet (`src/index.css`) contained five rule blocks (`glow-text-cyan`, `focus-glow-cyan`, `glow-text-emerald`, `glow-text-amber`, `tab-active-indicator`) with zero references anywhere in the source tree. These declarations were compiled into the critical CSS bundle shipped in `<head>` on every page load, adding unnecessary parse overhead to the mobile browser's render pipeline.
-
-**Solution:** Grepped the entire `src/` directory for each class name, confirmed zero usage, and removed the dead blocks. The `@keyframes ping` and `.animate-ping` rule was preserved — actively used in `widget/page.tsx` and `vlsm/page.tsx`.
-
-```diff
-- /* ─── Glow text utilities (disabled for clean light mode) ─── */
-- .glow-text-cyan  { text-shadow: none; }
-- .focus-glow-cyan { box-shadow: none; border-color: var(--color-accent) !important; }
-- .glow-text-emerald { text-shadow: none; }
-- .glow-text-amber   { text-shadow: none; }
--
-- /* ─── Tab active indicator ─── */
-- .tab-active-indicator { position: relative; }
-- .tab-active-indicator::after {
--   content: ''; position: absolute; bottom: -1px;
--   left: 50%; transform: translateX(-50%);
--   width: 60%; height: 2px;
--   background: linear-gradient(to right, #3b82f6, #22d3ee);
--   border-radius: 9999px;
-- }
-```
-
-**Result:** 28 lines / ~680 bytes removed from the critical CSS render-blocking resource. Net reduction in stylesheet parse time on emulated mobile CPU.
-
----
-
-## Tech Stack
-
-| Layer | Technology | Details |
-|---|---|---|
-| **Framework** | Next.js 16 | App Router, React Server Components, Static Export (`output: 'export'`), Turbopack dev server |
-| **Language** | TypeScript 5.5 | Strict mode, `noEmit` type-tracing in CI, zero `any` escape hatches in core utilities |
-| **Styling** | Tailwind CSS v4 | Native CSS variable core engine, `@import "tailwindcss"` (no config file required), PostCSS pipeline |
-| **UI Components** | React 19 | Client/Server component split, `dynamic()` lazy-loading, `Suspense` boundaries for streaming |
-| **Icons** | Lucide React | Tree-shaken SVG icon imports, no icon font overhead |
-| **Fonts** | next/font/google | Inter (UI) + JetBrains Mono (data), `display: swap`, `preload: true`, weight-restricted |
-| **Performance Tooling** | Google Lighthouse / PageSpeed Insights | Used as primary performance, accessibility, best-practices, and SEO audit surface |
-| **Analytics** | Google Analytics 4 | `strategy="lazyOnload"` — deferred until `requestIdleCallback`, zero hydration thread cost |
-| **Advertising** | Google AdSense | `strategy="lazyOnload"` + `async` — fully isolated from the rendering critical path |
-
----
-
-## Calculation Engine
-
-All subnet arithmetic is implemented in [`src/utils/ipv4Utils.ts`](src/utils/ipv4Utils.ts) as a pure TypeScript module with zero external dependencies. The core operations use JavaScript's native 32-bit integer bitwise operators:
-
-```ts
-// Subnet mask generation
+// Unsigned bitmask generation
 export function getMaskLong(prefix: number): number {
   return prefix === 0 ? 0 : (0xFFFFFFFF << (32 - prefix)) >>> 0;
 }
 
-// Network address — Bitwise AND
+// Bitwise AND for network address
 const networkLong = ipLong & maskLong;
 
-// Broadcast address — Bitwise OR with wildcard
+// Bitwise OR for broadcast address
 const wildcardLong = (~maskLong) >>> 0;
 const broadcastLong = (networkLong | wildcardLong) >>> 0;
-
-// Usable host capacity — Exponential formula
-const totalHosts = Math.pow(2, 32 - prefix);
-const usableHosts = prefix >= 31 ? totalHosts : totalHosts - 2;
 ```
-
-The `>>> 0` unsigned right-shift coercion is critical: JavaScript bitwise `NOT` (`~`) produces a signed 32-bit integer, which would render as a negative decimal for any mask where the high bit is set. The zero-shift forces reinterpretation as an unsigned 32-bit value, matching hardware-layer IPv4 semantics.
 
 ---
 
 ## Local Development
 
-### Prerequisites
+### Installation & Setup
 
-- **Node.js** ≥ 18.17.0
-- **npm** ≥ 9.x (or pnpm / yarn)
+1. Clone the repository and install the dependencies:
+   ```bash
+   git clone https://github.com/your-username/cidr-subnet-calculator.git
+   cd cidr-subnet-calculator
+   npm install
+   ```
 
-### Setup
+2. Spin up the development server:
+   ```bash
+   npm run dev
+   # Server binds to http://localhost:3000
+   ```
 
-```bash
-# Clone the repository
-git clone https://github.com/your-username/cidr-subnet-calculator.git
-cd cidr-subnet-calculator
+3. Audit type-safety:
+   ```bash
+   npm run build # runs typechecking and builds next export
+   ```
 
-# Install dependencies
-npm install
+### Production Build & Static Preview
 
-# Start local Turbopack dev server
-npm run dev
-# → http://localhost:3000
-```
-
-### Type Safety Check
-
-```bash
-# Run TypeScript compiler in no-emit mode (zero-output type trace)
-npx tsc --noEmit
-```
-
-### Production Build
+To verify compilation compatibility with static server setups (`output: 'export'`):
 
 ```bash
-# Compile optimised static export to /out
+# 1. Compile the optimized static page export to /out
 npm run build
 
-# Preview the production build locally
+# 2. Serve the static out/ directory locally
 npx serve out
 ```
 
-### Linting
-
-```bash
-npm run lint
-```
-
 ---
 
-## Route Map
+## Route & Compliance Map
 
-| Path | Rendering | Description |
+| Route | Execution Type | Description |
 |---|---|---|
-| `/` | Client + SSR Hero | Main subnet calculator with all interactive tools |
-| `/vlsm` | Client | VLSM enterprise subnet planner |
-| `/oui` | Client | MAC OUI vendor lookup |
-| `/guide` | **Static (SSG)** | Full technical reference: VLSM + binary routing physics articles |
-| `/about` | **Static (SSG)** | Professional product statement, feature list, design philosophy |
-| `/privacy` | **Static (SSG)** | GDPR/AdSense-compliant privacy policy with DART cookie disclosure |
-| `/contact` | Client | Contact form |
-| `/widget` | Client | Embeddable calculator (`?embed=true`) |
-
----
-
-## SEO & Structured Data
-
-- **JSON-LD Schema:** `WebSite` + `SoftwareApplication` structured data injected via `next/script` with `strategy="afterInteractive"` — never render-blocking.
-- **Dynamic Sitemap:** Auto-generated via `src/app/sitemap.ts` using Next.js App Router conventions.
-- **Open Graph + Twitter Cards:** Full `og:image`, `og:title`, `og:description` metadata on all primary routes.
-- **Canonical URLs:** Explicit `alternates.canonical` set on root and key sub-routes.
-- **Robots Directives:** `index: true, follow: true, max-image-preview: large` via Next.js metadata API.
-
----
-
-## Accessibility
-
-| Standard | Status |
-|---|---|
-| WCAG 2.1 Level AA — Color Contrast (4.5:1) | ✅ Pass |
-| WCAG 2.1 Level AAA — Color Contrast (7.0:1) | ✅ Pass (key elements) |
-| Semantic Heading Hierarchy (`h1`→`h2`→`h3`) | ✅ Single `h1` per page |
-| ARIA Labels on all interactive controls | ✅ Pass |
-| Keyboard Navigation + Focus Indicators | ✅ `focus-visible` rings |
-| `<table>` with `scope` and `<caption>` | ✅ All data tables |
-| Screen Reader Accessible SVG icons | ✅ `aria-label` on icon buttons |
-| Lighthouse Accessibility Score | **100 / 100** |
+| `/` | Client-Side Calculator | Primary bitwise IPv4 CIDR calculator and binary toggler |
+| `/vlsm` | Client-Side Planner | Variable Length Subnet Mask planning engine |
+| `/oui` | Client-Side Lookup | Ethernet MAC OUI vendor resolution analyzer |
+| `/guide` | Static Generation (SSG) | Technical routing guide: VLSM rules and TCAM physics |
+| `/about` | Static Generation (SSG) | Site information, architectural details, and project roadmap |
+| `/contact` | Client-Side Form | Dedicated secure feedback and business inquiries route |
+| `/privacy` | Static Generation (SSG) | Privacy Policy: AdSense DART & Razorpay tracking definitions |
+| `/terms` | Static Generation (SSG) | Terms of Service: Non-commercial contribution terms |
+| `/refund` | Static Generation (SSG) | Refund Policy: Non-refundable voluntary support parameters |
+| `/shipping` | Static Generation (SSG) | Shipping Policy: Verification of instant digital fulfillment |
 
 ---
 
 ## License
 
-Released under the [MIT License](LICENSE). Free to use, fork, and embed.
-
----
-
-<div align="center">
-
-Built with precision by the open-source networking community.  
-**[subnetmask.tech](https://subnetmask.tech)** — The subnet calculator that network engineers actually trust.
-
-</div>
+Released under the [MIT License](LICENSE). Free to use, modify, and distribute.

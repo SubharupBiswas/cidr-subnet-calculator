@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
-import { useSearchParams, usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Share2, RefreshCw, Moon, Sun, Calculator, GitFork, Cpu, Layout, BookOpen, Check } from 'lucide-react';
 import { Footer } from './Footer';
 
@@ -42,13 +42,11 @@ export function AdSlot({ className, type }: { className?: string; type: 'banner'
 }
 
 function LayoutContent({ children }: { children: React.ReactNode }) {
-  const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
   const [copiedLink, setCopiedLink] = useState(false);
-
-  const isEmbedded = searchParams.get('embed') === 'true';
+  const [isEmbedded, setIsEmbedded] = useState(false);
 
   useEffect(() => {
     try {
@@ -68,6 +66,22 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
       localStorage.setItem('cidr_calc_theme', 'light');
     }
   }, [isDarkMode]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      setIsEmbedded(params.get('embed') === 'true');
+    }
+  }, [pathname]);
+
+  useEffect(() => {
+    const handleUrlChange = () => {
+      const params = new URLSearchParams(window.location.search);
+      setIsEmbedded(params.get('embed') === 'true');
+    };
+    window.addEventListener('popstate', handleUrlChange);
+    return () => window.removeEventListener('popstate', handleUrlChange);
+  }, []);
 
   const toggleTheme = () => setIsDarkMode(prev => !prev);
 
@@ -144,6 +158,13 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
           </Link>
 
           <div className="flex items-center gap-2">
+            <Link
+              href="/about#support"
+              aria-label="Support subnetmask.tech via Razorpay"
+              className="px-2.5 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1 bg-cyan-500/5 dark:bg-cyan-500/10 text-cyan-700 dark:text-cyan-400 border border-cyan-500/20 hover:bg-cyan-500/10 dark:hover:bg-cyan-500/20 transition-all duration-200 cursor-pointer font-mono"
+            >
+              ❤️ <span className="hidden sm:inline">Support</span>
+            </Link>
             <button onClick={toggleTheme} className={headerActionBtn} title="Toggle Theme" aria-label="Toggle Dark or Light Mode">
               {isDarkMode ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
             </button>
@@ -170,15 +191,15 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
         <nav className="flex items-center justify-center mb-8 px-2" aria-label="Main navigation">
           <div className="inline-flex p-1 bg-blue-50/80 dark:bg-[var(--color-surface)] border border-blue-100 dark:border-[var(--color-border)] rounded-xl backdrop-blur-md overflow-x-auto whitespace-nowrap scrollbar-none touch-pan-x shadow-inner gap-0.5">
             {navItems.map(tab => {
-              const isActive = pathname === tab.path || (tab.path !== '/' && pathname.startsWith(tab.path));
+              const isActive = pathname === tab.path;
               return (
                 <Link
                   key={tab.path}
-                  href={`${tab.path}${searchParams.toString() ? `?${searchParams.toString()}` : ''}`}
+                  href={tab.path}
                   className={`relative px-4 py-2 text-xs font-sans tracking-tight rounded-xl flex items-center justify-center gap-1.5 whitespace-nowrap cursor-pointer transition-all duration-200 ${
                     isActive
                       ? 'bg-white dark:bg-zinc-800/80 text-blue-700 dark:text-[var(--color-accent)] border border-blue-200 dark:border-zinc-700/50 shadow-sm font-semibold'
-                      : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-main)] border border-transparent hover:bg-white/60 dark:hover:text-zinc-200'
+                      : 'text-[var(--color-text-muted)] hover:text-cyan-600 dark:hover:text-cyan-400 border border-transparent hover:bg-slate-100/70 dark:hover:bg-zinc-800/40 transition-colors duration-200'
                   }`}
                 >
                   {tab.icon}
@@ -190,7 +211,9 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
           </div>
         </nav>
 
-        {children}
+        <div className="w-full flex-grow flex flex-col">
+          {children}
+        </div>
       </div>
 
       <Footer />

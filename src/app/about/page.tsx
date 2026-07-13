@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { RazorpaySupportButtonBox } from '../../components/RazorpaySupportButtonBox';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://subnetmask.tech'),
@@ -218,6 +219,12 @@ export default function AboutPage() {
           (FOIT) and no layout shift on font arrival.
         </p>
       </article>
+
+      <hr className="border-slate-200 dark:border-slate-800" />
+
+      <div id="support" className="scroll-mt-20">
+        <RazorpaySupportButtonBox />
+      </div>
 
     </div>
   );

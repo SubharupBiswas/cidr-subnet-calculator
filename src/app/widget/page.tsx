@@ -55,13 +55,13 @@ export default function WidgetGenerator() {
         {/* Sandbox Container */}
         <div className="w-full xl:w-3/5 bg-slate-50/50 dark:bg-zinc-900/40 p-2 sm:p-4 rounded-xl border border-slate-200 dark:border-zinc-800/60 overflow-hidden">
           <div className="flex flex-col gap-6">
-          <h3 className="text-xs font-bold uppercase tracking-widest text-zinc-700 dark:text-zinc-400 font-mono flex items-center gap-2">
+          <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-700 dark:text-zinc-400 font-mono flex items-center gap-2">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
             </span>
             Live Interactive Sandbox
-          </h3>
+          </h2>
 
           <div className="w-full flex flex-col">
             <div className="flex items-center gap-2 px-0 py-2.5 border-b border-zinc-200/40 dark:border-zinc-800/40 bg-transparent">
@@ -90,10 +90,10 @@ export default function WidgetGenerator() {
         {/* Code Snippet Container */}
         <div className="w-full xl:w-2/5 flex-shrink-0">
           <div className="sticky top-24 h-max flex flex-col gap-4">
-          <h3 className="text-xs font-bold uppercase tracking-widest text-zinc-700 dark:text-zinc-400 font-mono flex items-center gap-2">
+          <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-700 dark:text-zinc-400 font-mono flex items-center gap-2">
             <Code className="w-4 h-4 text-[var(--color-text-muted)] dark:text-zinc-500" />
             Integration Snippet
-          </h3>
+          </h2>
 
           <div className="relative group">
             <pre className="bg-zinc-100/80 dark:bg-[var(--color-bg)]/80 border border-zinc-200 dark:border-[var(--color-border)] rounded-xl p-5 overflow-x-auto text-xs text-zinc-700 dark:text-zinc-300 font-mono leading-relaxed scrollbar-none">

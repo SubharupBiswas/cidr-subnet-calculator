@@ -148,6 +148,7 @@ export const SubnetSplitter: FC<SubnetSplitterProps> = ({
                       onClick={() => onLoadSubnet(sub.networkIp, targetPrefix)}
                       className="p-1.5 text-[var(--color-text-muted)] dark:text-zinc-500 hover:text-cyan-700 dark:hover:text-cyan-300 hover:bg-cyan-500/10 rounded-md transition-colors inline-flex items-center justify-center cursor-pointer"
                       title="Load Subnet"
+                      aria-label={`Load subnet ${sub.network} with prefix /${targetPrefix}`}
                     >
                       <ArrowRight className="w-4 h-4" />
                     </button>

@@ -51,3 +51,5 @@ coverage/
 .nyc_output/
 
 sample/
+
+subnetmask.code-workspace
