@@ -153,7 +153,7 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
   ];
 
   return (
-    <div className="flex flex-col space-y-8 border-b border-[var(--color-border)] pb-6 w-full">
+    <div className="flex flex-col space-y-8 pb-6 w-full">
 
       {/* IP + CIDR Input Row */}
       <div className={`flex flex-row flex-nowrap items-center justify-center gap-1 w-full min-w-0 my-2 sm:my-6 font-mono transition-colors duration-300 ${!isIpValid && ip !== '' ? 'text-rose-500' : 'text-zinc-900 dark:text-zinc-100'}`}>
@@ -203,9 +203,9 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
       )}
 
       {/* Slider & Presets Row */}
-      <div className="flex flex-row items-center w-full mt-4 sm:mt-6 gap-3 sm:gap-6 px-1 sm:px-2">
+      <div className="flex flex-col items-center justify-center gap-4 w-full mt-4">
         {/* Presets */}
-        <div className="flex flex-row items-center gap-1 sm:gap-2">
+        <div className="flex flex-row flex-wrap items-center justify-center gap-1 sm:gap-2 w-full">
           {([8, 16, 20, 22, 24, 26, 28, 30] as const).map((p) => {
             const isActive = prefix === p;
             return (
@@ -215,10 +215,10 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
                 onClick={() => handlePrefixChange(p)}
                 aria-label={`Set prefix to /${p}`}
                 aria-pressed={isActive}
-                className={`px-1.5 sm:px-2 py-1 text-[10px] sm:text-xs font-mono font-bold rounded-md transition-all duration-200 border cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 ${
+                className={`text-[11px] sm:text-sm font-semibold tracking-tighter sm:tracking-wide px-1.5 py-1 sm:px-3 sm:py-1.5 rounded-md transition-all duration-200 cursor-pointer border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${
                   isActive
-                    ? 'bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 border-zinc-200 dark:border-zinc-700 shadow-sm'
-                    : 'text-zinc-600 dark:text-zinc-400 bg-transparent border-transparent hover:text-zinc-900 dark:hover:text-zinc-200 hover:bg-zinc-50 dark:hover:bg-zinc-800/40'
+                    ? 'bg-slate-900 text-white dark:bg-zinc-100 dark:text-zinc-950 font-bold border-slate-950 dark:border-zinc-50 shadow-md scale-105'
+                    : 'bg-slate-100/80 dark:bg-zinc-800/50 text-slate-600 dark:text-zinc-300 border border-slate-200/60 dark:border-zinc-700/40 hover:bg-slate-200/80 dark:hover:bg-zinc-700/80'
                 }`}
               >
                 /{p}
@@ -228,7 +228,7 @@ export const CalculatorForm = ({ ip, setIp, prefix, setPrefix }: CalculatorFormP
         </div>
         
         {/* Slider Track */}
-        <div className="flex-1 min-w-0 relative block m-0 p-0">
+        <div className="w-full max-w-2xl mx-auto py-2 px-4 flex items-center min-h-[44px]">
           <input
             ref={sliderRef}
             type="range"

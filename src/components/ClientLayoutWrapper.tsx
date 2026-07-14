@@ -137,79 +137,92 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
     <div className="min-h-screen font-sans antialiased flex flex-col justify-between relative overflow-x-hidden mesh-bg text-[var(--color-text-main)] transition-colors duration-300">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[300px] bg-gradient-to-b from-cyan-500/6 to-transparent blur-[120px] pointer-events-none z-0" />
 
-      <div className="max-w-4xl mx-auto w-full px-4 sm:px-6 pt-5 pb-10 z-10 flex-grow relative flex flex-col">
+      <div className="max-w-4xl mx-auto w-full box-border pt-5 pb-10 z-10 flex-grow relative flex flex-col">
 
         {/* ── Floating Header ── */}
-        <header className="mb-6 flex items-center justify-between bg-[var(--color-surface)] backdrop-blur-xl border border-[var(--color-border)] px-4 md:px-5 h-14 rounded-2xl shadow-sm transition-colors duration-300">
-          <Link
-            href="/"
-            className="flex items-center gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 rounded-xl"
-            aria-label="subnetmask.tech — Go to homepage"
-          >
-            <div className="h-8 w-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-emerald-400 flex items-center justify-center shadow-[0_4px_16px_rgba(34,211,238,0.15)] dark:shadow-[0_0_16px_rgba(34,211,238,0.3)] group-hover:scale-105 transition-transform duration-200">
-              <SubnetLogo className="w-4 h-4 text-white" />
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-bold tracking-tight text-[var(--color-text-main)] font-mono group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-colors duration-200">subnetmask.tech</span>
-              <span className="hidden sm:inline-flex text-[9px] uppercase font-bold tracking-widest text-cyan-800 dark:text-cyan-200 bg-cyan-500/10 border border-cyan-500/20 px-2 py-0.5 rounded-md">
-                Static Edge
-              </span>
-            </div>
-          </Link>
-
-          <div className="flex items-center gap-2">
+        <div className="px-4 sm:px-6 md:px-8 lg:px-12 w-full box-border">
+          <header className="mb-6 flex flex-col items-center gap-4 sm:flex-row sm:justify-between sm:gap-0 py-3 sm:py-4 bg-[var(--color-surface)] backdrop-blur-xl border border-[var(--color-border)] px-4 md:px-5 rounded-2xl shadow-sm transition-colors duration-300">
             <Link
-              href="/about#support"
-              aria-label="Support subnetmask.tech via Razorpay"
-              className="px-2.5 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1 bg-cyan-500/5 dark:bg-cyan-500/10 text-cyan-700 dark:text-cyan-400 border border-cyan-500/20 hover:bg-cyan-500/10 dark:hover:bg-cyan-500/20 transition-all duration-200 cursor-pointer font-mono"
+              href="/"
+              className="flex items-center justify-center sm:justify-start gap-3 group focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 rounded-xl w-full text-center sm:w-auto sm:text-left"
+              aria-label="subnetmask.tech — Go to homepage"
             >
-              ❤️ <span className="hidden sm:inline">Support</span>
+              <div className="h-8 w-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-emerald-400 flex items-center justify-center shadow-[0_4px_16px_rgba(34,211,238,0.15)] dark:shadow-[0_0_16px_rgba(34,211,238,0.3)] group-hover:scale-105 transition-transform duration-200">
+                <SubnetLogo className="w-4 h-4 text-white" />
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-bold tracking-tight text-[var(--color-text-main)] font-mono group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-colors duration-200">subnetmask.tech</span>
+                <span className="hidden sm:inline-flex text-[9px] uppercase font-bold tracking-widest text-cyan-800 dark:text-cyan-200 bg-cyan-500/10 border border-cyan-500/20 px-2 py-0.5 rounded-md">
+                  Static Edge
+                </span>
+              </div>
             </Link>
-            <button onClick={toggleTheme} className={headerActionBtn} title="Toggle Theme" aria-label="Toggle Dark or Light Mode">
-              {isDarkMode ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
-            </button>
-            <button onClick={handleReset} className={headerActionBtn} title="Reset Parameters" aria-label="Reset IP and Prefix to Defaults">
-              <RefreshCw className="w-3.5 h-3.5" />
-            </button>
-            <button
-              onClick={handleShare}
-              aria-label="Share current calculation link"
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 border transition-all duration-200 cursor-pointer font-mono ${
-                copiedLink
-                  ? 'bg-emerald-500/10 text-emerald-800 dark:text-emerald-400 border-emerald-500/30 shadow-[0_4px_12px_rgba(16,185,129,0.05)] dark:shadow-[0_0_12px_rgba(16,185,129,0.15)]'
-                  : 'bg-[var(--color-inner-surface)] text-[var(--color-text-muted)] border-[var(--color-border)] hover:bg-[var(--color-inner-surface-hover)] hover:border-[var(--color-accent)] hover:text-[var(--color-text-main)] dark:hover:bg-zinc-800 dark:hover:border-zinc-700 dark:hover:text-zinc-200'
-              }`}
+
+            <div className="flex items-center justify-center gap-2 w-full sm:w-auto mt-1 sm:mt-0">
+              <Link
+                href="/about#support"
+                aria-label="Support subnetmask.tech via Razorpay"
+                className="px-2.5 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1 bg-cyan-500/5 dark:bg-cyan-500/10 text-cyan-700 dark:text-cyan-400 border border-cyan-500/20 hover:bg-cyan-500/10 dark:hover:bg-cyan-500/20 transition-all duration-200 cursor-pointer font-mono"
+              >
+                ❤️ <span>Support</span>
+              </Link>
+              <button onClick={toggleTheme} className={headerActionBtn} title="Toggle Theme" aria-label="Toggle Dark or Light Mode">
+                {isDarkMode ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
+              </button>
+              <button onClick={handleReset} className={headerActionBtn} title="Reset Parameters" aria-label="Reset IP and Prefix to Defaults">
+                <RefreshCw className="w-3.5 h-3.5" />
+              </button>
+              <button
+                onClick={handleShare}
+                aria-label="Share current calculation link"
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 border transition-all duration-200 cursor-pointer font-mono ${
+                  copiedLink
+                    ? 'bg-emerald-500/10 text-emerald-800 dark:text-emerald-400 border-emerald-500/30 shadow-[0_4px_12px_rgba(16,185,129,0.05)] dark:shadow-[0_0_12px_rgba(16,185,129,0.15)]'
+                    : 'bg-[var(--color-inner-surface)] text-[var(--color-text-muted)] border-[var(--color-border)] hover:bg-[var(--color-inner-surface-hover)] hover:border-[var(--color-accent)] hover:text-[var(--color-text-main)] dark:hover:bg-zinc-800 dark:hover:border-zinc-700 dark:hover:text-zinc-200'
+                }`}
+              >
+                {copiedLink ? <Check className="w-3 h-3" /> : <Share2 className="w-3 h-3" />}
+                {copiedLink ? 'Copied!' : 'Share'}
+              </button>
+            </div>
+          </header>
+        </div>
+
+        <div className="px-4 sm:px-6 md:px-8 lg:px-12 w-full box-border">
+          <AdSlot type="banner" className="mb-6" />
+        </div>
+
+        <div className="px-4 sm:px-6 md:px-8 lg:px-12 w-full box-border">
+          <div className="w-full mb-8">
+            <nav
+              className="flex flex-row items-center md:justify-center overflow-x-auto whitespace-nowrap scrollbar-none flex-nowrap w-full pr-8 gap-2 md:pr-0"
+              style={{
+                WebkitMaskImage: 'linear-gradient(to right, black calc(100% - 2.5rem), transparent 100%)',
+                maskImage: 'linear-gradient(to right, black calc(100% - 2.5rem), transparent 100%)'
+              }}
+              aria-label="Main navigation"
             >
-              {copiedLink ? <Check className="w-3 h-3" /> : <Share2 className="w-3 h-3" />}
-              {copiedLink ? 'Copied!' : 'Share'}
-            </button>
+              {navItems.map(tab => {
+                const isActive = pathname === tab.path;
+                return (
+                  <Link
+                    key={tab.path}
+                    href={tab.path}
+                    className={`relative flex-shrink-0 px-4 py-2 text-xs font-sans tracking-tight rounded-xl flex items-center justify-center gap-1.5 whitespace-nowrap cursor-pointer transition-all duration-200 ${
+                      isActive
+                        ? 'bg-white dark:bg-zinc-800/80 text-blue-700 dark:text-[var(--color-accent)] border border-blue-200 dark:border-zinc-700/50 shadow-sm font-semibold'
+                        : 'text-[var(--color-text-muted)] hover:text-cyan-600 dark:hover:text-cyan-400 border border-transparent hover:bg-slate-100/70 dark:hover:bg-zinc-800/40 transition-colors duration-200'
+                    }`}
+                  >
+                    {tab.icon}
+                    <span className="hidden sm:inline">{tab.label}</span>
+                    <span className="sm:hidden">{tab.mobileKey}</span>
+                  </Link>
+                );
+              })}
+            </nav>
           </div>
-        </header>
-
-        <AdSlot type="banner" className="mb-6" />
-
-        <nav className="flex items-center justify-center mb-8 px-2" aria-label="Main navigation">
-          <div className="inline-flex p-1 bg-blue-50/80 dark:bg-[var(--color-surface)] border border-blue-100 dark:border-[var(--color-border)] rounded-xl backdrop-blur-md overflow-x-auto whitespace-nowrap scrollbar-none touch-pan-x shadow-inner gap-0.5">
-            {navItems.map(tab => {
-              const isActive = pathname === tab.path;
-              return (
-                <Link
-                  key={tab.path}
-                  href={tab.path}
-                  className={`relative px-4 py-2 text-xs font-sans tracking-tight rounded-xl flex items-center justify-center gap-1.5 whitespace-nowrap cursor-pointer transition-all duration-200 ${
-                    isActive
-                      ? 'bg-white dark:bg-zinc-800/80 text-blue-700 dark:text-[var(--color-accent)] border border-blue-200 dark:border-zinc-700/50 shadow-sm font-semibold'
-                      : 'text-[var(--color-text-muted)] hover:text-cyan-600 dark:hover:text-cyan-400 border border-transparent hover:bg-slate-100/70 dark:hover:bg-zinc-800/40 transition-colors duration-200'
-                  }`}
-                >
-                  {tab.icon}
-                  <span className="hidden sm:inline">{tab.label}</span>
-                  <span className="sm:hidden">{tab.mobileKey}</span>
-                </Link>
-              );
-            })}
-          </div>
-        </nav>
+        </div>
 
         <div className="w-full flex-grow flex flex-col">
           {children}

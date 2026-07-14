@@ -181,7 +181,7 @@ export default function VlsmPlanner() {
   ].join(' ');
 
   return (
-    <div className="w-full flex flex-col gap-0">
+    <div className="px-4 sm:px-6 md:px-8 lg:px-12 w-full box-border flex flex-col gap-0">
       <div className="flex flex-col gap-2 border-b border-zinc-200 dark:border-[var(--color-border)] pb-6 mb-7">
         <div className="flex items-center gap-3">
           <div className="h-9 w-9 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center shrink-0">

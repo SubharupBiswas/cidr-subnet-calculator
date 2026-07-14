@@ -433,7 +433,7 @@ function SubnetCalculatorContent() {
 
 export default function SubnetCalculator() {
   return (
-    <>
+    <div className="px-4 sm:px-6 md:px-8 lg:px-12 w-full box-border">
       {/*
         ── Hero Header ── (Always server-rendered in the SSR HTML stream)
         The embed check is handled inside SubnetCalculatorContent via useSearchParams.
@@ -458,10 +458,10 @@ export default function SubnetCalculator() {
         <SubnetCalculatorContent />
       </Suspense>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 pb-12">
+      <div className="max-w-6xl mx-auto mt-16 pb-12">
         <SubnetFaqs />
       </div>
-    </>
+    </div>
   );
 }
 

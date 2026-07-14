@@ -14,11 +14,11 @@ export default function ShippingPage() {
   const lastUpdated = '14 July, 2026';
 
   return (
-    <div className="space-y-12 py-6 text-slate-700 dark:text-zinc-300 font-sans leading-relaxed">
+    <div className="px-4 sm:px-6 md:px-8 lg:px-12 w-full box-border space-y-12 py-6 text-slate-700 dark:text-zinc-300 font-sans leading-relaxed">
       
       {/* ── Page Header ── */}
       <header className="space-y-2">
-        <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-zinc-100">
+        <h1 className="text-xl font-bold tracking-tight text-slate-900 dark:text-zinc-100 sm:text-2xl md:text-3xl lg:text-4xl leading-tight">
           Shipping &amp; Delivery Policy
         </h1>
         <p className="text-sm text-slate-400 dark:text-zinc-500">Last updated: {lastUpdated}</p>

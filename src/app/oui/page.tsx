@@ -158,7 +158,7 @@ export default function MacLookup() {
   const sc = statusConfig[status];
 
   return (
-    <div className="w-full flex flex-col gap-6">
+    <div className="px-4 sm:px-6 md:px-8 lg:px-12 w-full box-border flex flex-col gap-6">
       <div className="flex flex-col gap-2 border-b border-zinc-200 dark:border-[var(--color-border)] pb-5">
         <div className="flex items-center gap-3">
           <Wifi className="w-5 h-5 text-cyan-400 shrink-0" />

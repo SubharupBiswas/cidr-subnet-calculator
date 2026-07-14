@@ -12,14 +12,14 @@ export const metadata: Metadata = {
 
 export default function GuidePage() {
   return (
-    <div className="space-y-16 py-6 text-slate-700 dark:text-slate-300">
+    <div className="px-4 sm:px-6 md:px-8 lg:px-12 w-full box-border space-y-16 py-6 text-slate-700 dark:text-slate-300">
 
       {/* ── Page Header ── */}
       <header className="text-center space-y-4">
         <p className="text-xs font-mono font-bold uppercase tracking-[0.2em] text-cyan-600 dark:text-cyan-400">
           Technical Documentation
         </p>
-        <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100">
+        <h1 className="text-xl font-bold tracking-tight text-slate-900 dark:text-zinc-100 sm:text-2xl md:text-3xl lg:text-4xl leading-tight">
           The Complete IPv4 Subnetting &amp; CIDR Reference Manual
         </h1>
         <p className="max-w-2xl mx-auto text-lg leading-relaxed text-slate-500 dark:text-slate-400">

@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <div className="max-w-3xl mx-auto px-4 py-12 text-slate-700 dark:text-zinc-300 font-sans leading-relaxed">
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 md:px-8 lg:px-12 w-full box-border py-12 text-slate-700 dark:text-zinc-300 font-sans leading-relaxed">
       <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 dark:text-zinc-100 mb-6">Contact Us</h1>
       <p className="mb-4 text-slate-600 dark:text-zinc-400">
         For bug reports, tool suggestions, or business inquiries regarding the subnet masking platform, users can reach out directly via our dedicated infrastructure channel at:
